@@ -939,6 +939,46 @@ const activateButton = document.querySelector("#activate-button");
         let supabaseClient = null;
         let appStarted = false;
         let sessionNoticeTimer = null;
+        const adminLoginFailureSound = new Audio("assets/admin-login-failure.mp3");
+        const LoginAudioContext = window.AudioContext || window.webkitAudioContext;
+        let loginAudioContext = null;
+        let loginAudioUnlock = Promise.resolve();
+        let loginFailureBufferPromise = Promise.resolve(null);
+        if (LoginAudioContext) {
+          try {
+            loginAudioContext = new LoginAudioContext();
+            loginFailureBufferPromise = fetch(new URL("assets/admin-login-failure.mp3", document.baseURI))
+              .then((response) => response.ok ? response.arrayBuffer() : null)
+              .then((audioData) => audioData && loginAudioContext.decodeAudioData(audioData))
+              .catch(() => null);
+          } catch (_) {
+            loginAudioContext = null;
+          }
+        }
+
+        function unlockLoginAudio() {
+          if (loginAudioContext?.state === "suspended") {
+            loginAudioUnlock = loginAudioContext.resume().catch(() => {});
+          }
+        }
+
+        function playAdminLoginFailureSound() {
+          if (loginAudioContext) {
+            Promise.all([loginAudioUnlock, loginFailureBufferPromise]).then(([, audioBuffer]) => {
+              if (!audioBuffer) throw new Error("O áudio não pôde ser carregado.");
+              const source = loginAudioContext.createBufferSource();
+              source.buffer = audioBuffer;
+              source.connect(loginAudioContext.destination);
+              source.start(0);
+            }).catch(() => {
+              adminLoginFailureSound.currentTime = 0;
+              adminLoginFailureSound.play().catch(() => {});
+            });
+            return;
+          }
+          adminLoginFailureSound.currentTime = 0;
+          adminLoginFailureSound.play().catch(() => {});
+        }
 
         if (hasConfiguration && window.supabase?.createClient) {
           supabaseClient = window.supabase.createClient(settings.url, settings.publishableKey);
@@ -1042,6 +1082,7 @@ const activateButton = document.querySelector("#activate-button");
 
         loginForm.addEventListener("submit", async (event) => {
           event.preventDefault();
+          unlockLoginAudio();
           if (!supabaseClient) {
             showMessage("Conecte o Supabase antes de entrar como ADM.");
             return;
@@ -1051,6 +1092,9 @@ const activateButton = document.querySelector("#activate-button");
           showMessage("Verificando acesso do ADM...");
           const { data: login, error: loginError } = await supabaseClient.auth.signInWithPassword({ email, password });
           if (loginError || !login.user) {
+            if (loginError?.code === "invalid_credentials") {
+              playAdminLoginFailureSound();
+            }
             showMessage("E-mail ou senha incorretos.");
             return;
           }
@@ -1097,4 +1141,3 @@ const activateButton = document.querySelector("#activate-button");
     </script>
   </body>
 </html>
-
