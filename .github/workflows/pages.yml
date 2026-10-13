@@ -1,5 +1,4 @@
 name: Publicar RICK_DEV no GitHub Pages
-
 on:
   push:
     branches: [main]
@@ -26,7 +25,7 @@ jobs:
         run: |
           mkdir -p _site/assets
           cp index.html style.css supabase-config.js _site/
-          cp assets/whablab.m4a _site/assets/
+          cp assets/whablab.m4a assets/admin-login-failure.mp3 _site/assets/
       - name: Enviar arquivos do site
         uses: actions/upload-pages-artifact@v4
         with:
