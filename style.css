@@ -1634,6 +1634,250 @@ footer {
   }
 }
 
+/* AJUSTES DE USO EM CELULARES E TELAS TOUCH */
+@media (max-width: 720px) {
+  main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .welcome-panel {
+    grid-column: auto;
+  }
+
+  .pc-build,
+  .project-showcase,
+  .body-evolution {
+    width: 100%;
+  }
+
+  .access-screen {
+    min-height: 100svh;
+    padding: 20px 16px;
+  }
+
+  .access-card {
+    padding: clamp(22px, 7vw, 34px);
+  }
+
+  .access-session {
+    position: relative;
+    inset: auto;
+    width: fit-content;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto 16px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+
+  .cloud-save-status {
+    flex-basis: 100%;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 560px) {
+  body {
+    padding: 18px 12px 24px;
+  }
+
+  .topbar {
+    padding-top: 8px;
+  }
+
+  .system-status {
+    margin-bottom: 16px;
+    font-size: 9px;
+    letter-spacing: 1.4px;
+  }
+
+  .subtitle {
+    max-width: 28ch;
+    margin-right: auto;
+    margin-left: auto;
+    line-height: 1.6;
+  }
+
+  .welcome-panel,
+  .card,
+  .pc-build,
+  .project-showcase,
+  .body-evolution {
+    padding: 20px 18px;
+    border-radius: 14px;
+  }
+
+  .welcome-panel > p:not(.system-message) {
+    font-size: 14px;
+  }
+
+  .welcome-panel #activate-button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .projects-heading,
+  .pc-heading,
+  .body-evolution-heading {
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .pc-heading-icon,
+  .body-evolution-icon {
+    width: 46px;
+    height: 46px;
+    align-self: flex-start;
+    font-size: 23px;
+  }
+
+  .project-editor {
+    width: 100%;
+  }
+
+  .project-add-button,
+  .pc-add-button,
+  .fitness-add-button {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .project-form {
+    position: static;
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  .pc-summary,
+  .fitness-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pc-stat:last-child,
+  .fitness-stat:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .pc-stat,
+  .fitness-stat {
+    padding: 12px;
+  }
+
+  .pc-stat span,
+  .fitness-stat span {
+    font-size: 8px;
+    line-height: 1.45;
+    letter-spacing: 0.6px;
+  }
+
+  .fitness-history-item {
+    grid-template-columns: 58px minmax(0, 1fr) auto;
+    gap: 7px;
+    padding: 10px 8px;
+  }
+
+  .fitness-history-item time,
+  .fitness-entry-details span {
+    font-size: 9px;
+  }
+
+  .study-add-form,
+  .mission-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .study-add-form input,
+  .mission-form input,
+  .study-add-form button,
+  .mission-form button {
+    width: 100%;
+    min-height: 46px;
+    font-size: 14px;
+  }
+
+  .study-add-form button,
+  .mission-form button {
+    font-size: 11px;
+    letter-spacing: 0.7px;
+  }
+
+  .card-action-button,
+  .focus-controls button,
+  .fitness-form > button,
+  .pc-part-form button,
+  .project-form button {
+    min-height: 46px;
+    line-height: 1.4;
+  }
+
+  .focus-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .focus-duration-control {
+    max-width: 100%;
+  }
+
+  .focus-duration-control input {
+    min-height: 40px;
+  }
+
+  .access-form input,
+  .project-form input,
+  .project-form textarea,
+  .pc-part-form input,
+  .pc-part-fields input,
+  .fitness-form input,
+  .fitness-form select {
+    min-height: 46px;
+    font-size: 16px;
+  }
+
+  .project-form textarea {
+    min-height: 90px;
+  }
+
+  .access-form button,
+  .guest-access-button {
+    min-height: 48px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  .pc-summary,
+  .fitness-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pc-stat:last-child,
+  .fitness-stat:last-child {
+    grid-column: auto;
+  }
+
+  .fitness-history-item {
+    grid-template-columns: 1fr auto;
+  }
+
+  .fitness-entry-details {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+@media (hover: none) {
+  .card:hover,
+  .project-card:hover {
+    transform: none;
+  }
+}
+
 /* ACESSIBILIDADE: REDUZIR ANIMAÇÕES */
 
 @media (prefers-reduced-motion: reduce) {
