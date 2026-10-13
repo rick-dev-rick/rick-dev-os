@@ -2068,3 +2068,50 @@ footer {
     font-size: 8px;
   }
 }
+
+/* A faixa de acesso não deve cobrir o conteúdo em telas pequenas. */
+@media (max-width: 720px) {
+  .access-session {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    width: fit-content;
+    max-width: calc(100vw - 24px);
+    max-height: 120px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto 16px;
+    overflow: hidden;
+    padding: 8px 10px;
+    text-align: center;
+    transition: opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease,
+      margin 0.35s ease, padding 0.35s ease, border-color 0.35s ease;
+  }
+
+  #access-role-label {
+    overflow-wrap: anywhere;
+  }
+
+  .cloud-save-status {
+    flex-basis: 100%;
+    line-height: 1.4;
+  }
+
+  .access-session.is-dismissed {
+    max-height: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-color: transparent;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+  }
+}
+
+@media (max-width: 720px) and (prefers-reduced-motion: reduce) {
+  .access-session {
+    transition: none;
+  }
+}

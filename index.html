@@ -938,6 +938,7 @@ const activateButton = document.querySelector("#activate-button");
         const saveStatus = document.querySelector("#cloud-save-status");
         let supabaseClient = null;
         let appStarted = false;
+        let sessionNoticeTimer = null;
 
         if (hasConfiguration && window.supabase?.createClient) {
           supabaseClient = window.supabase.createClient(settings.url, settings.publishableKey);
@@ -1015,8 +1016,19 @@ const activateButton = document.querySelector("#activate-button");
           appShell.hidden = false;
           appShell.inert = role !== "admin";
           sessionBar.hidden = false;
+          sessionBar.classList.remove("is-dismissed");
           roleLabel.textContent = role === "admin" ? "ADM • Rick_dev" : "MODO CONVIDADO • SOMENTE LEITURA";
           saveStatus.textContent = role === "admin" ? "SALVO NA NUVEM" : "SOMENTE LEITURA";
+          window.clearTimeout(sessionNoticeTimer);
+          if (role === "guest" && window.matchMedia("(max-width: 720px)").matches) {
+            sessionNoticeTimer = window.setTimeout(() => {
+              sessionBar.classList.add("is-dismissed");
+              window.setTimeout(() => {
+                sessionBar.hidden = true;
+                sessionBar.classList.remove("is-dismissed");
+              }, 350);
+            }, 15000);
+          }
           if (!appStarted) {
             appStarted = true;
             const source = document.querySelector("#rick-app-source").textContent
