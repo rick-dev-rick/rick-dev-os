@@ -1,0 +1,1088 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050805" />
+    <title>RICK_DEV OS | Meu Laboratório</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="access-screen" id="access-screen" aria-labelledby="access-title">
+      <div class="access-card">
+        <p class="access-kicker">// ACESSO AO LABORATÓRIO</p>
+        <h1 id="access-title">RICK<span>_</span>DEV OS</h1>
+        <p class="access-description">Entre como ADM para editar seu espaço ou acesse como convidado para apenas visualizar.</p>
+        <form id="admin-login-form" class="access-form">
+          <label for="admin-email">E-mail do ADM</label>
+          <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="Seu e-mail" required>
+          <label for="admin-password">Senha</label>
+          <input id="admin-password" name="password" type="password" autocomplete="current-password" placeholder="Sua senha" required>
+          <button type="submit">ENTRAR COMO ADM</button>
+        </form>
+        <div class="access-divider"><span>OU</span></div>
+        <button class="guest-access-button" id="guest-access-button" type="button">ENTRAR COMO CONVIDADO</button>
+        <p class="access-message" id="access-message" role="status" aria-live="polite">Acesso protegido.</p>
+      </div>
+    </section>
+
+    <div class="access-session" id="access-session" hidden>
+      <span id="access-role-label"></span>
+      <span class="cloud-save-status" id="cloud-save-status" aria-live="polite"></span>
+      <button id="access-signout" type="button">SAIR</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <div id="app-shell" hidden>
+    <div class="background-effects" aria-hidden="true">
+      <div class="grid-overlay"></div>
+      <div class="orb orb-one"></div>
+      <div class="orb orb-two"></div>
+    </div>
+
+    <header class="topbar">
+      <div class="system-status">
+        <span class="status-dot" aria-hidden="true"></span>
+        SISTEMA ONLINE
+      </div>
+      <h1>RICK<span>_</span>DEV OS</h1>
+      <p class="subtitle">MEU LABORATÓRIO DE PROGRAMAÇÃO</p>
+      <div class="header-line" aria-hidden="true"></div>
+    </header>
+
+    <main>
+      <section class="welcome-panel" aria-labelledby="welcome-title">
+        <span class="panel-tag">// CENTRAL DE COMANDO</span>
+        <h2 id="welcome-title">Olá, Douglas! <span aria-hidden="true">🧪</span></h2>
+        <p>Bem-vindo ao seu laboratório. Continue estudando, experimente ideias e construa seu próprio sistema, um passo de cada vez.</p>
+        <button id="activate-button" type="button" aria-describedby="system-message">
+          <span class="button-icon" aria-hidden="true">⚡</span>
+          <span>ATIVAR LABORATÓRIO</span>
+        </button>
+        <p class="system-message" id="system-message" aria-live="polite"></p>
+      </section>
+
+      <section class="card" aria-labelledby="studies-title">
+        <div class="card-icon" aria-hidden="true">📚</div>
+        <span class="card-tag">// TRILHA DE APRENDIZADO</span>
+        <h2 id="studies-title">Meus estudos</h2>
+        <p class="studies-intro">Marque os assuntos que você já estudou. Seu progresso fica salvo neste navegador.</p>
+        <div class="study-progress" aria-live="polite">
+          <div class="study-progress-label">
+            <span>PROGRESSO</span>
+          <span id="progress-label">0 de 4</span>
+          </div>
+          <div class="study-progress-track" id="progress-track" role="progressbar" aria-label="Progresso dos estudos" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0">
+            <span id="progress-fill"></span>
+          </div>
+        </div>
+        <ul class="study-list" id="study-list" aria-label="Assuntos de estudo"></ul>
+        <form class="study-add-form" id="study-add-form">
+          <label class="visually-hidden" for="study-input">Adicionar assunto ou curso</label>
+          <input id="study-input" name="topic" type="text" maxlength="50" placeholder="Novo curso ou assunto" autocomplete="off" required>
+          <button type="submit">ADICIONAR</button>
+        </form>
+        <p class="card-action-message" id="study-add-message" aria-live="polite"></p>
+        <button class="card-action-button" id="study-next" type="button">
+          <span aria-hidden="true">✓</span>
+          <span>MARCAR PRÓXIMO ASSUNTO</span>
+        </button>
+        <p class="card-action-message" id="study-message" aria-live="polite"></p>
+        <span class="card-status" id="study-status">● EM ANDAMENTO</span>
+      </section>
+
+      <section class="card" aria-labelledby="mission-title">
+        <div class="card-icon" aria-hidden="true">🎯</div>
+        <span class="card-tag">// OBJETIVO PRINCIPAL</span>
+        <h2 id="mission-title">Minha missão</h2>
+        <p class="mission-intro">Anote o próximo passo e acompanhe suas metas por aqui.</p>
+        <form class="mission-form" id="mission-form">
+          <label class="visually-hidden" for="mission-input">Nova meta</label>
+          <input id="mission-input" name="mission" type="text" maxlength="80" placeholder="Ex.: estudar JavaScript" autocomplete="off" required>
+          <button type="submit"><span aria-hidden="true">＋</span> ADICIONAR META</button>
+        </form>
+        <p class="mission-feedback" id="mission-feedback" aria-live="polite"></p>
+        <ul class="mission-list" id="mission-list" aria-label="Minhas metas"></ul>
+        <button class="card-action-button" id="mission-next" type="button">
+          <span aria-hidden="true">🎯</span>
+          <span>CONCLUIR PRÓXIMA META</span>
+        </button>
+        <p class="card-action-message" id="mission-action-message" aria-live="polite"></p>
+        <span class="card-status" id="mission-status">● 0 METAS CONCLUÍDAS</span>
+      </section>
+
+      <section class="card focus-card" aria-labelledby="focus-title">
+        <div class="card-icon" aria-hidden="true">⏱️</div>
+        <span class="card-tag">// TEMPO DE CONCENTRAÇÃO</span>
+        <h2 id="focus-title">Modo foco</h2>
+        <p class="focus-intro">Separe um tempo para estudar ou avançar no seu projeto.</p>
+        <div class="focus-duration-control">
+          <label for="focus-duration">DURAÇÃO DO FOCO</label>
+          <div><input id="focus-duration" type="number" min="1" max="180" step="1" value="25"><span>min</span></div>
+        </div>
+        <div class="focus-clock" id="focus-clock" role="timer" aria-live="off">25:00</div>
+        <div class="focus-controls">
+          <button id="focus-toggle" type="button">INICIAR</button>
+          <button id="focus-reset" class="focus-reset" type="button">REINICIAR</button>
+        </div>
+        <p class="focus-message" id="focus-message" aria-live="polite">Um passo de cada vez.</p>
+        <span class="card-status" id="focus-status">● PRONTO PARA COMEÇAR</span>
+      </section>
+    </main>
+
+    <section class="pc-build" aria-labelledby="pc-title">
+      <div class="pc-heading">
+        <div>
+          <span class="card-tag">// PLANEJAMENTO DO SETUP</span>
+          <h2 id="pc-title">RICK_PC</h2>
+          <p>Monte sua lista, acompanhe os preços e marque cada peça quando chegar.</p>
+        </div>
+        <span class="pc-heading-icon" aria-hidden="true">🖥️</span>
+      </div>
+
+      <div class="pc-summary" aria-live="polite">
+        <article class="pc-stat">
+          <span>PEÇAS COMPRADAS</span>
+          <strong id="pc-purchased-count">0 / 0</strong>
+        </article>
+        <article class="pc-stat">
+          <span>ORÇAMENTO DA LISTA</span>
+          <strong id="pc-budget-total">R$ 0,00</strong>
+        </article>
+        <article class="pc-stat">
+          <span>VALOR JÁ INVESTIDO</span>
+          <strong id="pc-spent-total">R$ 0,00</strong>
+        </article>
+      </div>
+
+      <div class="pc-progress" aria-label="Progresso das compras">
+        <span id="pc-progress-fill"></span>
+      </div>
+
+      <div class="pc-parts-grid" id="pc-parts-list" aria-live="polite"></div>
+
+      <details class="pc-editor">
+        <summary class="pc-add-button"><span aria-hidden="true">＋</span> ADICIONAR OUTRA PEÇA</summary>
+        <form id="pc-part-form" class="pc-part-form">
+          <label for="pc-part-name">Nome da peça</label>
+          <input id="pc-part-name" name="name" type="text" maxlength="50" placeholder="Ex.: Placa de captura" required>
+          <label for="pc-part-model">Modelo desejado <span>(opcional)</span></label>
+          <input id="pc-part-model" name="model" type="text" maxlength="80" placeholder="Marca e modelo">
+          <label for="pc-part-price">Preço estimado <span>(opcional)</span></label>
+          <input id="pc-part-price" name="price" type="number" min="0" step="0.01" placeholder="0,00">
+          <button type="submit">ADICIONAR À LISTA</button>
+          <p id="pc-part-message" class="pc-part-message" aria-live="polite"></p>
+        </form>
+      </details>
+    </section>
+
+    <section class="project-showcase" aria-labelledby="projects-title">
+      <div class="projects-heading">
+        <div>
+          <span class="card-tag">// PORTFÓLIO PESSOAL</span>
+          <h2 id="projects-title">Meus projetos</h2>
+          <p>Ideias que saíram do papel e estão ganhando vida.</p>
+        </div>
+        <details class="project-editor">
+          <summary class="project-add-button"><span aria-hidden="true">＋</span> ADICIONAR PROJETO</summary>
+          <form id="project-form" class="project-form">
+            <label for="project-name">Nome do projeto</label>
+            <input id="project-name" name="name" type="text" maxlength="50" placeholder="Ex.: Meu portfólio" required>
+
+            <label for="project-description">Descrição</label>
+            <textarea id="project-description" name="description" maxlength="180" rows="3" placeholder="O que esse projeto faz?" required></textarea>
+
+            <label for="project-tech">Tecnologias <span>(separe por vírgula)</span></label>
+            <input id="project-tech" name="technologies" type="text" maxlength="100" placeholder="HTML, CSS, JavaScript">
+
+            <label for="project-link">Link do projeto <span>(opcional)</span></label>
+            <input id="project-link" name="link" type="url" placeholder="https://...">
+
+            <button type="submit">SALVAR PROJETO</button>
+            <p class="project-form-message" id="project-form-message" aria-live="polite"></p>
+          </form>
+        </details>
+      </div>
+      <div class="project-grid" id="projects-list" aria-live="polite"></div>
+    </section>
+
+    <section class="body-evolution" aria-labelledby="body-evolution-title">
+      <div class="body-evolution-heading">
+        <div>
+          <span class="card-tag">// CONSTÂNCIA, UM TREINO POR VEZ</span>
+          <h2 id="body-evolution-title">Minha evolução corporal</h2>
+          <p>Registre seus treinos e acompanhe seu progresso ao longo do tempo.</p>
+        </div>
+        <span class="body-evolution-icon" aria-hidden="true">🏋️</span>
+      </div>
+
+      <div class="fitness-summary" aria-live="polite">
+        <article class="fitness-stat">
+          <span>PESO MAIS RECENTE</span>
+          <strong id="fitness-current-weight">—</strong>
+        </article>
+        <article class="fitness-stat">
+          <span>VARIAÇÃO REGISTRADA</span>
+          <strong id="fitness-weight-change">—</strong>
+        </article>
+        <article class="fitness-stat">
+          <span>TREINOS REGISTRADOS</span>
+          <strong id="fitness-workout-count">0</strong>
+        </article>
+      </div>
+
+      <details class="fitness-editor">
+        <summary class="fitness-add-button"><span aria-hidden="true">＋</span> REGISTRAR MEU PROGRESSO</summary>
+        <form id="fitness-form" class="fitness-form">
+          <div class="fitness-form-grid">
+            <div>
+              <label for="fitness-date">Data</label>
+              <input id="fitness-date" name="date" type="date" required>
+            </div>
+            <div>
+              <label for="fitness-weight">Peso em kg <span>(opcional)</span></label>
+              <input id="fitness-weight" name="weight" type="number" min="25" max="350" step="0.1" placeholder="Ex.: 72,5">
+            </div>
+            <div>
+              <label for="fitness-workout">Atividade</label>
+              <select id="fitness-workout" name="workout" required>
+                <option value="">Escolha uma atividade</option>
+                <option>Musculação</option>
+                <option>Cardio</option>
+                <option>Treino funcional</option>
+                <option>Outro</option>
+                <option>Descanso</option>
+              </select>
+            </div>
+            <div class="fitness-note-field">
+              <label for="fitness-note">Observação <span>(opcional)</span></label>
+              <input id="fitness-note" name="note" type="text" maxlength="120" placeholder="Ex.: treino de pernas, mais disposição...">
+            </div>
+          </div>
+          <button type="submit">SALVAR REGISTRO</button>
+          <p id="fitness-message" class="fitness-message" aria-live="polite"></p>
+        </form>
+      </details>
+
+      <div class="fitness-history-heading">
+        <h3>Meu histórico</h3>
+        <span id="fitness-history-count">0 registros</span>
+      </div>
+      <ol class="fitness-history" id="fitness-history" aria-live="polite"></ol>
+    </section>
+
+    <footer>
+      <span>RICK_DEV OS</span>
+      <span>FEITO COM CURIOSIDADE E CÓDIGO</span>
+    </footer>
+    </div>
+
+    <script id="rick-app-source" type="text/plain">
+      const studyList = document.querySelector("#study-list");
+      const progressLabel = document.querySelector("#progress-label");
+      const progressTrack = document.querySelector("#progress-track");
+      const progressFill = document.querySelector("#progress-fill");
+      const studyStatus = document.querySelector("#study-status");
+      const studyNextButton = document.querySelector("#study-next");
+      const studyMessage = document.querySelector("#study-message");
+      const studyAddForm = document.querySelector("#study-add-form");
+      const studyInput = document.querySelector("#study-input");
+      const studyAddMessage = document.querySelector("#study-add-message");
+      const defaultStudyTopics = [
+        { id: "html", label: "HTML" },
+        { id: "css", label: "CSS" },
+        { id: "javascript", label: "JavaScript" },
+        { id: "ads", label: "ADS" }
+      ];
+      let studyTopics = JSON.parse(localStorage.getItem("rick-dev-study-topics") || "null") || defaultStudyTopics;
+      const savedStudies = new Set(JSON.parse(localStorage.getItem("rick-dev-studies") || "[]"));
+
+      function saveStudyTopics() {
+        localStorage.setItem("rick-dev-study-topics", JSON.stringify(studyTopics));
+      }
+
+      function renderStudyTopics() {
+        studyList.replaceChildren();
+
+        studyTopics.forEach((topic) => {
+          const item = document.createElement("li");
+          const label = document.createElement("label");
+          const checkbox = document.createElement("input");
+          const text = document.createElement("span");
+
+          checkbox.type = "checkbox";
+          checkbox.dataset.study = topic.id;
+          checkbox.checked = savedStudies.has(topic.id);
+          checkbox.addEventListener("change", () => {
+            if (checkbox.checked) savedStudies.add(topic.id);
+            else savedStudies.delete(topic.id);
+            updateStudyProgress();
+          });
+
+          text.textContent = topic.label;
+          label.append(checkbox, text);
+          item.append(label);
+          studyList.append(item);
+        });
+      }
+
+      function updateStudyProgress() {
+        const studyChecks = [...studyList.querySelectorAll("[data-study]")];
+        const completed = studyChecks.filter((check) => check.checked).length;
+        const total = studyChecks.length;
+        const percent = total ? (completed / total) * 100 : 0;
+
+        progressLabel.textContent = `${completed} de ${total}`;
+        progressTrack.setAttribute("aria-valuenow", completed);
+        progressTrack.setAttribute("aria-valuemax", total);
+        progressFill.style.width = `${percent}%`;
+        studyStatus.textContent = total > 0 && completed === total
+          ? "● TRILHA CONCLUÍDA"
+          : "● EM ANDAMENTO";
+        studyNextButton.disabled = total === 0 || completed === total;
+        localStorage.setItem("rick-dev-studies", JSON.stringify(studyChecks.filter((check) => check.checked).map((check) => check.dataset.study)));
+      }
+
+      studyAddForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const label = studyInput.value.trim();
+        if (studyTopics.some((topic) => topic.label.toLocaleLowerCase("pt-BR") === label.toLocaleLowerCase("pt-BR"))) {
+          studyAddMessage.textContent = "Esse assunto já está na sua lista.";
+          return;
+        }
+
+        const id = `custom-study-${Date.now()}`;
+        studyTopics.push({ id, label });
+        saveStudyTopics();
+        renderStudyTopics();
+        updateStudyProgress();
+        studyInput.value = "";
+        studyAddMessage.textContent = `${label} adicionado aos seus estudos!`;
+      });
+
+      renderStudyTopics();
+      updateStudyProgress();
+
+      studyNextButton.addEventListener("click", () => {
+        const studyChecks = [...studyList.querySelectorAll("[data-study]")];
+        const nextStudy = studyChecks.find((check) => !check.checked);
+        if (!nextStudy) {
+          studyMessage.textContent = "Trilha concluída! Você mandou muito bem. 🎉";
+          return;
+        }
+
+        nextStudy.checked = true;
+        updateStudyProgress();
+        studyMessage.textContent = `${nextStudy.nextElementSibling.textContent} concluído. Boa! 💚`;
+      });
+
+      const missionForm = document.querySelector("#mission-form");
+      const missionInput = document.querySelector("#mission-input");
+      const missionList = document.querySelector("#mission-list");
+      const missionFeedback = document.querySelector("#mission-feedback");
+      const missionStatus = document.querySelector("#mission-status");
+      const missionNextButton = document.querySelector("#mission-next");
+      const missionActionMessage = document.querySelector("#mission-action-message");
+      let missions = JSON.parse(localStorage.getItem("rick-dev-missions") || "[]");
+
+      function saveMissions() {
+        localStorage.setItem("rick-dev-missions", JSON.stringify(missions));
+      }
+
+      function renderMissions() {
+        missionList.replaceChildren();
+
+        missions.forEach((mission, index) => {
+          const item = document.createElement("li");
+          const label = document.createElement("label");
+          const checkbox = document.createElement("input");
+          const text = document.createElement("span");
+          const removeButton = document.createElement("button");
+
+          checkbox.type = "checkbox";
+          checkbox.checked = mission.done;
+          checkbox.setAttribute("aria-label", `Marcar ${mission.text} como concluída`);
+          checkbox.addEventListener("change", () => {
+            missions[index].done = checkbox.checked;
+            saveMissions();
+            renderMissions();
+          });
+
+          text.textContent = mission.text;
+          label.append(checkbox, text);
+
+          removeButton.type = "button";
+          removeButton.className = "mission-remove";
+          removeButton.textContent = "×";
+          removeButton.setAttribute("aria-label", `Remover meta ${mission.text}`);
+          removeButton.addEventListener("click", () => {
+            missions.splice(index, 1);
+            saveMissions();
+            renderMissions();
+          });
+
+          item.append(label, removeButton);
+          missionList.append(item);
+        });
+
+        const completed = missions.filter((mission) => mission.done).length;
+        missionStatus.textContent = `● ${completed} DE ${missions.length} METAS CONCLUÍDAS`;
+        missionNextButton.disabled = !missions.some((mission) => !mission.done);
+      }
+
+      missionForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const text = missionInput.value.trim();
+        if (!text) return;
+
+        missions.push({ text, done: false });
+        saveMissions();
+        renderMissions();
+        missionInput.value = "";
+        missionFeedback.textContent = "Meta adicionada à sua missão!";
+        missionInput.focus();
+      });
+
+      missionNextButton.addEventListener("click", () => {
+        const nextMission = missions.find((mission) => !mission.done);
+        if (!nextMission) return;
+
+        nextMission.done = true;
+        saveMissions();
+        renderMissions();
+        missionActionMessage.textContent = `Meta concluída: ${nextMission.text} 💚`;
+      });
+
+      renderMissions();
+
+      const projectForm = document.querySelector("#project-form");
+      const projectFormMessage = document.querySelector("#project-form-message");
+      const projectsList = document.querySelector("#projects-list");
+      const defaultProjects = [{
+        name: "RICK_DEV OS",
+        description: "Meu painel pessoal de programação, estudos e projetos. Em constante evolução.",
+        technologies: ["HTML", "CSS", "JavaScript"],
+        link: "",
+        featured: true
+      }];
+      let projects = JSON.parse(localStorage.getItem("rick-dev-projects") || "null") || defaultProjects;
+
+      function saveProjects() {
+        localStorage.setItem("rick-dev-projects", JSON.stringify(projects));
+      }
+
+      function renderProjects() {
+        projectsList.replaceChildren();
+
+        projects.forEach((project) => {
+          const card = document.createElement("article");
+          card.className = "project-card";
+
+          const top = document.createElement("div");
+          top.className = "project-card-top";
+          const icon = document.createElement("span");
+          icon.className = "project-card-icon";
+          icon.setAttribute("aria-hidden", "true");
+          icon.textContent = project.featured ? "🧪" : "💻";
+          const status = document.createElement("span");
+          status.className = "project-card-status";
+          status.textContent = project.featured ? "PROJETO ATUAL" : "PROJETO PESSOAL";
+          top.append(icon, status);
+
+          const title = document.createElement("h3");
+          title.textContent = project.name;
+          const description = document.createElement("p");
+          description.textContent = project.description;
+          const tags = document.createElement("div");
+          tags.className = "project-tags";
+          (project.technologies || []).forEach((technology) => {
+            const tag = document.createElement("span");
+            tag.textContent = technology;
+            tags.append(tag);
+          });
+
+          card.append(top, title, description, tags);
+          if (project.link) {
+            const link = document.createElement("a");
+            link.className = "project-open-link";
+            link.href = project.link;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "ABRIR PROJETO ↗";
+            card.append(link);
+          } else {
+            const statusText = document.createElement("span");
+            statusText.className = "project-development-status";
+            statusText.textContent = "● EM DESENVOLVIMENTO";
+            card.append(statusText);
+          }
+
+          projectsList.append(card);
+        });
+      }
+
+      projectForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(projectForm);
+        const link = String(formData.get("link") || "").trim();
+        if (link && !/^https?:\/\//i.test(link)) {
+          projectFormMessage.textContent = "Use um link que comece com http:// ou https://.";
+          return;
+        }
+
+        projects.push({
+          name: String(formData.get("name")).trim(),
+          description: String(formData.get("description")).trim(),
+          technologies: String(formData.get("technologies") || "")
+            .split(",")
+            .map((technology) => technology.trim())
+            .filter(Boolean),
+          link,
+          featured: false
+        });
+        saveProjects();
+        renderProjects();
+        projectForm.reset();
+        projectFormMessage.textContent = "Projeto adicionado à sua vitrine! 💚";
+      });
+
+      renderProjects();
+
+      const pcPartsList = document.querySelector("#pc-parts-list");
+      const pcPurchasedCount = document.querySelector("#pc-purchased-count");
+      const pcBudgetTotal = document.querySelector("#pc-budget-total");
+      const pcSpentTotal = document.querySelector("#pc-spent-total");
+      const pcProgressFill = document.querySelector("#pc-progress-fill");
+      const pcPartForm = document.querySelector("#pc-part-form");
+      const pcPartMessage = document.querySelector("#pc-part-message");
+      const pcCurrency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+      const pcDefaultParts = [
+        "Processador",
+        "Placa-mãe",
+        "Placa de vídeo",
+        "Memória RAM",
+        "SSD / armazenamento",
+        "Fonte",
+        "Gabinete",
+        "Cooler / refrigeração",
+        "Ventoinhas",
+        "Monitor",
+        "Teclado",
+        "Mouse",
+        "Headset",
+        "Sistema operacional"
+      ].map((name, index) => ({ id: `pc-base-${index}`, name, model: "", price: null, link: "", purchased: false, custom: false }));
+      let pcParts = JSON.parse(localStorage.getItem("rick-dev-pc-parts") || "null") || pcDefaultParts;
+
+      function savePcParts() {
+        localStorage.setItem("rick-dev-pc-parts", JSON.stringify(pcParts));
+      }
+
+      function renderPcParts() {
+        pcPartsList.replaceChildren();
+
+        pcParts.forEach((part) => {
+          const card = document.createElement("article");
+          card.className = `pc-part-card${part.purchased ? " is-purchased" : ""}`;
+
+          const header = document.createElement("div");
+          header.className = "pc-part-header";
+          const name = document.createElement("h3");
+          name.textContent = part.name;
+          const boughtLabel = document.createElement("label");
+          boughtLabel.className = "pc-bought-toggle";
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = part.purchased;
+          checkbox.setAttribute("aria-label", `Marcar ${part.name} como comprado`);
+          const boughtText = document.createElement("span");
+          boughtText.textContent = part.purchased ? "COMPRADO" : "COMPRAR";
+          checkbox.addEventListener("change", () => {
+            part.purchased = checkbox.checked;
+            savePcParts();
+            renderPcParts();
+          });
+          boughtLabel.append(checkbox, boughtText);
+          header.append(name, boughtLabel);
+
+          const fields = document.createElement("div");
+          fields.className = "pc-part-fields";
+          const modelLabel = document.createElement("label");
+          modelLabel.textContent = "MODELO / MARCA";
+          const modelInput = document.createElement("input");
+          modelInput.type = "text";
+          modelInput.maxLength = 80;
+          modelInput.value = part.model || "";
+          modelInput.placeholder = "Escolha o modelo";
+          modelInput.setAttribute("aria-label", `Modelo ou marca: ${part.name}`);
+          modelInput.addEventListener("change", () => {
+            part.model = modelInput.value.trim();
+            savePcParts();
+          });
+          modelLabel.append(modelInput);
+
+          const priceLabel = document.createElement("label");
+          priceLabel.textContent = "PREÇO (R$)";
+          const priceInput = document.createElement("input");
+          priceInput.type = "number";
+          priceInput.min = "0";
+          priceInput.step = "0.01";
+          priceInput.value = part.price ?? "";
+          priceInput.placeholder = "0,00";
+          priceInput.setAttribute("aria-label", `Preço em reais: ${part.name}`);
+          priceInput.addEventListener("change", () => {
+            const value = priceInput.value.trim();
+            part.price = value === "" ? null : Number(value);
+            savePcParts();
+            renderPcParts();
+          });
+          priceLabel.append(priceInput);
+          fields.append(modelLabel, priceLabel);
+
+          if (part.custom) {
+            const removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.className = "pc-remove-part";
+            removeButton.textContent = "REMOVER PEÇA";
+            removeButton.addEventListener("click", () => {
+              pcParts = pcParts.filter((item) => item.id !== part.id);
+              savePcParts();
+              renderPcParts();
+            });
+            card.append(header, fields, removeButton);
+          } else {
+            card.append(header, fields);
+          }
+          pcPartsList.append(card);
+        });
+
+        const purchased = pcParts.filter((part) => part.purchased).length;
+        const budget = pcParts.reduce((sum, part) => sum + (Number(part.price) || 0), 0);
+        const spent = pcParts.reduce((sum, part) => sum + (part.purchased ? Number(part.price) || 0 : 0), 0);
+        pcPurchasedCount.textContent = `${purchased} / ${pcParts.length}`;
+        pcBudgetTotal.textContent = pcCurrency.format(budget);
+        pcSpentTotal.textContent = pcCurrency.format(spent);
+        pcProgressFill.style.width = pcParts.length ? `${(purchased / pcParts.length) * 100}%` : "0%";
+      }
+
+      pcPartForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(pcPartForm);
+        const name = String(formData.get("name") || "").trim();
+        if (pcParts.some((part) => part.name.toLocaleLowerCase("pt-BR") === name.toLocaleLowerCase("pt-BR"))) {
+          pcPartMessage.textContent = "Essa peça já está na lista. Você pode preencher o modelo e o preço nela.";
+          return;
+        }
+
+        const rawPrice = String(formData.get("price") || "").trim().replace(",", ".");
+        pcParts.push({
+          id: `pc-custom-${Date.now()}`,
+          name,
+          model: String(formData.get("model") || "").trim(),
+          price: rawPrice ? Number(rawPrice) : null,
+          link: "",
+          purchased: false,
+          custom: true
+        });
+        savePcParts();
+        renderPcParts();
+        pcPartForm.reset();
+        pcPartMessage.textContent = "Peça adicionada ao RICK_PC! 💚";
+      });
+
+      renderPcParts();
+
+      const fitnessForm = document.querySelector("#fitness-form");
+      const fitnessDate = document.querySelector("#fitness-date");
+      const fitnessMessage = document.querySelector("#fitness-message");
+      const fitnessHistory = document.querySelector("#fitness-history");
+      const fitnessHistoryCount = document.querySelector("#fitness-history-count");
+      const fitnessCurrentWeight = document.querySelector("#fitness-current-weight");
+      const fitnessWeightChange = document.querySelector("#fitness-weight-change");
+      const fitnessWorkoutCount = document.querySelector("#fitness-workout-count");
+      const today = new Date();
+      fitnessDate.value = new Date(today.getTime() - today.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 10);
+      let fitnessEntries = JSON.parse(localStorage.getItem("rick-dev-fitness-log") || "[]");
+
+      function saveFitnessEntries() {
+        localStorage.setItem("rick-dev-fitness-log", JSON.stringify(fitnessEntries));
+      }
+
+      function renderFitnessHistory() {
+        const sortedEntries = [...fitnessEntries].sort((a, b) => b.date.localeCompare(a.date));
+        fitnessHistory.replaceChildren();
+        fitnessHistoryCount.textContent = `${fitnessEntries.length} ${fitnessEntries.length === 1 ? "registro" : "registros"}`;
+        fitnessWorkoutCount.textContent = fitnessEntries.filter((entry) => entry.workout !== "Descanso").length;
+
+        const weightEntries = [...fitnessEntries]
+          .filter((entry) => entry.weight !== null)
+          .sort((a, b) => a.date.localeCompare(b.date));
+        if (weightEntries.length) {
+          const firstWeight = weightEntries[0].weight;
+          const latestWeight = weightEntries[weightEntries.length - 1].weight;
+          const change = latestWeight - firstWeight;
+          fitnessCurrentWeight.textContent = `${latestWeight.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} kg`;
+          fitnessWeightChange.textContent = weightEntries.length < 2
+            ? "Primeiro registro"
+            : `${change > 0 ? "+" : ""}${change.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} kg`;
+        } else {
+          fitnessCurrentWeight.textContent = "—";
+          fitnessWeightChange.textContent = "—";
+        }
+
+        if (!sortedEntries.length) {
+          const emptyState = document.createElement("li");
+          emptyState.className = "fitness-empty-state";
+          emptyState.textContent = "Seu histórico começa com o primeiro registro. Cada passo conta. 💚";
+          fitnessHistory.append(emptyState);
+          return;
+        }
+
+        sortedEntries.forEach((entry) => {
+          const item = document.createElement("li");
+          item.className = "fitness-history-item";
+          const date = document.createElement("time");
+          date.dateTime = entry.date;
+          date.textContent = new Date(`${entry.date}T12:00:00`).toLocaleDateString("pt-BR", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+          });
+
+          const details = document.createElement("div");
+          details.className = "fitness-entry-details";
+          const workout = document.createElement("strong");
+          workout.textContent = entry.workout;
+          const note = document.createElement("span");
+          note.textContent = entry.note || "Registro de atividade";
+          details.append(workout, note);
+
+          const weight = document.createElement("span");
+          weight.className = "fitness-entry-weight";
+          weight.textContent = entry.weight === null
+            ? "—"
+            : `${entry.weight.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} kg`;
+
+          item.append(date, details, weight);
+          fitnessHistory.append(item);
+        });
+      }
+
+      fitnessForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(fitnessForm);
+        const rawWeight = String(formData.get("weight") || "").trim().replace(",", ".");
+        const weight = rawWeight ? Number(rawWeight) : null;
+        if (weight !== null && (!Number.isFinite(weight) || weight < 25 || weight > 350)) {
+          fitnessMessage.textContent = "Confira o peso informado e tente novamente.";
+          return;
+        }
+
+        fitnessEntries.push({
+          date: String(formData.get("date")),
+          weight,
+          workout: String(formData.get("workout")),
+          note: String(formData.get("note") || "").trim()
+        });
+        saveFitnessEntries();
+        renderFitnessHistory();
+        const selectedDate = fitnessDate.value;
+        fitnessForm.reset();
+        fitnessDate.value = selectedDate;
+        fitnessMessage.textContent = "Progresso registrado. Boa consistência! 💚";
+      });
+
+      renderFitnessHistory();
+
+      const focusClock = document.querySelector("#focus-clock");
+      const focusToggle = document.querySelector("#focus-toggle");
+      const focusReset = document.querySelector("#focus-reset");
+      const focusMessage = document.querySelector("#focus-message");
+      const focusStatus = document.querySelector("#focus-status");
+      const focusDurationInput = document.querySelector("#focus-duration");
+      const savedFocusMinutes = Number(localStorage.getItem("rick-dev-focus-minutes"));
+      if (Number.isInteger(savedFocusMinutes) && savedFocusMinutes >= 1 && savedFocusMinutes <= 180) {
+        focusDurationInput.value = String(savedFocusMinutes);
+      }
+      let focusDuration = Number(focusDurationInput.value) * 60;
+      const savedFocusRemainingValue = localStorage.getItem("rick-dev-focus-remaining");
+      const savedFocusRemaining = savedFocusRemainingValue === null
+        ? Number.NaN
+        : Number(savedFocusRemainingValue);
+      let focusRemaining = Number.isInteger(savedFocusRemaining)
+        && savedFocusRemaining >= 0
+        && savedFocusRemaining <= focusDuration
+        ? savedFocusRemaining
+        : focusDuration;
+      let focusInterval = null;
+
+      function saveFocusProgress() {
+        localStorage.setItem("rick-dev-focus-remaining", String(focusRemaining));
+      }
+
+      function renderFocusClock() {
+        const minutes = Math.floor(focusRemaining / 60).toString().padStart(2, "0");
+        const seconds = (focusRemaining % 60).toString().padStart(2, "0");
+        focusClock.textContent = `${minutes}:${seconds}`;
+      }
+
+      function stopFocusTimer() {
+        clearInterval(focusInterval);
+        focusInterval = null;
+        focusToggle.textContent = "CONTINUAR";
+        focusDurationInput.disabled = false;
+        focusStatus.textContent = "● PAUSADO";
+        focusMessage.textContent = "Respire um pouco e retome quando quiser.";
+        saveFocusProgress();
+      }
+
+      focusDurationInput.addEventListener("change", () => {
+        const minutes = Number(focusDurationInput.value);
+        if (!Number.isInteger(minutes) || minutes < 1 || minutes > 180) {
+          focusDurationInput.value = String(focusDuration / 60);
+          focusMessage.textContent = "Escolha um tempo entre 1 e 180 minutos.";
+          return;
+        }
+
+        focusDuration = minutes * 60;
+        focusRemaining = focusDuration;
+        localStorage.setItem("rick-dev-focus-minutes", String(minutes));
+        saveFocusProgress();
+        focusToggle.textContent = "INICIAR";
+        focusStatus.textContent = "● PRONTO PARA COMEÇAR";
+        focusMessage.textContent = `Seu foco está ajustado para ${minutes} minutos.`;
+        renderFocusClock();
+      });
+
+      const focusSound = new Audio("assets/whablab.m4a");
+
+      function playFocusCatchphrase() {
+        focusSound.currentTime = 0;
+        focusSound.play().catch(() => {
+          focusMessage.textContent = "Mandou bem! O áudio não pôde ser reproduzido neste navegador.";
+        });
+      }
+
+      focusToggle.addEventListener("click", () => {
+        if (focusInterval) {
+          stopFocusTimer();
+          return;
+        }
+
+        if (focusRemaining === 0) {
+          focusRemaining = focusDuration;
+          saveFocusProgress();
+        }
+        focusDurationInput.disabled = true;
+        focusToggle.textContent = "PAUSAR";
+        focusStatus.textContent = "● FOCO ATIVO";
+        focusMessage.textContent = "Você consegue, Douglas! 💚";
+        renderFocusClock();
+
+        focusInterval = setInterval(() => {
+          focusRemaining -= 1;
+          renderFocusClock();
+
+          if (focusRemaining % 15 === 0) saveFocusProgress();
+
+          if (focusRemaining <= 0) {
+            clearInterval(focusInterval);
+            focusInterval = null;
+            focusDurationInput.disabled = false;
+            focusToggle.textContent = "NOVO CICLO";
+            focusStatus.textContent = "● CICLO CONCLUÍDO";
+            focusMessage.textContent = "Mandou bem! Hora de fazer uma pausa. Wubba Lubba Dub Dub! 🎉";
+            saveFocusProgress();
+            playFocusCatchphrase();
+          }
+        }, 1000);
+      });
+
+      focusReset.addEventListener("click", () => {
+        clearInterval(focusInterval);
+        focusInterval = null;
+        focusRemaining = focusDuration;
+        saveFocusProgress();
+        focusDurationInput.disabled = false;
+        focusToggle.textContent = "INICIAR";
+        focusStatus.textContent = "● PRONTO PARA COMEÇAR";
+        focusMessage.textContent = "Um passo de cada vez.";
+        renderFocusClock();
+      });
+const activateButton = document.querySelector("#activate-button");
+      const systemMessage = document.querySelector("#system-message");
+
+      activateButton.addEventListener("click", () => {
+        activateButton.classList.add("activated");
+        activateButton.querySelector("span:nth-child(2)").textContent = "LABORATÓRIO ATIVO";
+        systemMessage.textContent = "Tudo pronto, Douglas. Bora programar! 💚";
+      });
+    </script>
+    <script>
+      (() => {
+        const settings = window.RICK_DEV_SUPABASE || {};
+        const hasConfiguration = Boolean(settings.url && settings.publishableKey
+          && !settings.url.includes("COLE_A_URL")
+          && !settings.publishableKey.includes("COLE_A_CHAVE"));
+        const accessScreen = document.querySelector("#access-screen");
+        const accessMessage = document.querySelector("#access-message");
+        const loginForm = document.querySelector("#admin-login-form");
+        const guestButton = document.querySelector("#guest-access-button");
+        const appShell = document.querySelector("#app-shell");
+        const sessionBar = document.querySelector("#access-session");
+        const roleLabel = document.querySelector("#access-role-label");
+        const saveStatus = document.querySelector("#cloud-save-status");
+        let supabaseClient = null;
+        let appStarted = false;
+
+        if (hasConfiguration && window.supabase?.createClient) {
+          supabaseClient = window.supabase.createClient(settings.url, settings.publishableKey);
+          accessMessage.textContent = "Entre como ADM ou continue como convidado.";
+        } else {
+          accessMessage.textContent = "Falta conectar o projeto Supabase para liberar os acessos.";
+        }
+
+        function showMessage(message) {
+          accessMessage.textContent = message;
+        }
+
+        async function openWorkspace(role, user = null) {
+          showMessage("Carregando seu laboratório...");
+          const { data: row, error } = await supabaseClient
+            .from("rick_dev_state")
+            .select("data")
+            .eq("id", 1)
+            .maybeSingle();
+
+          if (error || !row) {
+            showMessage("Não consegui carregar os dados. Confira se o SQL de configuração foi executado no Supabase.");
+            return false;
+          }
+
+          let sharedData = row.data && typeof row.data === "object" ? row.data : {};
+          if (role === "admin" && Object.keys(sharedData).length === 0) {
+            const legacyKeys = [
+              "rick-dev-study-topics", "rick-dev-studies", "rick-dev-missions",
+              "rick-dev-projects", "rick-dev-pc-parts", "rick-dev-fitness-log",
+              "rick-dev-focus-minutes", "rick-dev-focus-remaining"
+            ];
+            const previousData = {};
+            legacyKeys.forEach((key) => {
+              const value = localStorage.getItem(key);
+              if (value !== null) previousData[key] = value;
+            });
+            if (Object.keys(previousData).length) {
+              sharedData = previousData;
+              const { error: migrationError } = await supabaseClient
+                .from("rick_dev_state")
+                .update({ data: sharedData })
+                .eq("id", 1);
+              if (migrationError) {
+                showMessage("Não consegui copiar os dados deste navegador para o banco.");
+                return false;
+              }
+            }
+          }
+
+          let saveTimer = null;
+          window.rickDevStorage = {
+            getItem(key) {
+              if (Object.prototype.hasOwnProperty.call(sharedData, key)) return sharedData[key];
+              return role === "admin" ? localStorage.getItem(key) : null;
+            },
+            setItem(key, value) {
+              if (role !== "admin") return;
+              sharedData[key] = String(value);
+              localStorage.setItem(key, String(value));
+              saveStatus.textContent = "SALVANDO...";
+              clearTimeout(saveTimer);
+              saveTimer = setTimeout(async () => {
+                const { error: saveError } = await supabaseClient
+                  .from("rick_dev_state")
+                  .update({ data: sharedData })
+                  .eq("id", 1);
+                saveStatus.textContent = saveError ? "ERRO AO SALVAR" : "SALVO NA NUVEM";
+                if (saveError) console.error("Falha ao salvar no banco do RICK_DEV:", saveError.message);
+              }, 500);
+            }
+          };
+
+          accessScreen.hidden = true;
+          appShell.hidden = false;
+          appShell.inert = role !== "admin";
+          sessionBar.hidden = false;
+          roleLabel.textContent = role === "admin" ? "ADM • Rick_dev" : "MODO CONVIDADO • SOMENTE LEITURA";
+          saveStatus.textContent = role === "admin" ? "SALVO NA NUVEM" : "SOMENTE LEITURA";
+          if (!appStarted) {
+            appStarted = true;
+            const source = document.querySelector("#rick-app-source").textContent
+              .replace(/\blocalStorage\b/g, "window.rickDevStorage");
+            const appScript = document.createElement("script");
+            appScript.textContent = source;
+            document.body.append(appScript);
+          }
+          return true;
+        }
+
+        loginForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          if (!supabaseClient) {
+            showMessage("Conecte o Supabase antes de entrar como ADM.");
+            return;
+          }
+          const email = document.querySelector("#admin-email").value.trim();
+          const password = document.querySelector("#admin-password").value;
+          showMessage("Verificando acesso do ADM...");
+          const { data: login, error: loginError } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (loginError || !login.user) {
+            showMessage("E-mail ou senha incorretos.");
+            return;
+          }
+          const { data: permission, error: permissionError } = await supabaseClient
+            .from("rick_dev_admins")
+            .select("user_id")
+            .eq("user_id", login.user.id)
+            .maybeSingle();
+          if (permissionError || !permission) {
+            await supabaseClient.auth.signOut();
+            showMessage("Esta conta ainda não tem permissão de ADM.");
+            return;
+          }
+          await openWorkspace("admin", login.user);
+        });
+
+        guestButton.addEventListener("click", async () => {
+          if (!supabaseClient) {
+            showMessage("O acesso de convidado também precisa da conexão com o Supabase.");
+            return;
+          }
+          await openWorkspace("guest");
+        });
+
+        document.querySelector("#access-signout").addEventListener("click", async () => {
+          if (supabaseClient) await supabaseClient.auth.signOut();
+          window.location.reload();
+        });
+
+        if (supabaseClient) {
+          supabaseClient.auth.getSession().then(async ({ data }) => {
+            const user = data.session?.user;
+            if (!user) return;
+            const { data: permission } = await supabaseClient
+              .from("rick_dev_admins")
+              .select("user_id")
+              .eq("user_id", user.id)
+              .maybeSingle();
+            if (permission) await openWorkspace("admin", user);
+            else await supabaseClient.auth.signOut();
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
+

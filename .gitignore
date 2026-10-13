@@ -1,0 +1,14 @@
+# Windows and local tooling
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+
+# Local secrets and dependencies
+.env
+.env.*
+!.env.example
+node_modules/
+
+# Local build output
+_site/
