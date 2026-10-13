@@ -1,0 +1,36 @@
+name: Publicar RICK_DEV no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Baixar arquivos do projeto
+        uses: actions/checkout@v6
+      - name: Preparar GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Separar apenas os arquivos do site
+        run: |
+          mkdir -p _site/assets
+          cp index.html style.css supabase-config.js _site/
+          cp assets/whablab.m4a _site/assets/
+      - name: Enviar arquivos do site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Publicar o site
+        id: deployment
+        uses: actions/deploy-pages@v4
