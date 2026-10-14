@@ -2818,14 +2818,14 @@ body.presentation-mode .spotify-widget {
 }
 
 .spotify-widget.is-minimized {
-  width: 50px;
-  height: 25px;
+  width: 60px;
+  height: 32px;
   border-radius: 999px;
 }
 
 .spotify-widget.is-minimized .spotify-widget-toggle {
-  width: 50px;
-  height: 25px;
+  width: 60px;
+  height: 32px;
   justify-content: center;
   gap: 0;
   padding: 0;
