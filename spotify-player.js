@@ -285,16 +285,25 @@
     }
   }
 
-  panelToggle.addEventListener("click", function () {
-    panel.hidden = !panel.hidden;
-    panelToggle.setAttribute("aria-expanded", String(!panel.hidden));
-    if (panel.hidden) {
+  function setWidgetMinimized(minimized) {
+    widget.classList.toggle("is-minimized", minimized);
+    panel.hidden = minimized;
+    panelToggle.setAttribute("aria-expanded", String(!minimized));
+    panelToggle.setAttribute("aria-label", minimized ? "Abrir controles do Spotify" : "Minimizar controles do Spotify");
+    panelToggle.title = minimized ? "Abrir controles do Spotify" : "Minimizar controles do Spotify";
+    localStorage.setItem("rick-dev-spotify-widget-minimized", String(minimized));
+    if (minimized) {
       window.clearInterval(refreshTimer);
       refreshTimer = null;
     } else {
-      refreshPlayback();
       startPolling();
     }
+  }
+
+  const savedMinimized = localStorage.getItem("rick-dev-spotify-widget-minimized");
+  setWidgetMinimized(savedMinimized !== "false");
+  panelToggle.addEventListener("click", function () {
+    setWidgetMinimized(!widget.classList.contains("is-minimized"));
   });
 
   connectButton.addEventListener("click", beginAuthorization);
