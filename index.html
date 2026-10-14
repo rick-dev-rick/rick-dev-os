@@ -383,6 +383,15 @@
         return button;
       }
 
+      function refreshStudyResources(topicId) {
+        renderStudyTopics();
+        updateStudyProgress();
+        const topicCard = [...studyList.querySelectorAll(".study-topic-card")]
+          .find((card) => card.querySelector("[data-study]")?.dataset.study === topicId);
+        const resourcesPanel = topicCard?.querySelector(".study-resources");
+        if (resourcesPanel) resourcesPanel.open = true;
+      }
+
       function renderStudyResources(topic) {
         const resources = Array.isArray(studyResources[topic.id]) ? studyResources[topic.id] : [];
         const details = document.createElement("details");
@@ -426,6 +435,7 @@
         form.append(typeSelect, titleInput, urlInput, addButton);
 
         emptyMessage.className = "study-resources-empty";
+        emptyMessage.hidden = resources.length > 0;
         emptyMessage.textContent = "Guarde aqui links úteis desta matéria.";
         groups.className = "study-resource-groups";
 
@@ -440,6 +450,7 @@
             parsedUrl = null;
           }
           if (!title || !parsedUrl || !["http:", "https:"].includes(parsedUrl.protocol)) {
+            emptyMessage.hidden = false;
             emptyMessage.textContent = "Use um nome e um link começando com http:// ou https://.";
             return;
           }
@@ -453,8 +464,7 @@
           });
           studyResources[topic.id] = topicResources;
           localStorage.setItem("rick-dev-study-resources", JSON.stringify(studyResources));
-          renderStudyTopics();
-          updateStudyProgress();
+          refreshStudyResources(topic.id);
         });
 
         studyResourceTypes.forEach((resourceType) => {
@@ -488,8 +498,7 @@
               if (remaining.length) studyResources[topic.id] = remaining;
               else delete studyResources[topic.id];
               localStorage.setItem("rick-dev-study-resources", JSON.stringify(studyResources));
-              renderStudyTopics();
-              updateStudyProgress();
+              refreshStudyResources(topic.id);
             }));
             list.append(item);
           });
