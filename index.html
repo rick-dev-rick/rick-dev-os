@@ -275,13 +275,13 @@
       <ol class="fitness-history" id="fitness-history" aria-live="polite"></ol>
     </section>
 
-    <aside class="spotify-widget" id="spotify-widget" aria-label="Controles do Spotify">
-      <button class="spotify-widget-toggle" id="spotify-widget-toggle" type="button" aria-expanded="true" aria-controls="spotify-widget-panel">
+    <aside class="spotify-widget is-minimized" id="spotify-widget" aria-label="Controles do Spotify">
+      <button class="spotify-widget-toggle" id="spotify-widget-toggle" type="button" aria-expanded="false" aria-label="Abrir controles do Spotify" title="Abrir controles do Spotify" aria-controls="spotify-widget-panel">
         <span class="spotify-widget-mark" aria-hidden="true">♫</span>
         <span>SPOTIFY</span>
         <span class="spotify-widget-chevron" aria-hidden="true">⌄</span>
       </button>
-      <div class="spotify-widget-panel" id="spotify-widget-panel">
+      <div class="spotify-widget-panel" id="spotify-widget-panel" hidden>
         <div class="spotify-track" id="spotify-track" aria-live="polite">
           <span class="spotify-track-art" aria-hidden="true">♫</span>
           <span class="spotify-track-copy">
