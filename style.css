@@ -2884,3 +2884,126 @@ body.presentation-mode .spotify-widget {
   opacity: 0.35;
   cursor: not-allowed;
 }
+
+/* REFINO DE USO EM CELULARES */
+@media (max-width: 560px) {
+  body {
+    padding-top: 14px;
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-bottom: calc(32px + env(safe-area-inset-bottom));
+    padding-left: max(10px, env(safe-area-inset-left));
+  }
+
+  .topbar h1 {
+    font-size: clamp(27px, 9vw, 36px);
+    line-height: 1.15;
+  }
+
+  main {
+    gap: 12px;
+  }
+
+  .welcome-panel,
+  .card,
+  .pc-build,
+  .project-showcase,
+  .body-evolution {
+    padding: 18px 16px;
+  }
+
+  .card h2,
+  .projects-heading h2,
+  .pc-heading h2,
+  .body-evolution-heading h2 {
+    font-size: clamp(20px, 6vw, 24px);
+    line-height: 1.2;
+  }
+
+  .study-topic-card input,
+  .mission-card-label input {
+    width: 20px;
+    height: 20px;
+  }
+
+  .study-topic-card label {
+    min-height: 42px;
+  }
+
+  .study-add-form input,
+  .mission-form input,
+  .project-form input,
+  .project-form textarea,
+  .pc-part-form input,
+  .fitness-form input,
+  .fitness-form select {
+    min-height: 46px;
+    font-size: 16px;
+  }
+
+  .study-add-form button,
+  .mission-form button,
+  .card-action-button,
+  .focus-controls button,
+  .project-add-button,
+  .pc-add-button,
+  .fitness-add-button {
+    min-height: 46px;
+  }
+
+  .mission-card {
+    gap: 9px;
+    padding: 12px 38px 12px 12px;
+  }
+
+  .mission-progress-controls {
+    gap: 9px;
+  }
+
+  .mission-progress-controls button {
+    min-height: 38px;
+    flex: 1 1 0;
+  }
+
+  .spotify-widget {
+    left: max(10px, env(safe-area-inset-left));
+    bottom: max(10px, env(safe-area-inset-bottom));
+    width: min(320px, calc(100vw - 20px));
+  }
+
+  .spotify-widget-panel {
+    max-height: calc(70svh - 48px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+@media (max-width: 390px) {
+  .study-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .study-list li.study-topic-card {
+    min-height: 0;
+    grid-template-columns: 36px minmax(0, 1fr);
+    padding: 11px 12px;
+  }
+
+  .study-topic-card .study-topic-description,
+  .study-topic-state {
+    grid-column: 1 / -1;
+  }
+
+  .pc-summary,
+  .fitness-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pc-stat:last-child,
+  .fitness-stat:last-child {
+    grid-column: auto;
+  }
+
+  .mission-card-progress-label {
+    font-size: 9px;
+  }
+}
