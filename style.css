@@ -676,22 +676,30 @@ button.activated {
   justify-content: space-between;
   gap: 10px;
   margin: 0 auto 8px;
-  max-width: 230px;
+  width: min(100%, 320px);
 }
 
-.focus-duration-control > label {
+.focus-duration-title {
   color: #8aa18a;
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.8px;
 }
 
-.focus-duration-control > div {
+.focus-duration-fields {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   color: var(--neon-soft);
-  font-size: 10px;
+}
+
+.focus-time-unit {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #a9c5a9;
+  font-size: 9px;
+  font-weight: 750;
 }
 
 .focus-duration-control input {
@@ -3013,19 +3021,33 @@ body.presentation-mode .spotify-widget {
   .focus-duration-control {
     width: 100%;
     max-width: 100%;
-    min-height: 48px;
+    min-height: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 9px;
     margin: 4px auto 10px;
   }
 
-  .focus-duration-control > label {
+  .focus-duration-title {
     font-size: 10px;
     letter-spacing: 0.7px;
+    text-align: center;
   }
 
-  .focus-duration-control input {
-    width: 72px;
+  .focus-duration-fields {
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  .focus-time-unit {
+    gap: 3px;
+    font-size: 10px;
+  }
+
+  .focus-time-unit input {
+    width: clamp(46px, 15vw, 56px);
     min-height: 48px;
-    padding: 8px;
+    padding: 8px 4px;
     font-size: 16px;
     touch-action: manipulation;
   }
