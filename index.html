@@ -311,6 +311,19 @@
         localStorage.setItem("rick-dev-study-topics", JSON.stringify(studyTopics));
       }
 
+      function createRemoveButton(label, onRemove) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "item-remove-button";
+        button.textContent = "×";
+        button.title = "Remover item";
+        button.setAttribute("aria-label", `Remover ${label}`);
+        button.addEventListener("click", () => {
+          if (window.confirm(`Remover "${label}"? Essa ação não pode ser desfeita.`)) onRemove();
+        });
+        return button;
+      }
+
       function renderStudyTopics() {
         studyList.replaceChildren();
 
@@ -348,6 +361,16 @@
           text.textContent = topic.label;
           label.append(checkbox, text);
           item.append(icon, label, description, state);
+          if (topic.id.startsWith("custom-study-")) {
+            item.append(createRemoveButton(`o assunto ${topic.label}`, () => {
+              studyTopics = studyTopics.filter((savedTopic) => savedTopic.id !== topic.id);
+              savedStudies.delete(topic.id);
+              saveStudyTopics();
+              renderStudyTopics();
+              updateStudyProgress();
+              studyAddMessage.textContent = `${topic.label} removido dos seus estudos.`;
+            }));
+          }
           studyList.append(item);
         });
       }
@@ -481,10 +504,12 @@
           progress.append(progressTrack, progressLabel);
 
           removeButton.type = "button";
-          removeButton.className = "mission-remove";
+          removeButton.className = "item-remove-button";
           removeButton.textContent = "×";
+          removeButton.title = "Remover item";
           removeButton.setAttribute("aria-label", `Remover meta ${mission.text}`);
           removeButton.addEventListener("click", () => {
+            if (!window.confirm(`Remover "${mission.text}"? Essa ação não pode ser desfeita.`)) return;
             missions.splice(index, 1);
             saveMissions();
             renderMissions();
@@ -572,6 +597,14 @@
           });
 
           card.append(top, title, description, tags);
+          if (!project.featured) {
+            top.append(createRemoveButton(`o projeto ${project.name}`, () => {
+              projects = projects.filter((savedProject) => savedProject !== project);
+              saveProjects();
+              renderProjects();
+              projectFormMessage.textContent = `${project.name} removido da sua vitrine.`;
+            }));
+          }
           if (project.link) {
             const link = document.createElement("a");
             link.className = "project-open-link";
@@ -712,9 +745,12 @@
           if (part.custom) {
             const removeButton = document.createElement("button");
             removeButton.type = "button";
-            removeButton.className = "pc-remove-part";
-            removeButton.textContent = "REMOVER PEÇA";
+            removeButton.className = "item-remove-button pc-remove-part";
+            removeButton.textContent = "×";
+            removeButton.title = "Remover item";
+            removeButton.setAttribute("aria-label", `Remover a peça ${part.name}`);
             removeButton.addEventListener("click", () => {
+              if (!window.confirm(`Remover "${part.name}"? Essa ação não pode ser desfeita.`)) return;
               pcParts = pcParts.filter((item) => item.id !== part.id);
               savePcParts();
               renderPcParts();
@@ -835,7 +871,13 @@
             ? "—"
             : `${entry.weight.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} kg`;
 
-          item.append(date, details, weight);
+          const removeButton = createRemoveButton("este registro de treino", () => {
+            fitnessEntries = fitnessEntries.filter((savedEntry) => savedEntry !== entry);
+            saveFitnessEntries();
+            renderFitnessHistory();
+            fitnessMessage.textContent = "Registro removido do seu histórico.";
+          });
+          item.append(date, details, weight, removeButton);
           fitnessHistory.append(item);
         });
       }
@@ -984,10 +1026,33 @@
 const activateButton = document.querySelector("#activate-button");
       const systemMessage = document.querySelector("#system-message");
 
+      function setPresentationMode(enabled) {
+        document.body.classList.toggle("presentation-mode", enabled);
+        activateButton.setAttribute("aria-pressed", String(enabled));
+        activateButton.classList.toggle("activated", enabled);
+        activateButton.querySelector("span:nth-child(2)").textContent = enabled
+          ? "SAIR DO MODO APRESENTAÇÃO"
+          : "ATIVAR MODO APRESENTAÇÃO";
+        systemMessage.textContent = enabled
+          ? "Modo apresentação ativo. Seu conteúdo está em destaque."
+          : "Modo apresentação encerrado. Você pode editar seu laboratório.";
+        if (enabled && document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else if (!enabled && document.fullscreenElement && document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+
+      activateButton.setAttribute("aria-pressed", "false");
+      activateButton.querySelector("span:nth-child(2)").textContent = "ATIVAR MODO APRESENTAÇÃO";
       activateButton.addEventListener("click", () => {
-        activateButton.classList.add("activated");
-        activateButton.querySelector("span:nth-child(2)").textContent = "LABORATÓRIO ATIVO";
-        systemMessage.textContent = "Tudo pronto, Douglas. Bora programar! 💚";
+        setPresentationMode(!document.body.classList.contains("presentation-mode"));
+      });
+
+      document.addEventListener("fullscreenchange", () => {
+        if (!document.fullscreenElement && document.body.classList.contains("presentation-mode")) {
+          setPresentationMode(false);
+        }
       });
     </script>
     <script>
