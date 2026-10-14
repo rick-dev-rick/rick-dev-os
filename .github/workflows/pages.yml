@@ -24,7 +24,7 @@ jobs:
       - name: Separar apenas os arquivos do site
         run: |
           mkdir -p _site/assets
-          cp index.html style.css supabase-config.js _site/
+          cp index.html style.css supabase-config.js spotify-player.js _site/
           cp assets/whablab.m4a assets/admin-login-failure.mp3 _site/assets/
       - name: Enviar arquivos do site
         uses: actions/upload-pages-artifact@v4
