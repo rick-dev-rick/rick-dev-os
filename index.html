@@ -275,7 +275,14 @@
       <ol class="fitness-history" id="fitness-history" aria-live="polite"></ol>
     </section>
 
-    <aside class="spotify-widget is-minimized" id="spotify-widget" aria-label="Controles do Spotify">
+
+    <footer>
+      <span>RICK_DEV OS</span>
+      <span>FEITO COM CURIOSIDADE E CÓDIGO</span>
+    </footer>
+    </div>
+
+    <aside class="spotify-widget is-minimized" hidden id="spotify-widget" aria-label="Controles do Spotify">
       <button class="spotify-widget-toggle" id="spotify-widget-toggle" type="button" aria-expanded="false" aria-label="Abrir controles do Spotify" title="Abrir controles do Spotify" aria-controls="spotify-widget-panel">
         <span class="spotify-widget-mark" aria-hidden="true">♫</span>
         <span>SPOTIFY</span>
@@ -310,11 +317,6 @@
         </form>
       </div>
     </aside>
-    <footer>
-      <span>RICK_DEV OS</span>
-      <span>FEITO COM CURIOSIDADE E CÓDIGO</span>
-    </footer>
-    </div>
 
     <script id="rick-app-source" type="text/plain">
       const studyList = document.querySelector("#study-list");
@@ -1101,6 +1103,7 @@ const activateButton = document.querySelector("#activate-button");
         const loginForm = document.querySelector("#admin-login-form");
         const guestButton = document.querySelector("#guest-access-button");
         const appShell = document.querySelector("#app-shell");
+        const spotifyWidget = document.querySelector("#spotify-widget");
         const sessionBar = document.querySelector("#access-session");
         const roleLabel = document.querySelector("#access-role-label");
         const saveStatus = document.querySelector("#cloud-save-status");
@@ -1222,6 +1225,7 @@ const activateButton = document.querySelector("#activate-button");
 
           accessScreen.hidden = true;
           appShell.hidden = false;
+          spotifyWidget.hidden = false;
           appShell.inert = role !== "admin";
           sessionBar.hidden = false;
           sessionBar.classList.remove("is-dismissed");
