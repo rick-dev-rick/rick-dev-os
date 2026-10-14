@@ -514,6 +514,7 @@
           checkbox.setAttribute("aria-label", `Marcar ${mission.text} como concluída`);
           checkbox.addEventListener("change", () => {
             missions[index].done = checkbox.checked;
+            missions[index].progress = checkbox.checked ? 100 : 0;
             saveMissions();
             renderMissions();
           });
@@ -533,12 +534,41 @@
           progressTrack.setAttribute("aria-label", `Progresso: ${mission.text}`);
           progressTrack.setAttribute("aria-valuemin", "0");
           progressTrack.setAttribute("aria-valuemax", "100");
-          progressTrack.setAttribute("aria-valuenow", mission.done ? "100" : "0");
-          progressFill.style.width = mission.done ? "100%" : "0%";
+          const currentProgress = mission.done
+            ? 100
+            : Math.max(0, Math.min(100, Number(mission.progress) || 0));
+          progressTrack.setAttribute("aria-valuenow", String(currentProgress));
+          progressFill.style.width = `${currentProgress}%`;
           progressTrack.append(progressFill);
           progressLabel.className = "mission-card-progress-label";
-          progressLabel.textContent = mission.done ? "100% concluída" : "0% concluída";
-          progress.append(progressTrack, progressLabel);
+          progressLabel.textContent = `${currentProgress}% concluída`;
+
+          const progressControls = document.createElement("div");
+          const decreaseProgress = document.createElement("button");
+          const increaseProgress = document.createElement("button");
+          progressControls.className = "mission-progress-controls";
+          decreaseProgress.type = "button";
+          decreaseProgress.textContent = "− 10%";
+          decreaseProgress.setAttribute("aria-label", `Diminuir o progresso de ${mission.text} em 10 por cento`);
+          decreaseProgress.disabled = currentProgress === 0;
+          decreaseProgress.addEventListener("click", () => {
+            missions[index].progress = Math.max(0, currentProgress - 10);
+            missions[index].done = missions[index].progress === 100;
+            saveMissions();
+            renderMissions();
+          });
+          increaseProgress.type = "button";
+          increaseProgress.textContent = "+ 10%";
+          increaseProgress.setAttribute("aria-label", `Aumentar o progresso de ${mission.text} em 10 por cento`);
+          increaseProgress.disabled = currentProgress === 100;
+          increaseProgress.addEventListener("click", () => {
+            missions[index].progress = Math.min(100, currentProgress + 10);
+            missions[index].done = missions[index].progress === 100;
+            saveMissions();
+            renderMissions();
+          });
+          progressControls.append(decreaseProgress, increaseProgress);
+          progress.append(progressTrack, progressLabel, progressControls);
 
           removeButton.type = "button";
           removeButton.className = "item-remove-button";
@@ -566,7 +596,7 @@
         const text = missionInput.value.trim();
         if (!text) return;
 
-        missions.push({ text, description: missionDescriptionInput.value.trim(), done: false });
+        missions.push({ text, description: missionDescriptionInput.value.trim(), done: false, progress: 0 });
         saveMissions();
         renderMissions();
         missionInput.value = "";
@@ -580,6 +610,7 @@
         if (!nextMission) return;
 
         nextMission.done = true;
+        nextMission.progress = 100;
         saveMissions();
         renderMissions();
         missionActionMessage.textContent = `Meta concluída: ${nextMission.text} 💚`;
