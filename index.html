@@ -359,6 +359,12 @@
       ];
       let studyTopics = JSON.parse(localStorage.getItem("rick-dev-study-topics") || "null") || defaultStudyTopics;
       const savedStudies = new Set(JSON.parse(localStorage.getItem("rick-dev-studies") || "[]"));
+      const studyResourceTypes = [
+        { id: "video", label: "VÍDEOS" },
+        { id: "site", label: "SITES / PÁGINAS" },
+        { id: "course", label: "CURSOS" }
+      ];
+      let studyResources = JSON.parse(localStorage.getItem("rick-dev-study-resources") || "{}") || {};
 
       function saveStudyTopics() {
         localStorage.setItem("rick-dev-study-topics", JSON.stringify(studyTopics));
@@ -375,6 +381,125 @@
           if (window.confirm(`Remover "${label}"? Essa ação não pode ser desfeita.`)) onRemove();
         });
         return button;
+      }
+
+      function renderStudyResources(topic) {
+        const resources = Array.isArray(studyResources[topic.id]) ? studyResources[topic.id] : [];
+        const details = document.createElement("details");
+        const summary = document.createElement("summary");
+        const form = document.createElement("form");
+        const typeSelect = document.createElement("select");
+        const titleInput = document.createElement("input");
+        const urlInput = document.createElement("input");
+        const addButton = document.createElement("button");
+        const emptyMessage = document.createElement("p");
+        const groups = document.createElement("div");
+
+        details.className = "study-resources";
+        summary.textContent = resources.length
+          ? "MATERIAIS · " + resources.length
+          : "ADICIONAR MATERIAIS";
+        details.append(summary);
+
+        form.className = "study-resource-form";
+        typeSelect.name = "type";
+        typeSelect.setAttribute("aria-label", "Categoria do material");
+        studyResourceTypes.forEach((resourceType) => {
+          const option = document.createElement("option");
+          option.value = resourceType.id;
+          option.textContent = resourceType.label;
+          typeSelect.append(option);
+        });
+        titleInput.type = "text";
+        titleInput.name = "title";
+        titleInput.maxLength = 70;
+        titleInput.placeholder = "Nome do material";
+        titleInput.setAttribute("aria-label", "Nome do material");
+        titleInput.required = true;
+        urlInput.type = "url";
+        urlInput.name = "url";
+        urlInput.placeholder = "Link https://...";
+        urlInput.setAttribute("aria-label", "Link do material");
+        urlInput.required = true;
+        addButton.type = "submit";
+        addButton.textContent = "ADICIONAR LINK";
+        form.append(typeSelect, titleInput, urlInput, addButton);
+
+        emptyMessage.className = "study-resources-empty";
+        emptyMessage.textContent = "Guarde aqui links úteis desta matéria.";
+        groups.className = "study-resource-groups";
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const title = titleInput.value.trim();
+          const rawUrl = urlInput.value.trim();
+          let parsedUrl;
+          try {
+            parsedUrl = new URL(rawUrl);
+          } catch (_) {
+            parsedUrl = null;
+          }
+          if (!title || !parsedUrl || !["http:", "https:"].includes(parsedUrl.protocol)) {
+            emptyMessage.textContent = "Use um nome e um link começando com http:// ou https://.";
+            return;
+          }
+
+          const topicResources = Array.isArray(studyResources[topic.id]) ? studyResources[topic.id] : [];
+          topicResources.push({
+            id: Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8),
+            type: typeSelect.value,
+            title,
+            url: parsedUrl.href
+          });
+          studyResources[topic.id] = topicResources;
+          localStorage.setItem("rick-dev-study-resources", JSON.stringify(studyResources));
+          renderStudyTopics();
+          updateStudyProgress();
+        });
+
+        studyResourceTypes.forEach((resourceType) => {
+          const categoryResources = resources.filter((resource) => resource.type === resourceType.id);
+          if (!categoryResources.length) return;
+
+          const group = document.createElement("section");
+          const heading = document.createElement("h4");
+          const list = document.createElement("ul");
+          group.className = "study-resource-group";
+          heading.textContent = resourceType.label;
+          list.className = "study-resource-list";
+
+          categoryResources.forEach((resource) => {
+            const item = document.createElement("li");
+            const link = document.createElement("a");
+            item.className = "study-resource-item";
+            link.textContent = resource.title;
+            try {
+              const safeUrl = new URL(resource.url);
+              if (["http:", "https:"].includes(safeUrl.protocol)) {
+                link.href = safeUrl.href;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+              }
+            } catch (_) {
+              link.removeAttribute("href");
+            }
+            item.append(link, createRemoveButton("o material " + resource.title, () => {
+              const remaining = resources.filter((savedResource) => savedResource.id !== resource.id);
+              if (remaining.length) studyResources[topic.id] = remaining;
+              else delete studyResources[topic.id];
+              localStorage.setItem("rick-dev-study-resources", JSON.stringify(studyResources));
+              renderStudyTopics();
+              updateStudyProgress();
+            }));
+            list.append(item);
+          });
+
+          group.append(heading, list);
+          groups.append(group);
+        });
+
+        details.append(form, emptyMessage, groups);
+        return details;
       }
 
       function renderStudyTopics() {
@@ -418,12 +543,15 @@
             item.append(createRemoveButton(`o assunto ${topic.label}`, () => {
               studyTopics = studyTopics.filter((savedTopic) => savedTopic.id !== topic.id);
               savedStudies.delete(topic.id);
+              delete studyResources[topic.id];
+              localStorage.setItem("rick-dev-study-resources", JSON.stringify(studyResources));
               saveStudyTopics();
               renderStudyTopics();
               updateStudyProgress();
               studyAddMessage.textContent = `${topic.label} removido dos seus estudos.`;
             }));
           }
+          item.append(renderStudyResources(topic));
           studyList.append(item);
         });
       }
@@ -1262,7 +1390,8 @@ const activateButton = document.querySelector("#activate-button");
             const legacyKeys = [
               "rick-dev-study-topics", "rick-dev-studies", "rick-dev-missions",
               "rick-dev-projects", "rick-dev-pc-parts", "rick-dev-fitness-log",
-              "rick-dev-focus-seconds", "rick-dev-focus-minutes", "rick-dev-focus-remaining"
+              "rick-dev-study-resources", "rick-dev-focus-seconds",
+              "rick-dev-focus-minutes", "rick-dev-focus-remaining"
             ];
             const previousData = {};
             legacyKeys.forEach((key) => {
