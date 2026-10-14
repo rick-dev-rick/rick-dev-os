@@ -275,6 +275,41 @@
       <ol class="fitness-history" id="fitness-history" aria-live="polite"></ol>
     </section>
 
+    <aside class="spotify-widget" id="spotify-widget" aria-label="Controles do Spotify">
+      <button class="spotify-widget-toggle" id="spotify-widget-toggle" type="button" aria-expanded="true" aria-controls="spotify-widget-panel">
+        <span class="spotify-widget-mark" aria-hidden="true">♫</span>
+        <span>SPOTIFY</span>
+        <span class="spotify-widget-chevron" aria-hidden="true">⌄</span>
+      </button>
+      <div class="spotify-widget-panel" id="spotify-widget-panel">
+        <div class="spotify-track" id="spotify-track" aria-live="polite">
+          <span class="spotify-track-art" aria-hidden="true">♫</span>
+          <span class="spotify-track-copy">
+            <strong id="spotify-track-title">Player pessoal</strong>
+            <span id="spotify-track-artist">Conecte seu Spotify para começar</span>
+          </span>
+        </div>
+        <p class="spotify-status" id="spotify-status" role="status" aria-live="polite">Configure o Client ID do seu aplicativo Spotify.</p>
+        <div class="spotify-playback-controls" id="spotify-playback-controls">
+          <button id="spotify-previous" type="button" aria-label="Música anterior" title="Música anterior" disabled>⏮</button>
+          <button class="spotify-play-toggle" id="spotify-play-toggle" type="button" aria-label="Reproduzir ou pausar" title="Reproduzir ou pausar" disabled>▶</button>
+          <button id="spotify-next" type="button" aria-label="Próxima música" title="Próxima música" disabled>⏭</button>
+        </div>
+        <div class="spotify-widget-actions">
+          <button class="spotify-connect-button" id="spotify-connect" type="button">CONECTAR SPOTIFY</button>
+          <button class="spotify-small-button" id="spotify-settings-toggle" type="button">CONFIGURAR</button>
+          <button class="spotify-small-button" id="spotify-disconnect" type="button" hidden>DESCONECTAR</button>
+        </div>
+        <form class="spotify-settings" id="spotify-settings" hidden>
+          <label for="spotify-client-id">Client ID do aplicativo</label>
+          <input id="spotify-client-id" name="clientId" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="Cole o Client ID do Spotify" maxlength="100" required>
+          <p>Crie um app no <a href="https://developer.spotify.com/dashboard" target="_blank" rel="noopener noreferrer">Spotify Developer Dashboard</a> e cadastre este endereço como Redirect URI:</p>
+          <code>https://rick-dev-rick.github.io/rick-dev-os/</code>
+          <button type="submit">SALVAR CONFIGURAÇÃO</button>
+          <p class="spotify-settings-note">Use apenas o Client ID. Nunca coloque aqui sua senha ou Client Secret.</p>
+        </form>
+      </div>
+    </aside>
     <footer>
       <span>RICK_DEV OS</span>
       <span>FEITO COM CURIOSIDADE E CÓDIGO</span>
@@ -1272,5 +1307,6 @@ const activateButton = document.querySelector("#activate-button");
         }
       })();
     </script>
+    <script src="spotify-player.js" defer></script>
   </body>
 </html>
