@@ -121,10 +121,26 @@
         <h2 id="focus-title">Modo foco</h2>
         <p class="focus-intro">Separe um tempo para estudar ou avançar no seu projeto.</p>
         <div class="focus-duration-control">
-          <label for="focus-duration">DURAÇÃO DO FOCO</label>
-          <div><input id="focus-duration" type="number" min="1" max="180" step="1" value="25"><span>min</span></div>
+          <span class="focus-duration-title">DURAÇÃO DO FOCO</span>
+          <div class="focus-duration-fields">
+            <label class="focus-time-unit" for="focus-hours">
+              <span class="visually-hidden">Horas</span>
+              <input id="focus-hours" type="number" min="0" max="23" step="1" value="0" inputmode="numeric" placeholder="00">
+              <span aria-hidden="true">h</span>
+            </label>
+            <label class="focus-time-unit" for="focus-minutes">
+              <span class="visually-hidden">Minutos</span>
+              <input id="focus-minutes" type="number" min="0" max="59" step="1" value="25" inputmode="numeric" placeholder="00">
+              <span aria-hidden="true">min</span>
+            </label>
+            <label class="focus-time-unit" for="focus-seconds">
+              <span class="visually-hidden">Segundos</span>
+              <input id="focus-seconds" type="number" min="0" max="59" step="1" value="0" inputmode="numeric" placeholder="00">
+              <span aria-hidden="true">s</span>
+            </label>
+          </div>
         </div>
-        <div class="focus-clock" id="focus-clock" role="timer" aria-live="off">25:00</div>
+        <div class="focus-clock" id="focus-clock" role="timer" aria-live="off">00:25:00</div>
         <div class="focus-controls">
           <button id="focus-toggle" type="button">INICIAR</button>
           <button id="focus-reset" class="focus-reset" type="button">REINICIAR</button>
@@ -981,12 +997,37 @@
       const focusReset = document.querySelector("#focus-reset");
       const focusMessage = document.querySelector("#focus-message");
       const focusStatus = document.querySelector("#focus-status");
-      const focusDurationInput = document.querySelector("#focus-duration");
+      const focusHoursInput = document.querySelector("#focus-hours");
+      const focusMinutesInput = document.querySelector("#focus-minutes");
+      const focusSecondsInput = document.querySelector("#focus-seconds");
+      const focusDurationInputs = [focusHoursInput, focusMinutesInput, focusSecondsInput];
+      const maxFocusDuration = 23 * 60 * 60 + 59 * 60 + 59;
+      const storedFocusDurationSeconds = localStorage.getItem("rick-dev-focus-seconds");
+      const savedFocusDurationSeconds = Number(storedFocusDurationSeconds);
       const savedFocusMinutes = Number(localStorage.getItem("rick-dev-focus-minutes"));
-      if (Number.isInteger(savedFocusMinutes) && savedFocusMinutes >= 1 && savedFocusMinutes <= 180) {
-        focusDurationInput.value = String(savedFocusMinutes);
+      let focusDuration = storedFocusDurationSeconds !== null
+        && Number.isInteger(savedFocusDurationSeconds)
+        && savedFocusDurationSeconds >= 1
+        && savedFocusDurationSeconds <= maxFocusDuration
+        ? savedFocusDurationSeconds
+        : Number.isInteger(savedFocusMinutes) && savedFocusMinutes >= 1 && savedFocusMinutes <= 180
+          ? savedFocusMinutes * 60
+          : 25 * 60;
+
+      function setFocusDurationInputs(totalSeconds) {
+        focusHoursInput.value = String(Math.floor(totalSeconds / 3600));
+        focusMinutesInput.value = String(Math.floor((totalSeconds % 3600) / 60));
+        focusSecondsInput.value = String(totalSeconds % 60);
       }
-      let focusDuration = Number(focusDurationInput.value) * 60;
+
+      function formatFocusTime(totalSeconds) {
+        const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, "0");
+        const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, "0");
+        const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+        return hours + ":" + minutes + ":" + seconds;
+      }
+
+      setFocusDurationInputs(focusDuration);
       const savedFocusRemainingValue = localStorage.getItem("rick-dev-focus-remaining");
       const savedFocusRemaining = savedFocusRemainingValue === null
         ? Number.NaN
@@ -1003,37 +1044,47 @@
       }
 
       function renderFocusClock() {
-        const minutes = Math.floor(focusRemaining / 60).toString().padStart(2, "0");
-        const seconds = (focusRemaining % 60).toString().padStart(2, "0");
-        focusClock.textContent = `${minutes}:${seconds}`;
+        focusClock.textContent = formatFocusTime(focusRemaining);
       }
 
       function stopFocusTimer() {
         clearInterval(focusInterval);
         focusInterval = null;
         focusToggle.textContent = "CONTINUAR";
-        focusDurationInput.disabled = false;
+        focusDurationInputs.forEach((input) => { input.disabled = false; });
         focusStatus.textContent = "● PAUSADO";
         focusMessage.textContent = "Respire um pouco e retome quando quiser.";
         saveFocusProgress();
       }
 
-      focusDurationInput.addEventListener("change", () => {
-        const minutes = Number(focusDurationInput.value);
-        if (!Number.isInteger(minutes) || minutes < 1 || minutes > 180) {
-          focusDurationInput.value = String(focusDuration / 60);
-          focusMessage.textContent = "Escolha um tempo entre 1 e 180 minutos.";
+      function updateFocusDuration() {
+        const hours = focusHoursInput.valueAsNumber;
+        const minutes = focusMinutesInput.valueAsNumber;
+        const seconds = focusSecondsInput.valueAsNumber;
+        const valid = Number.isInteger(hours) && hours >= 0 && hours <= 23
+          && Number.isInteger(minutes) && minutes >= 0 && minutes <= 59
+          && Number.isInteger(seconds) && seconds >= 0 && seconds <= 59;
+        const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+        if (!valid || totalSeconds < 1 || totalSeconds > maxFocusDuration) {
+          setFocusDurationInputs(focusDuration);
+          focusMessage.textContent = "Use 0–23 horas, 0–59 minutos e 0–59 segundos. O tempo precisa ser maior que zero.";
           return;
         }
 
-        focusDuration = minutes * 60;
+        focusDuration = totalSeconds;
         focusRemaining = focusDuration;
-        localStorage.setItem("rick-dev-focus-minutes", String(minutes));
+        localStorage.setItem("rick-dev-focus-seconds", String(focusDuration));
+        localStorage.setItem("rick-dev-focus-minutes", String(Math.max(1, Math.floor(focusDuration / 60))));
         saveFocusProgress();
         focusToggle.textContent = "INICIAR";
         focusStatus.textContent = "● PRONTO PARA COMEÇAR";
-        focusMessage.textContent = `Seu foco está ajustado para ${minutes} minutos.`;
+        focusMessage.textContent = "Seu foco está ajustado para " + formatFocusTime(focusDuration) + ".";
         renderFocusClock();
+      }
+
+      focusDurationInputs.forEach((input) => {
+        input.addEventListener("change", updateFocusDuration);
       });
 
       const focusSound = new Audio("assets/whablab.m4a");
@@ -1055,7 +1106,7 @@
           focusRemaining = focusDuration;
           saveFocusProgress();
         }
-        focusDurationInput.disabled = true;
+        focusDurationInputs.forEach((input) => { input.disabled = true; });
         focusToggle.textContent = "PAUSAR";
         focusStatus.textContent = "● FOCO ATIVO";
         focusMessage.textContent = "Você consegue, Douglas! 💚";
@@ -1070,7 +1121,7 @@
           if (focusRemaining <= 0) {
             clearInterval(focusInterval);
             focusInterval = null;
-            focusDurationInput.disabled = false;
+            focusDurationInputs.forEach((input) => { input.disabled = false; });
             focusToggle.textContent = "NOVO CICLO";
             focusStatus.textContent = "● CICLO CONCLUÍDO";
             focusMessage.textContent = "Mandou bem! Hora de fazer uma pausa. Wubba Lubba Dub Dub! 🎉";
@@ -1085,7 +1136,7 @@
         focusInterval = null;
         focusRemaining = focusDuration;
         saveFocusProgress();
-        focusDurationInput.disabled = false;
+        focusDurationInputs.forEach((input) => { input.disabled = false; });
         focusToggle.textContent = "INICIAR";
         focusStatus.textContent = "● PRONTO PARA COMEÇAR";
         focusMessage.textContent = "Um passo de cada vez.";
