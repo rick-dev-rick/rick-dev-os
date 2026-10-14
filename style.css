@@ -2847,3 +2847,40 @@ body.presentation-mode .spotify-widget {
   background: rgba(57, 255, 20, 0.16);
   box-shadow: 0 0 16px rgba(57, 255, 20, 0.2);
 }
+
+/* CONTROLES DE PROGRESSO DAS METAS */
+.mission-progress-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 3px;
+}
+
+.mission-progress-controls button {
+  min-height: 26px;
+  padding: 4px 9px;
+  border: 1px solid rgba(57, 255, 20, 0.22);
+  border-radius: 6px;
+  background: rgba(57, 255, 20, 0.045);
+  color: #a9c5a9;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, opacity 0.18s ease;
+}
+
+.mission-progress-controls button:hover:not(:disabled),
+.mission-progress-controls button:focus-visible {
+  border-color: rgba(57, 255, 20, 0.62);
+  background: rgba(57, 255, 20, 0.12);
+  color: var(--neon);
+  outline: none;
+}
+
+.mission-progress-controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
