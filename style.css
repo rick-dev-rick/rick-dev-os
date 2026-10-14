@@ -3007,3 +3007,59 @@ body.presentation-mode .spotify-widget {
     font-size: 9px;
   }
 }
+
+/* MODO FOCO ACESSÍVEL EM CELULARES */
+@media (max-width: 720px) {
+  .focus-duration-control {
+    width: 100%;
+    max-width: 100%;
+    min-height: 48px;
+    margin: 4px auto 10px;
+  }
+
+  .focus-duration-control > label {
+    font-size: 10px;
+    letter-spacing: 0.7px;
+  }
+
+  .focus-duration-control input {
+    width: 72px;
+    min-height: 48px;
+    padding: 8px;
+    font-size: 16px;
+    touch-action: manipulation;
+  }
+
+  .focus-clock {
+    margin: 18px 0;
+    font-size: clamp(44px, 13vw, 60px);
+    letter-spacing: 2px;
+  }
+
+  .focus-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .focus-controls button {
+    min-width: 0;
+    min-height: 50px;
+    padding: 12px 10px;
+    font-size: 11px;
+    touch-action: manipulation;
+  }
+
+  .focus-message {
+    min-height: 40px !important;
+    line-height: 1.55;
+  }
+
+  body.presentation-mode .focus-duration-control {
+    display: flex !important;
+  }
+
+  body.presentation-mode .focus-controls {
+    display: grid !important;
+  }
+}
