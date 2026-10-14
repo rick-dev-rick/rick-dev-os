@@ -68,7 +68,7 @@
         <div class="card-icon" aria-hidden="true">📚</div>
         <span class="card-tag">// TRILHA DE APRENDIZADO</span>
         <h2 id="studies-title">Meus estudos</h2>
-        <p class="studies-intro">Marque os assuntos que você já estudou. Seu progresso fica salvo neste navegador.</p>
+        <p class="studies-intro">Cada habilidade é uma etapa da sua evolução. Avance no seu ritmo e acompanhe a trilha.</p>
         <div class="study-progress" aria-live="polite">
           <div class="study-progress-label">
             <span>PROGRESSO</span>
@@ -100,7 +100,9 @@
         <p class="mission-intro">Anote o próximo passo e acompanhe suas metas por aqui.</p>
         <form class="mission-form" id="mission-form">
           <label class="visually-hidden" for="mission-input">Nova meta</label>
-          <input id="mission-input" name="mission" type="text" maxlength="80" placeholder="Ex.: estudar JavaScript" autocomplete="off" required>
+          <input id="mission-input" name="mission" type="text" maxlength="80" placeholder="Nome da missão" autocomplete="off" required>
+          <label class="visually-hidden" for="mission-description">Descrição da meta (opcional)</label>
+          <input id="mission-description" name="description" type="text" maxlength="160" placeholder="Descrição ou próximo passo (opcional)" autocomplete="off">
           <button type="submit"><span aria-hidden="true">＋</span> ADICIONAR META</button>
         </form>
         <p class="mission-feedback" id="mission-feedback" aria-live="polite"></p>
@@ -290,6 +292,12 @@
       const studyAddForm = document.querySelector("#study-add-form");
       const studyInput = document.querySelector("#study-input");
       const studyAddMessage = document.querySelector("#study-add-message");
+      const studyDetails = {
+        html: { icon: "🌐", description: "Estruture páginas e dê forma às suas ideias." },
+        css: { icon: "🎨", description: "Crie layouts, cores e interfaces com personalidade." },
+        javascript: { icon: "⚡", description: "Adicione lógica e interatividade aos projetos." },
+        ads: { icon: "🎓", description: "Avance na sua formação em Análise e Desenvolvimento de Sistemas." }
+      };
       const defaultStudyTopics = [
         { id: "html", label: "HTML" },
         { id: "css", label: "CSS" },
@@ -308,28 +316,49 @@
 
         studyTopics.forEach((topic) => {
           const item = document.createElement("li");
+          item.className = "study-topic-card";
+          const details = studyDetails[topic.id] || { icon: "🧪", description: "Trilha personalizada adicionada ao seu laboratório." };
+          const icon = document.createElement("span");
+          const description = document.createElement("span");
+          const state = document.createElement("span");
           const label = document.createElement("label");
           const checkbox = document.createElement("input");
           const text = document.createElement("span");
 
+          icon.className = "study-topic-icon";
+          icon.setAttribute("aria-hidden", "true");
+          icon.textContent = details.icon;
+          description.className = "study-topic-description";
+          description.textContent = details.description;
+
           checkbox.type = "checkbox";
           checkbox.dataset.study = topic.id;
           checkbox.checked = savedStudies.has(topic.id);
+          state.className = "study-topic-state";
+          state.textContent = checkbox.checked ? "CONCLUÍDO" : "EM ANDAMENTO";
           checkbox.addEventListener("change", () => {
             if (checkbox.checked) savedStudies.add(topic.id);
             else savedStudies.delete(topic.id);
+            item.classList.toggle("is-complete", checkbox.checked);
+            state.textContent = checkbox.checked ? "CONCLUÍDO" : "EM ANDAMENTO";
             updateStudyProgress();
           });
 
+          item.classList.toggle("is-complete", checkbox.checked);
           text.textContent = topic.label;
           label.append(checkbox, text);
-          item.append(label);
+          item.append(icon, label, description, state);
           studyList.append(item);
         });
       }
 
       function updateStudyProgress() {
         const studyChecks = [...studyList.querySelectorAll("[data-study]")];
+        studyChecks.forEach((check) => {
+          const topicCard = check.closest(".study-topic-card");
+          topicCard.classList.toggle("is-complete", check.checked);
+          topicCard.querySelector(".study-topic-state").textContent = check.checked ? "CONCLUÍDO" : "EM ANDAMENTO";
+        });
         const completed = studyChecks.filter((check) => check.checked).length;
         const total = studyChecks.length;
         const percent = total ? (completed / total) * 100 : 0;
@@ -380,6 +409,7 @@
 
       const missionForm = document.querySelector("#mission-form");
       const missionInput = document.querySelector("#mission-input");
+      const missionDescriptionInput = document.querySelector("#mission-description");
       const missionList = document.querySelector("#mission-list");
       const missionFeedback = document.querySelector("#mission-feedback");
       const missionStatus = document.querySelector("#mission-status");
@@ -396,10 +426,28 @@
 
         missions.forEach((mission, index) => {
           const item = document.createElement("li");
+          item.className = mission.done ? "mission-card is-complete" : "mission-card";
+          const header = document.createElement("div");
+          const icon = document.createElement("span");
+          const state = document.createElement("span");
           const label = document.createElement("label");
           const checkbox = document.createElement("input");
-          const text = document.createElement("span");
+          const content = document.createElement("span");
+          const text = document.createElement("strong");
+          const description = document.createElement("span");
+          const progress = document.createElement("div");
+          const progressTrack = document.createElement("span");
+          const progressFill = document.createElement("span");
+          const progressLabel = document.createElement("span");
           const removeButton = document.createElement("button");
+
+          header.className = "mission-card-heading";
+          icon.className = "mission-card-icon";
+          icon.setAttribute("aria-hidden", "true");
+          icon.textContent = "🎯";
+          state.className = "mission-card-state";
+          state.textContent = mission.done ? "CONCLUÍDA" : "EM ANDAMENTO";
+          header.append(icon, state);
 
           checkbox.type = "checkbox";
           checkbox.checked = mission.done;
@@ -410,8 +458,27 @@
             renderMissions();
           });
 
+          text.className = "mission-card-title";
           text.textContent = mission.text;
-          label.append(checkbox, text);
+          description.className = "mission-card-description";
+          description.textContent = mission.description || "Sua próxima etapa rumo ao objetivo.";
+          content.className = "mission-card-content";
+          content.append(text, description);
+          label.className = "mission-card-label";
+          label.append(checkbox, content);
+
+          progress.className = "mission-card-progress";
+          progressTrack.className = "mission-card-progress-track";
+          progressTrack.setAttribute("role", "progressbar");
+          progressTrack.setAttribute("aria-label", `Progresso: ${mission.text}`);
+          progressTrack.setAttribute("aria-valuemin", "0");
+          progressTrack.setAttribute("aria-valuemax", "100");
+          progressTrack.setAttribute("aria-valuenow", mission.done ? "100" : "0");
+          progressFill.style.width = mission.done ? "100%" : "0%";
+          progressTrack.append(progressFill);
+          progressLabel.className = "mission-card-progress-label";
+          progressLabel.textContent = mission.done ? "100% concluída" : "0% concluída";
+          progress.append(progressTrack, progressLabel);
 
           removeButton.type = "button";
           removeButton.className = "mission-remove";
@@ -423,7 +490,7 @@
             renderMissions();
           });
 
-          item.append(label, removeButton);
+          item.append(header, label, progress, removeButton);
           missionList.append(item);
         });
 
@@ -437,10 +504,11 @@
         const text = missionInput.value.trim();
         if (!text) return;
 
-        missions.push({ text, done: false });
+        missions.push({ text, description: missionDescriptionInput.value.trim(), done: false });
         saveMissions();
         renderMissions();
         missionInput.value = "";
+        missionDescriptionInput.value = "";
         missionFeedback.textContent = "Meta adicionada à sua missão!";
         missionInput.focus();
       });

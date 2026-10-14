@@ -2115,3 +2115,240 @@ footer {
     transition: none;
   }
 }
+
+
+/* TRILHA E MISSÕES: CARTÕES DE PROGRESSO */
+.study-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.study-list li.study-topic-card {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-content: start;
+  gap: 8px 10px;
+  min-width: 0;
+  min-height: 138px;
+  padding: 13px;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(19, 36, 21, 0.78), rgba(6, 12, 7, 0.82));
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.study-topic-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(57, 255, 20, 0.62);
+}
+
+.study-topic-card.is-complete {
+  border-color: rgba(57, 255, 20, 0.52);
+  background: linear-gradient(145deg, rgba(28, 57, 27, 0.8), rgba(6, 15, 7, 0.9));
+}
+
+.study-topic-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(57, 255, 20, 0.28);
+  border-radius: 9px;
+  background: rgba(57, 255, 20, 0.08);
+  font-size: 20px;
+}
+
+.study-topic-card label {
+  align-self: center;
+  gap: 7px;
+  color: #e4ffe4;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.study-topic-card label span {
+  overflow-wrap: anywhere;
+}
+
+.study-topic-card input {
+  width: 16px;
+  height: 16px;
+}
+
+.study-topic-card .study-topic-description {
+  grid-column: 1 / -1;
+  min-height: 34px;
+  color: #91a891;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.study-topic-state {
+  grid-column: 1 / -1;
+  align-self: end;
+  color: #9ab29a;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+}
+
+.study-topic-card.is-complete .study-topic-state {
+  color: var(--neon);
+}
+
+.mission-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.mission-form input[name="description"] {
+  grid-column: 1 / -1;
+}
+
+.mission-list {
+  gap: 10px;
+}
+
+.mission-list li.mission-card {
+  position: relative;
+  display: grid;
+  gap: 11px;
+  padding: 14px 42px 14px 14px;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(19, 36, 21, 0.76), rgba(6, 12, 7, 0.84));
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.mission-card.is-complete {
+  border-color: rgba(57, 255, 20, 0.52);
+  background: linear-gradient(145deg, rgba(28, 57, 27, 0.76), rgba(6, 15, 7, 0.9));
+}
+
+.mission-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mission-card-icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(57, 255, 20, 0.26);
+  border-radius: 8px;
+  background: rgba(57, 255, 20, 0.08);
+  font-size: 16px;
+}
+
+.mission-card-state {
+  color: #9ab29a;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.mission-card.is-complete .mission-card-state {
+  color: var(--neon);
+}
+
+.mission-list label.mission-card-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.mission-card-label input {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+.mission-card-content {
+  display: grid;
+  min-width: 0;
+  gap: 5px;
+}
+
+.mission-card-title {
+  color: #e4ffe4;
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.mission-card-label input:checked ~ .mission-card-content .mission-card-title {
+  color: #8da28d;
+  text-decoration: line-through;
+}
+
+.mission-card-description {
+  color: #91a891;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.mission-card-progress {
+  display: grid;
+  gap: 5px;
+}
+
+.mission-card-progress-track {
+  display: block;
+  height: 5px;
+  overflow: hidden;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 99px;
+  background: rgba(57, 255, 20, 0.06);
+}
+
+.mission-card-progress-track > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--neon);
+  box-shadow: 0 0 9px rgba(57, 255, 20, 0.65);
+  transition: width 0.3s ease;
+}
+
+.mission-card-progress-label {
+  color: #9ab29a;
+  font-size: 8px;
+  text-align: right;
+}
+
+.mission-list .mission-card .mission-remove {
+  position: absolute;
+  top: 8px;
+  right: 7px;
+}
+
+@media (max-width: 560px) {
+  .study-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .study-list li.study-topic-card {
+    min-height: 132px;
+    padding: 10px;
+  }
+
+  .study-topic-card label {
+    gap: 5px;
+    font-size: 12px;
+  }
+
+  .mission-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mission-form input[name="description"] {
+    grid-column: auto;
+  }
+}
