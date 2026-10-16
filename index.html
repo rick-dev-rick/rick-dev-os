@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261016-mobile-polish" />
+    <link rel="stylesheet" href="style.css?v=20261016-mobile-scroll" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -1958,24 +1958,52 @@ const activateButton = document.querySelector("#activate-button");
         overviewObserver.observe(document.getElementById("progress-track"), { attributes: true, attributeFilter: ["aria-valuenow", "aria-valuemax"] });
         overviewObserver.observe(document.getElementById("mission-list"), { childList: true, subtree: true, attributes: true, attributeFilter: ["aria-valuenow"] });
         syncOverview();
-        function showModule(focusHeading = false) {
-          const requested = window.location.hash.replace(/^#module\//, "");
-          const active = links.some(link => link.dataset.module === requested) ? requested : "home";
+        const mobileLayout = window.matchMedia("(max-width: 720px)");
+        let scrollFrame = 0;
+        function markActiveModule(active) {
           document.documentElement.dataset.activeModule = active;
-          panels.forEach(panel => { panel.hidden = panel.id !== "module-" + active; });
           links.forEach(link => {
             if (link.dataset.module === active) link.setAttribute("aria-current", "page");
             else link.removeAttribute("aria-current");
           });
-          if (focusHeading && !document.querySelector("#app-shell").hidden) {
-            // Guest content stays inert; navigation remains available outside it.
-            if (!document.querySelector("#app-shell").inert) {
-              document.querySelector("#module-" + active + "-title").focus({ preventScroll: true });
-            }
-            window.scrollTo({ top: 0, behavior: "instant" });
-          }
         }
+        function syncScrolledModule() {
+          scrollFrame = 0;
+          if (!mobileLayout.matches || document.querySelector("#app-shell").hidden) return;
+          const readingLine = window.innerHeight * .25;
+          let current = panels[0];
+          for (const panel of panels) {
+            if (panel.getBoundingClientRect().top <= readingLine) current = panel;
+            else break;
+          }
+          markActiveModule(current.id.replace("module-", ""));
+        }
+        function queueScrollSync() {
+          if (mobileLayout.matches && !scrollFrame) scrollFrame = window.requestAnimationFrame(syncScrolledModule);
+        }
+        function showModule(focusHeading = false, preferred) {
+          const requested = preferred || window.location.hash.replace(/^#module\//, "");
+          const active = links.some(link => link.dataset.module === requested) ? requested : "home";
+          markActiveModule(active);
+          panels.forEach(panel => { panel.hidden = !mobileLayout.matches && panel.id !== "module-" + active; });
+          if (focusHeading && !document.querySelector("#app-shell").hidden) {
+            const heading = document.querySelector("#module-" + active + "-title");
+            if (!document.querySelector("#app-shell").inert) heading.focus({ preventScroll: true });
+            if (mobileLayout.matches) heading.scrollIntoView({ block: "start", behavior: "instant" });
+            else window.scrollTo({ top: 0, behavior: "instant" });
+          }
+          queueScrollSync();
+        }
+        window.addEventListener("scroll", queueScrollSync, { passive: true });
+        window.addEventListener("resize", queueScrollSync, { passive: true });
+        mobileLayout.addEventListener("change", () => showModule(true, document.documentElement.dataset.activeModule));
         window.addEventListener("hashchange", () => showModule(true));
+        window.addEventListener("rick-system-ready", () => {
+          if (mobileLayout.matches) showModule(Boolean(window.location.hash));
+        });
+        document.querySelectorAll('a[href^="#module/"]').forEach(link => link.addEventListener("click", () => {
+          if (mobileLayout.matches && link.getAttribute("href") === window.location.hash) showModule(true);
+        }));
         showModule();
       })();
     </script>

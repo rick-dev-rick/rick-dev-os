@@ -4085,3 +4085,26 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 @media (max-width: 720px) and (hover: none) {
   .card:hover, .project-card:hover, .study-topic-card:hover { transform: none; }
 }
+
+/* Mobile flows naturally through all modules; desktop keeps its sidebar. */
+@media (max-width: 720px) {
+  :root { --mobile-nav-height: 0px; }
+  .module-navigation, .sidebar-collapsed .module-navigation { display: none !important; }
+  body:has(#module-navigation:not([hidden])), .sidebar-collapsed body:has(#module-navigation:not([hidden])) { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  .module-panel {
+    --accent-rgb: 57,255,20;
+    --neon: rgb(var(--accent-rgb));
+    --neon-soft: color-mix(in srgb,var(--neon) 35%,white);
+    --surface: color-mix(in srgb,var(--neon) 10%,#151716);
+    --panel: color-mix(in srgb,var(--neon) 13%,var(--surface));
+    --border: rgba(var(--accent-rgb),.25);
+    --module-accent: var(--neon);
+    padding-bottom: 28px;
+  }
+  #module-fit { --accent-rgb: 182,140,255; }
+  #module-finance { --accent-rgb: 234,199,96; }
+  #module-system { --accent-rgb: 121,180,255; }
+  .module-panel + .module-panel { padding-top: 28px; border-top: 1px solid var(--border); }
+  .module-heading h2 { scroll-margin-top: max(20px,env(safe-area-inset-top)); }
+  .spotify-widget { bottom: calc(14px + env(safe-area-inset-bottom)); }
+}
