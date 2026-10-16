@@ -3823,3 +3823,72 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .vault-records, .vault-editor-grid { grid-template-columns: minmax(0,1fr); }
   .vault-filters { grid-template-columns: minmax(0,1fr); }
 }
+
+/* Readable study materials, while keeping the library compact. */
+.study-library .study-library-link a { color: #f3fff6; font-size: 17px; font-weight: 600; line-height: 1.65; text-decoration-color: #afc8b5; text-underline-offset: 4px; }
+.study-library .study-library-link a:hover, .study-library .study-library-link a:focus-visible { color: #c7ffb8; text-decoration-color: currentColor; }
+.study-library .study-library-origin { color: #d3e4d7; font-size: 14px; line-height: 1.6; }
+.study-library .study-resource-group h3 { color: #e4ffdf; font-size: 20px; }
+.study-library .study-resource-item { padding: 14px 0; border-bottom-color: rgba(199,255,184,.18); }
+.study-library-intro { color: #d3e4d7; font-size: 14px; }
+/* FIT tabs keep navigation available while content grids remain read-only for guests. */
+.fit-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.fit-tabs button { min-height: 44px; padding: 12px 18px; border: 1px solid var(--border); background: rgba(var(--accent-rgb),.06); color: var(--muted); font: 700 12px "Segoe UI",sans-serif; cursor: pointer; }
+.fit-tabs button[aria-selected="true"] { background: rgba(var(--accent-rgb),.18); color: var(--neon-soft); box-shadow: inset 0 -2px var(--neon); }
+.fit-tabs button:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
+.running-period { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 20px; }
+.running-period h3 { font: 600 28px "Rick Display",sans-serif; }
+.running-period p, .running-help { color: var(--muted); font-size: 13px; line-height: 1.65; }
+.running-period p { margin-top: 8px; }
+.running-period label { display: grid; gap: 8px; color: var(--neon-soft); font-size: 12px; }
+.running-period input, .running-grid input, .running-grid select { min-height: 44px; width: 100%; min-width: 0; border: 1px solid var(--border); border-radius: 0; background: #1c152a; color: #f1eaff; padding: 10px 12px; font: 14px "Segoe UI",sans-serif; color-scheme: dark; }
+.running-grid { align-items: start; }
+.running-grid .running-help { margin-top: 12px; }
+.running-grid > .running-summary, .running-grid > .running-history-card, .running-grid > .running-entry-card, .running-grid > .running-goal { grid-column: 1 / -1; }
+.running-stats { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; margin-top: 20px; }
+.running-stats > div { background: rgba(0,0,0,.14); border: 1px solid var(--border); padding: 18px 14px; }
+.running-stats dt { color: var(--muted); font-size: 12px; margin-bottom: 10px; }
+.running-stats dd { color: var(--neon-soft); font: 600 28px "Rick Display",sans-serif; overflow-wrap: anywhere; }
+.running-goal-layout { display: grid; grid-template-columns: 150px minmax(0,1fr); gap: 24px; align-items: center; margin-top: 20px; }
+.running-goal-layout .home-progress-ring { margin: 0; width: 150px; }
+.running-goal .home-ring-value { position: absolute; inset: 0; display: grid; place-items: center; }
+.running-goal-track { stroke: rgba(var(--accent-rgb),.13); }
+.running-goal-fill { stroke: var(--neon); stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--ring-percent)); stroke-linecap: butt; transition: stroke-dashoffset .5s ease; }
+#running-goal-form { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+#running-goal-form label { display: grid; gap: 8px; color: var(--muted); font-size: 12px; flex: 1 1 160px; }
+.running-grid button { min-height: 44px; border: 1px solid var(--border); border-radius: 0; background: rgba(var(--accent-rgb),.13); color: #e9dbff; padding: 10px 14px; font: 700 11px "Segoe UI",sans-serif; cursor: pointer; }
+.running-grid button:disabled { opacity: .45; cursor: default; }
+.running-grid input:focus-visible, .running-grid select:focus-visible, .running-grid button:focus-visible, .running-period input:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
+#running-fields { border: 0; margin-top: 20px; min-width: 0; }
+.running-entry-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.running-entry-grid > label, .running-time { display: grid; gap: 8px; color: var(--muted); font-size: 12px; min-width: 0; }
+.running-time > div { display: flex; gap: 6px; }
+.running-time label { display: flex; align-items: center; gap: 3px; min-width: 0; }
+.running-time input { padding: 10px 6px; min-width: 0; }
+.running-time label > span:not(.visually-hidden) { font-size: 11px; }
+.running-note-field { grid-column: 1 / -1; }
+.running-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.running-history { list-style: none; display: grid; gap: 12px; margin-top: 20px; }
+.running-history-item { padding: 18px; border: 1px solid var(--border); background: rgba(0,0,0,.12); }
+.running-history-top, .running-history-heading { display: flex; gap: 12px; justify-content: space-between; flex-wrap: wrap; align-items: center; }
+.running-history-top h3 { font: 600 25px "Rick Display",sans-serif; color: #f1eaff; }
+.running-history-top time { color: var(--muted); font-size: 12px; }
+.running-history-data, .running-history-note { margin-top: 10px; font-size: 13px; line-height: 1.7; color: #dbceec; overflow-wrap: anywhere; }
+.running-history-note { color: var(--muted); }
+.running-empty { color: var(--muted); line-height: 1.7; font-size: 14px; }
+#running-more { margin-top: 16px; }
+@media (min-width: 1000px) {
+  .running-grid > .running-goal, .running-grid > .running-entry-card { grid-column: auto; }
+  .running-entry-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .running-time { grid-column: 1 / -1; }
+  .running-goal-layout { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 720px) {
+  .running-stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .running-entry-grid { grid-template-columns: minmax(0,1fr); }
+  .running-goal-layout { grid-template-columns: minmax(0,1fr); }
+  .running-goal-layout .home-progress-ring { margin: 0 auto; }
+  .running-period label { width: 100%; }
+  .running-period input, .running-grid input, .running-grid select { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .running-goal-fill { transition: none; } }
