@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261014-study-resources-dark" />
+    <link rel="stylesheet" href="style.css?v=20261016-modules" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -35,6 +35,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
 
+    <nav id="module-navigation" class="module-navigation" aria-label="Módulos do RICK_DEV OS" hidden>
+      <a href="#module/home" data-module="home" aria-current="page"><span>⌂</span><span>Central</span></a>
+      <a href="#module/study" data-module="study"><span>📚</span><span>RICK_STUDY</span></a>
+      <a href="#module/fit" data-module="fit"><span>🏋️</span><span>RICK_FIT</span></a>
+      <a href="#module/finance" data-module="finance"><span>◈</span><span>RICK_FINANCE</span></a>
+      <a href="#module/system" data-module="system"><span>⚙</span><span>RICK_SYSTEM</span></a>
+    </nav>
+
     <div id="app-shell" hidden>
     <div class="background-effects" aria-hidden="true">
       <div class="grid-overlay"></div>
@@ -52,7 +60,10 @@
       <div class="header-line" aria-hidden="true"></div>
     </header>
 
-    <main>
+    <main class="module-workspace">
+    <section class="module-panel" id="module-home" aria-labelledby="module-home-title">
+      <div class="module-heading"><h2 id="module-home-title" tabindex="-1">Central de Comando</h2><p>Suas metas e o ponto de partida para os outros módulos.</p></div>
+      <div class="module-grid">
       <section class="welcome-panel" aria-labelledby="welcome-title">
         <span class="panel-tag">// CENTRAL DE COMANDO</span>
         <h2 id="welcome-title">Olá, Douglas! <span aria-hidden="true">🧪</span></h2>
@@ -63,7 +74,33 @@
         </button>
         <p class="system-message" id="system-message" aria-live="polite"></p>
       </section>
+      <section class="card" aria-labelledby="mission-title">
+        <div class="card-icon" aria-hidden="true">🎯</div>
+        <span class="card-tag">// OBJETIVO PRINCIPAL</span>
+        <h2 id="mission-title">Minha missão</h2>
+        <p class="mission-intro">Anote o próximo passo e acompanhe suas metas por aqui.</p>
+        <form class="mission-form" id="mission-form">
+          <label class="visually-hidden" for="mission-input">Nova meta</label>
+          <input id="mission-input" name="mission" type="text" maxlength="80" placeholder="Nome da missão" autocomplete="off" required>
+          <label class="visually-hidden" for="mission-description">Descrição da meta (opcional)</label>
+          <input id="mission-description" name="description" type="text" maxlength="160" placeholder="Descrição ou próximo passo (opcional)" autocomplete="off">
+          <button type="submit"><span aria-hidden="true">＋</span> ADICIONAR META</button>
+        </form>
+        <p class="mission-feedback" id="mission-feedback" aria-live="polite"></p>
+        <ul class="mission-list" id="mission-list" aria-label="Minhas metas"></ul>
+        <button class="card-action-button" id="mission-next" type="button">
+          <span aria-hidden="true">🎯</span>
+          <span>CONCLUIR PRÓXIMA META</span>
+        </button>
+        <p class="card-action-message" id="mission-action-message" aria-live="polite"></p>
+        <span class="card-status" id="mission-status">● 0 METAS CONCLUÍDAS</span>
+      </section>
+      </div>
+    </section>
 
+    <section class="module-panel" id="module-study" aria-labelledby="module-study-title" hidden>
+      <div class="module-heading"><h2 id="module-study-title" tabindex="-1">RICK_STUDY</h2><p>Estudos, materiais, concentração e projetos em um só lugar.</p></div>
+      <div class="module-grid">
       <section class="card" aria-labelledby="studies-title">
         <div class="card-icon" aria-hidden="true">📚</div>
         <span class="card-tag">// TRILHA DE APRENDIZADO</span>
@@ -92,29 +129,6 @@
         <p class="card-action-message" id="study-message" aria-live="polite"></p>
         <span class="card-status" id="study-status">● EM ANDAMENTO</span>
       </section>
-
-      <section class="card" aria-labelledby="mission-title">
-        <div class="card-icon" aria-hidden="true">🎯</div>
-        <span class="card-tag">// OBJETIVO PRINCIPAL</span>
-        <h2 id="mission-title">Minha missão</h2>
-        <p class="mission-intro">Anote o próximo passo e acompanhe suas metas por aqui.</p>
-        <form class="mission-form" id="mission-form">
-          <label class="visually-hidden" for="mission-input">Nova meta</label>
-          <input id="mission-input" name="mission" type="text" maxlength="80" placeholder="Nome da missão" autocomplete="off" required>
-          <label class="visually-hidden" for="mission-description">Descrição da meta (opcional)</label>
-          <input id="mission-description" name="description" type="text" maxlength="160" placeholder="Descrição ou próximo passo (opcional)" autocomplete="off">
-          <button type="submit"><span aria-hidden="true">＋</span> ADICIONAR META</button>
-        </form>
-        <p class="mission-feedback" id="mission-feedback" aria-live="polite"></p>
-        <ul class="mission-list" id="mission-list" aria-label="Minhas metas"></ul>
-        <button class="card-action-button" id="mission-next" type="button">
-          <span aria-hidden="true">🎯</span>
-          <span>CONCLUIR PRÓXIMA META</span>
-        </button>
-        <p class="card-action-message" id="mission-action-message" aria-live="polite"></p>
-        <span class="card-status" id="mission-status">● 0 METAS CONCLUÍDAS</span>
-      </section>
-
       <section class="card focus-card" aria-labelledby="focus-title">
         <div class="card-icon" aria-hidden="true">⏱️</div>
         <span class="card-tag">// TEMPO DE CONCENTRAÇÃO</span>
@@ -148,54 +162,6 @@
         <p class="focus-message" id="focus-message" aria-live="polite">Um passo de cada vez.</p>
         <span class="card-status" id="focus-status">● PRONTO PARA COMEÇAR</span>
       </section>
-    </main>
-
-    <section class="pc-build" aria-labelledby="pc-title">
-      <div class="pc-heading">
-        <div>
-          <span class="card-tag">// PLANEJAMENTO DO SETUP</span>
-          <h2 id="pc-title">RICK_PC</h2>
-          <p>Monte sua lista, acompanhe os preços e marque cada peça quando chegar.</p>
-        </div>
-        <span class="pc-heading-icon" aria-hidden="true">🖥️</span>
-      </div>
-
-      <div class="pc-summary" aria-live="polite">
-        <article class="pc-stat">
-          <span>PEÇAS COMPRADAS</span>
-          <strong id="pc-purchased-count">0 / 0</strong>
-        </article>
-        <article class="pc-stat">
-          <span>ORÇAMENTO DA LISTA</span>
-          <strong id="pc-budget-total">R$ 0,00</strong>
-        </article>
-        <article class="pc-stat">
-          <span>VALOR JÁ INVESTIDO</span>
-          <strong id="pc-spent-total">R$ 0,00</strong>
-        </article>
-      </div>
-
-      <div class="pc-progress" aria-label="Progresso das compras">
-        <span id="pc-progress-fill"></span>
-      </div>
-
-      <div class="pc-parts-grid" id="pc-parts-list" aria-live="polite"></div>
-
-      <details class="pc-editor">
-        <summary class="pc-add-button"><span aria-hidden="true">＋</span> ADICIONAR OUTRA PEÇA</summary>
-        <form id="pc-part-form" class="pc-part-form">
-          <label for="pc-part-name">Nome da peça</label>
-          <input id="pc-part-name" name="name" type="text" maxlength="50" placeholder="Ex.: Placa de captura" required>
-          <label for="pc-part-model">Modelo desejado <span>(opcional)</span></label>
-          <input id="pc-part-model" name="model" type="text" maxlength="80" placeholder="Marca e modelo">
-          <label for="pc-part-price">Preço estimado <span>(opcional)</span></label>
-          <input id="pc-part-price" name="price" type="number" min="0" step="0.01" placeholder="0,00">
-          <button type="submit">ADICIONAR À LISTA</button>
-          <p id="pc-part-message" class="pc-part-message" aria-live="polite"></p>
-        </form>
-      </details>
-    </section>
-
     <section class="project-showcase" aria-labelledby="projects-title">
       <div class="projects-heading">
         <div>
@@ -225,7 +191,12 @@
       </div>
       <div class="project-grid" id="projects-list" aria-live="polite"></div>
     </section>
+      </div>
+    </section>
 
+    <section class="module-panel" id="module-fit" aria-labelledby="module-fit-title" hidden>
+      <div class="module-heading"><h2 id="module-fit-title" tabindex="-1">RICK_FIT</h2><p>Seus treinos, registros e evolução corporal.</p></div>
+      <div class="module-grid">
     <section class="body-evolution" aria-labelledby="body-evolution-title">
       <div class="body-evolution-heading">
         <div>
@@ -290,7 +261,75 @@
       </div>
       <ol class="fitness-history" id="fitness-history" aria-live="polite"></ol>
     </section>
+      </div>
+    </section>
 
+    <section class="module-panel" id="module-finance" aria-labelledby="module-finance-title" hidden>
+      <div class="module-heading"><h2 id="module-finance-title" tabindex="-1">RICK_FINANCE</h2><p>Planejamento de compras e orçamento do seu RICK_PC.</p></div>
+      <div class="module-grid">
+    <section class="pc-build" aria-labelledby="pc-title">
+      <div class="pc-heading">
+        <div>
+          <span class="card-tag">// PLANEJAMENTO DO SETUP</span>
+          <h2 id="pc-title">RICK_PC</h2>
+          <p>Monte sua lista, acompanhe os preços e marque cada peça quando chegar.</p>
+        </div>
+        <span class="pc-heading-icon" aria-hidden="true">🖥️</span>
+      </div>
+
+      <div class="pc-summary" aria-live="polite">
+        <article class="pc-stat">
+          <span>PEÇAS COMPRADAS</span>
+          <strong id="pc-purchased-count">0 / 0</strong>
+        </article>
+        <article class="pc-stat">
+          <span>ORÇAMENTO DA LISTA</span>
+          <strong id="pc-budget-total">R$ 0,00</strong>
+        </article>
+        <article class="pc-stat">
+          <span>VALOR JÁ INVESTIDO</span>
+          <strong id="pc-spent-total">R$ 0,00</strong>
+        </article>
+      </div>
+
+      <div class="pc-progress" aria-label="Progresso das compras">
+        <span id="pc-progress-fill"></span>
+      </div>
+
+      <div class="pc-parts-grid" id="pc-parts-list" aria-live="polite"></div>
+
+      <details class="pc-editor">
+        <summary class="pc-add-button"><span aria-hidden="true">＋</span> ADICIONAR OUTRA PEÇA</summary>
+        <form id="pc-part-form" class="pc-part-form">
+          <label for="pc-part-name">Nome da peça</label>
+          <input id="pc-part-name" name="name" type="text" maxlength="50" placeholder="Ex.: Placa de captura" required>
+          <label for="pc-part-model">Modelo desejado <span>(opcional)</span></label>
+          <input id="pc-part-model" name="model" type="text" maxlength="80" placeholder="Marca e modelo">
+          <label for="pc-part-price">Preço estimado <span>(opcional)</span></label>
+          <input id="pc-part-price" name="price" type="number" min="0" step="0.01" placeholder="0,00">
+          <button type="submit">ADICIONAR À LISTA</button>
+          <p id="pc-part-message" class="pc-part-message" aria-live="polite"></p>
+        </form>
+      </details>
+    </section>
+      </div>
+    </section>
+
+    <section class="module-panel" id="module-system" aria-labelledby="module-system-title" hidden>
+      <div class="module-heading"><h2 id="module-system-title" tabindex="-1">RICK_SYSTEM</h2><p>Informações sobre acesso, dados e restauração do código.</p></div>
+      <div class="module-grid">
+      <article class="card system-information">
+        <h3>Dados e acesso</h3>
+        <p>O acesso continua protegido pelo login existente. O administrador pode editar; convidados apenas visualizam.</p>
+        <p>Os registros continuam usando a conexão atual com o Supabase. Acompanhe o estado de salvamento na barra da sessão.</p>
+        <h3>Restauração do código</h3>
+        <p>O ponto de restauração desta organização é a branch <code>backup/pre-visual-identity-20261016</code>, no commit <code>c7ac2f6</code>.</p>
+        <p>Esse backup preserva o código do site. Os dados do Supabase e deste navegador são armazenados separadamente.</p>
+      </article>
+      </div>
+    </section>
+
+    </main>
 
     <footer>
       <span>RICK_DEV OS</span>
@@ -1445,6 +1484,7 @@ const activateButton = document.querySelector("#activate-button");
 
           accessScreen.hidden = true;
           appShell.hidden = false;
+          document.querySelector("#module-navigation").hidden = false;
           spotifyWidget.hidden = false;
           appShell.inert = role !== "admin";
           sessionBar.hidden = false;
@@ -1529,6 +1569,31 @@ const activateButton = document.querySelector("#activate-button");
             else await supabaseClient.auth.signOut();
           });
         }
+      })();
+    </script>
+    <script>
+      (() => {
+        const navigation = document.querySelector("#module-navigation");
+        const links = [...navigation.querySelectorAll("[data-module]")];
+        const panels = [...document.querySelectorAll(".module-panel")];
+        function showModule(focusHeading = false) {
+          const requested = window.location.hash.replace(/^#module\//, "");
+          const active = links.some(link => link.dataset.module === requested) ? requested : "home";
+          panels.forEach(panel => { panel.hidden = panel.id !== "module-" + active; });
+          links.forEach(link => {
+            if (link.dataset.module === active) link.setAttribute("aria-current", "page");
+            else link.removeAttribute("aria-current");
+          });
+          if (focusHeading && !document.querySelector("#app-shell").hidden) {
+            // Guest content stays inert; navigation remains available outside it.
+            if (!document.querySelector("#app-shell").inert) {
+              document.querySelector("#module-" + active + "-title").focus({ preventScroll: true });
+            }
+            window.scrollTo({ top: 0, behavior: "instant" });
+          }
+        }
+        window.addEventListener("hashchange", () => showModule(true));
+        showModule();
       })();
     </script>
     <script src="spotify-player.js" defer></script>
