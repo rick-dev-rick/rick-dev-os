@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261016-square-minimal" />
+    <link rel="stylesheet" href="style.css?v=20261016-segmented-rings" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -77,11 +77,65 @@
         <p class="system-message" id="system-message" aria-live="polite"></p>
       </section>
       <section class="home-overview" aria-label="Panorama da sua evolução">
-        <article><h3>Estudos</h3><p id="home-study-progress">—</p></article>
-        <article><h3>Missões</h3><p id="home-mission-progress">—</p></article>
-        <article><h3>Treinos registrados</h3><p id="home-fitness-progress">—</p></article>
-        <article><h3>Peças compradas</h3><p id="home-pc-progress">—</p></article>
-        <article><h3>Projetos no laboratório</h3><p id="home-lab-progress">—</p></article>
+        <article class="home-ring-card">
+          <h3>Estudos</h3>
+          <div class="home-progress-ring" id="home-study-ring" role="progressbar" aria-label="Progresso dos estudos" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+              <defs>
+                <mask id="home-study-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
+                  <circle class="home-ring-mask" cx="60" cy="60" r="50" pathLength="100" />
+                </mask>
+              </defs>
+              <circle class="home-ring-bezel" cx="60" cy="60" r="50" />
+              <circle class="home-ring-track" cx="60" cy="60" r="50" pathLength="100" />
+              <circle class="home-ring-fill" cx="60" cy="60" r="50" pathLength="100" mask="url(#home-study-reveal)" />
+              <circle class="home-ring-face" cx="60" cy="60" r="40" />
+            </svg>
+            <span class="home-ring-center" aria-hidden="true"><strong class="home-ring-value" id="home-study-percent">0%</strong><span class="home-ring-center-label">CONCLUÍDO</span></span>
+          </div>
+          <p class="home-ring-caption" id="home-study-progress">—</p>
+          <span class="home-ring-description">Assuntos concluídos</span>
+        </article>
+        <article class="home-ring-card">
+          <h3>Missões</h3>
+          <div class="home-progress-ring" id="home-mission-ring" role="progressbar" aria-label="Progresso médio das missões" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+              <defs>
+                <mask id="home-mission-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
+                  <circle class="home-ring-mask" cx="60" cy="60" r="50" pathLength="100" />
+                </mask>
+              </defs>
+              <circle class="home-ring-bezel" cx="60" cy="60" r="50" />
+              <circle class="home-ring-track" cx="60" cy="60" r="50" pathLength="100" />
+              <circle class="home-ring-fill" cx="60" cy="60" r="50" pathLength="100" mask="url(#home-mission-reveal)" />
+              <circle class="home-ring-face" cx="60" cy="60" r="40" />
+            </svg>
+            <span class="home-ring-center" aria-hidden="true"><strong class="home-ring-value" id="home-mission-percent">0%</strong><span class="home-ring-center-label">CONCLUÍDO</span></span>
+          </div>
+          <p class="home-ring-caption" id="home-mission-progress">—</p>
+          <span class="home-ring-description">Progresso médio das missões</span>
+        </article>
+        <article class="home-ring-card">
+          <h3>RICK_PC</h3>
+          <div class="home-progress-ring" id="home-pc-ring" role="progressbar" aria-label="Progresso das compras do PC" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+              <defs>
+                <mask id="home-pc-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
+                  <circle class="home-ring-mask" cx="60" cy="60" r="50" pathLength="100" />
+                </mask>
+              </defs>
+              <circle class="home-ring-bezel" cx="60" cy="60" r="50" />
+              <circle class="home-ring-track" cx="60" cy="60" r="50" pathLength="100" />
+              <circle class="home-ring-fill" cx="60" cy="60" r="50" pathLength="100" mask="url(#home-pc-reveal)" />
+              <circle class="home-ring-face" cx="60" cy="60" r="40" />
+            </svg>
+            <span class="home-ring-center" aria-hidden="true"><strong class="home-ring-value" id="home-pc-percent">0%</strong><span class="home-ring-center-label">CONCLUÍDO</span></span>
+          </div>
+          <p class="home-ring-caption" id="home-pc-progress">—</p>
+          <span class="home-ring-description">Peças compradas da sua lista</span>
+        </article>
+        <article class="home-count-card"><span class="home-count-icon" aria-hidden="true">🏋️</span><div><h3>Treinos registrados</h3><p id="home-fitness-progress">—</p></div></article>
+        <article class="home-count-card"><span class="home-count-icon" aria-hidden="true">🧪</span><div><h3>Projetos no laboratório</h3><p id="home-lab-progress">—</p></div></article>
       </section>
 
 
@@ -1608,6 +1662,16 @@ const activateButton = document.querySelector("#activate-button");
           setSidebarCollapsed(collapsed);
           try { localStorage.setItem("rick-dev-sidebar-collapsed", String(collapsed)); } catch (_) {}
         });
+        function updateHomeRing(key, completed, total) {
+          const raw = total > 0 ? (completed / total) * 100 : 0;
+          const percent = Math.max(0, Math.min(100, Number.isFinite(raw) ? raw : 0));
+          const rounded = Math.round(percent);
+          const ring = document.getElementById("home-" + key + "-ring");
+          ring.setAttribute("aria-valuenow", String(rounded));
+          ring.setAttribute("aria-valuetext", rounded + "%" + (total > 0 ? "" : " • Sem itens cadastrados"));
+          ring.style.setProperty("--ring-percent", String(percent));
+          document.getElementById("home-" + key + "-percent").textContent = rounded + "%";
+        }
         function syncOverview() {
           const pairs = [
             ["home-study-progress", "progress-label"],
@@ -1620,6 +1684,13 @@ const activateButton = document.querySelector("#activate-button");
             const text = document.getElementById(sourceId).textContent;
             if (target.textContent !== text) target.textContent = text;
           });
+          const studyTrack = document.getElementById("progress-track");
+          updateHomeRing("study", Number(studyTrack.getAttribute("aria-valuenow")), Number(studyTrack.getAttribute("aria-valuemax")));
+          const missions = [...document.querySelectorAll("#mission-list .mission-card-progress-track")];
+          const missionProgress = missions.reduce((sum, track) => sum + (Number(track.getAttribute("aria-valuenow")) || 0), 0);
+          updateHomeRing("mission", missionProgress, missions.length * 100);
+          const pcCounts = document.getElementById("pc-purchased-count").textContent.match(/(\d+)\s*\/\s*(\d+)/);
+          updateHomeRing("pc", pcCounts ? Number(pcCounts[1]) : 0, pcCounts ? Number(pcCounts[2]) : 0);
           const target = document.getElementById("home-lab-progress");
           const text = String(document.getElementById("projects-list").children.length);
           if (target.textContent !== text) target.textContent = text;
@@ -1628,6 +1699,8 @@ const activateButton = document.querySelector("#activate-button");
         ["progress-label", "mission-status", "fitness-workout-count", "pc-purchased-count", "projects-list"].forEach(id => {
           overviewObserver.observe(document.getElementById(id), { childList: true, characterData: true, subtree: true });
         });
+        overviewObserver.observe(document.getElementById("progress-track"), { attributes: true, attributeFilter: ["aria-valuenow", "aria-valuemax"] });
+        overviewObserver.observe(document.getElementById("mission-list"), { childList: true, subtree: true, attributes: true, attributeFilter: ["aria-valuenow"] });
         syncOverview();
         function showModule(focusHeading = false) {
           const requested = window.location.hash.replace(/^#module\//, "");

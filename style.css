@@ -3502,3 +3502,34 @@ body {
   .module-navigation .sidebar-toggle,
   .sidebar-collapsed .module-navigation .sidebar-toggle { display: none; }
 }
+
+/* RICK_HOME circular progress; square cards remain unchanged. */
+.home-overview { grid-template-columns: repeat(6,minmax(0,1fr)); gap: 16px; }
+.home-overview .home-ring-card { grid-column: span 2; padding: 24px 16px; text-align: center; }
+.home-overview .home-ring-card h3 { color: var(--text); font-size: 15px; margin-bottom: 20px; }
+.home-progress-ring { --ring-percent: 0; position: relative; width: min(100%,160px); aspect-ratio: 1; margin: 0 auto 18px; }
+.home-progress-ring svg { display: block; width: 100%; height: 100%; overflow: visible; transform: rotate(-90deg); }
+.home-progress-ring circle { fill: none; stroke-width: 7; }
+.home-ring-track { stroke: #303a33; stroke-dasharray: 7.333333 1; }
+.home-ring-fill { stroke: var(--neon); stroke-linecap: butt; stroke-dasharray: 7.333333 1; filter: drop-shadow(0 0 2px rgba(var(--accent-rgb),.25)); }
+.home-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+.home-ring-value { font-size: clamp(24px,3vw,34px); font-weight: 700; font-variant-numeric: tabular-nums; color: var(--neon); }
+.home-ring-center-label { font-size: 7px; letter-spacing: 1px; color: var(--muted); }
+.home-progress-ring .home-ring-bezel { stroke: #1a211c; stroke-width: 14; }
+.home-progress-ring .home-ring-face { fill: #101612; stroke: rgba(var(--accent-rgb),.08); stroke-width: 1; }
+.home-progress-ring .home-ring-mask { stroke: white; stroke-width: 10; stroke-linecap: butt; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--ring-percent)); transition: stroke-dashoffset .6s ease; }
+.home-overview .home-ring-caption { font-size: 13px; font-weight: 600; line-height: 1.5; }
+.home-ring-description { display: block; margin-top: 7px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.home-overview .home-count-card { grid-column: span 3; display: flex; gap: 16px; align-items: center; padding: 20px; }
+.home-count-icon { font-size: 24px; }
+.home-overview .home-count-card h3 { margin-bottom: 6px; }
+@media (max-width: 720px) {
+  .home-overview { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .home-overview .home-ring-card { grid-column: span 1; padding: 20px 12px; }
+  .home-overview .home-ring-card:nth-child(3) { grid-column: 1 / -1; }
+  .home-overview .home-count-card { grid-column: span 1; flex-direction: column; align-items: flex-start; padding: 16px; }
+  .home-progress-ring { width: min(100%,140px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-progress-ring .home-ring-mask { transition: none; }
+}
