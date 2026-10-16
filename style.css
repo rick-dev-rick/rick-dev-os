@@ -4108,3 +4108,73 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .module-heading h2 { scroll-margin-top: max(20px,env(safe-area-inset-top)); }
   .spotify-widget { bottom: calc(14px + env(safe-area-inset-bottom)); }
 }
+
+/* Reference sidebar: charcoal rail, unified icons and full-width active rows. */
+.sidebar-brand { display: none; }
+@media (min-width: 721px) {
+  .module-navigation {
+    inset: 0 auto 0 0; width: 260px; height: 100dvh;
+    padding: 104px 0 88px; gap: 0;
+    border: 0; border-right: 1px solid #303331;
+    background: color-mix(in srgb,var(--neon) 3%,#1b1c1c);
+    box-shadow: none; overflow-x: hidden; overflow-y: auto;
+  }
+  .sidebar-brand {
+    position: absolute; inset: 0 0 auto; height: 84px; display: flex;
+    align-items: center; gap: 9px; padding: 0 24px;
+    background: #202222; border-bottom: 1px solid #303331;
+  }
+  .sidebar-brand-mark { display: grid; place-items: center; flex: 0 0 30px; width: 30px; height: 30px; background: var(--neon); color: #142019; }
+  .sidebar-brand-name { display: grid; color: #f1f3f2; font: 800 15px/1.05 "Segoe UI",sans-serif; letter-spacing: .04em; }
+  .sidebar-brand-name > span { font-size: 12px; margin-top: 3px; }
+  .module-navigation .sidebar-toggle {
+    position: absolute; top: 28px; right: 12px; margin: 0;
+    width: 28px; height: 28px; min-height: 28px; padding: 6px;
+    color: #bac2bc; border: 1px solid transparent; align-self: auto;
+  }
+  .module-navigation .sidebar-toggle:hover { border-color: #515852; background: #2a2e2b; }
+  .module-navigation a[data-module] {
+    --module-accent: var(--neon);
+    width: 100%; flex: 0 0 60px; min-height: 60px; gap: 22px;
+    padding: 16px 24px; border: 0; border-left: 3px solid transparent;
+    color: #eef0ef; background: transparent; box-shadow: none;
+    font: 700 16px/1.4 "Segoe UI",Arial,sans-serif; letter-spacing: .01em;
+  }
+  .module-navigation a .sidebar-module-icon { display: grid; place-items: center; flex: 0 0 24px; width: 24px; height: 26px; color: var(--neon); }
+  .sidebar-module-icon svg { display: block; }
+  .module-navigation a[aria-current="page"] {
+    border-left-color: var(--neon); background: rgba(var(--accent-rgb),.17);
+    color: #fff; box-shadow: inset 0 1px rgba(var(--accent-rgb),.04),inset 0 -1px rgba(var(--accent-rgb),.04);
+  }
+  .module-navigation a:not([aria-current="page"]):hover { background: #2b2e2c; color: #fff; }
+  .module-navigation a:focus-visible { outline: 2px solid var(--neon); outline-offset: -3px; }
+  body:has(#module-navigation:not([hidden])) { padding-left: 288px; }
+  .spotify-widget { left: 16px; }
+  .spotify-widget:not(.is-minimized) { left: 276px; }
+  .sidebar-collapsed .module-navigation {
+    inset: 0 auto 0 0; width: 76px; padding: 132px 0 88px; gap: 0;
+    border: 0; border-right: 1px solid #303331;
+    background: color-mix(in srgb,var(--neon) 3%,#1b1c1c); box-shadow: none;
+  }
+  .sidebar-collapsed .sidebar-brand { justify-content: center; padding: 0; }
+  .sidebar-collapsed .sidebar-brand-name { display: none; }
+  .sidebar-collapsed .module-navigation .sidebar-toggle { top: 94px; right: 24px; margin: 0; }
+  .sidebar-collapsed .module-navigation a[data-module] {
+    width: 100%; min-height: 60px; flex: 0 0 60px; padding: 16px 0;
+    justify-content: center; gap: 0; border: 0; border-left: 3px solid transparent;
+  }
+  .sidebar-collapsed .module-navigation a[aria-current="page"] {
+    border-left-color: var(--neon); background: rgba(var(--accent-rgb),.17);
+    box-shadow: none;
+  }
+  .sidebar-collapsed body:has(#module-navigation:not([hidden])) { padding-left: 100px; }
+  .sidebar-collapsed .spotify-widget.is-minimized { left: 12px; }
+  .sidebar-collapsed .spotify-widget:not(.is-minimized) { left: 92px; }
+}
+@media (min-width: 721px) and (max-width: 1000px) {
+  .module-navigation { width: 226px; }
+  .module-navigation a[data-module] { gap: 16px; padding-left: 18px; padding-right: 16px; font-size: 15px; }
+  .sidebar-brand { padding-left: 20px; }
+  body:has(#module-navigation:not([hidden])) { padding-left: 248px; }
+  .spotify-widget:not(.is-minimized) { left: 240px; }
+}
