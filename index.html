@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261016-modules" />
+    <link rel="stylesheet" href="style.css?v=20261016-sidebar" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -36,11 +36,13 @@
     <script src="supabase-config.js"></script>
 
     <nav id="module-navigation" class="module-navigation" aria-label="Módulos do RICK_DEV OS" hidden>
-      <a href="#module/home" data-module="home" aria-current="page"><span>⌂</span><span>Central</span></a>
-      <a href="#module/study" data-module="study"><span>📚</span><span>RICK_STUDY</span></a>
-      <a href="#module/fit" data-module="fit"><span>🏋️</span><span>RICK_FIT</span></a>
-      <a href="#module/finance" data-module="finance"><span>◈</span><span>RICK_FINANCE</span></a>
-      <a href="#module/system" data-module="system"><span>⚙</span><span>RICK_SYSTEM</span></a>
+      <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Recolher menu lateral"><span aria-hidden="true">☰</span><span class="module-label">Recolher menu</span></button>
+      <a href="#module/home" data-module="home" aria-label="RICK_HOME" title="RICK_HOME" aria-current="page"><span aria-hidden="true">⌂</span><span class="module-label">RICK_HOME</span></a>
+      <a href="#module/study" data-module="study" aria-label="RICK_STUDY" title="RICK_STUDY"><span>📚</span><span class="module-label">RICK_STUDY</span></a>
+      <a href="#module/fit" data-module="fit" aria-label="RICK_FIT" title="RICK_FIT"><span>🏋️</span><span class="module-label">RICK_FIT</span></a>
+      <a href="#module/finance" data-module="finance" aria-label="RICK_FINANCE" title="RICK_FINANCE"><span>◈</span><span class="module-label">RICK_FINANCE</span></a>
+      <a href="#module/lab" data-module="lab" aria-label="RICK_LAB" title="RICK_LAB"><span aria-hidden="true">🧪</span><span class="module-label">RICK_LAB</span></a>
+      <a href="#module/system" data-module="system" aria-label="RICK_SYSTEM" title="RICK_SYSTEM"><span>⚙</span><span class="module-label">RICK_SYSTEM</span></a>
     </nav>
 
     <div id="app-shell" hidden>
@@ -62,7 +64,7 @@
 
     <main class="module-workspace">
     <section class="module-panel" id="module-home" aria-labelledby="module-home-title">
-      <div class="module-heading"><h2 id="module-home-title" tabindex="-1">Central de Comando</h2><p>Suas metas e o ponto de partida para os outros módulos.</p></div>
+      <div class="module-heading"><h2 id="module-home-title" tabindex="-1">RICK_HOME</h2><p>Sua evolução e o panorama do seu sistema.</p></div>
       <div class="module-grid">
       <section class="welcome-panel" aria-labelledby="welcome-title">
         <span class="panel-tag">// CENTRAL DE COMANDO</span>
@@ -74,6 +76,21 @@
         </button>
         <p class="system-message" id="system-message" aria-live="polite"></p>
       </section>
+      <section class="home-overview" aria-label="Panorama da sua evolução">
+        <article><h3>Estudos</h3><p id="home-study-progress">—</p></article>
+        <article><h3>Missões</h3><p id="home-mission-progress">—</p></article>
+        <article><h3>Treinos registrados</h3><p id="home-fitness-progress">—</p></article>
+        <article><h3>Peças compradas</h3><p id="home-pc-progress">—</p></article>
+        <article><h3>Projetos no laboratório</h3><p id="home-lab-progress">—</p></article>
+      </section>
+
+
+      </div>
+    </section>
+
+    <section class="module-panel" id="module-study" aria-labelledby="module-study-title" hidden>
+      <div class="module-heading"><h2 id="module-study-title" tabindex="-1">RICK_STUDY</h2><p>Estudos, materiais, missões e concentração em um só lugar.</p></div>
+      <div class="module-grid">
       <section class="card" aria-labelledby="mission-title">
         <div class="card-icon" aria-hidden="true">🎯</div>
         <span class="card-tag">// OBJETIVO PRINCIPAL</span>
@@ -95,12 +112,6 @@
         <p class="card-action-message" id="mission-action-message" aria-live="polite"></p>
         <span class="card-status" id="mission-status">● 0 METAS CONCLUÍDAS</span>
       </section>
-      </div>
-    </section>
-
-    <section class="module-panel" id="module-study" aria-labelledby="module-study-title" hidden>
-      <div class="module-heading"><h2 id="module-study-title" tabindex="-1">RICK_STUDY</h2><p>Estudos, materiais, concentração e projetos em um só lugar.</p></div>
-      <div class="module-grid">
       <section class="card" aria-labelledby="studies-title">
         <div class="card-icon" aria-hidden="true">📚</div>
         <span class="card-tag">// TRILHA DE APRENDIZADO</span>
@@ -162,35 +173,7 @@
         <p class="focus-message" id="focus-message" aria-live="polite">Um passo de cada vez.</p>
         <span class="card-status" id="focus-status">● PRONTO PARA COMEÇAR</span>
       </section>
-    <section class="project-showcase" aria-labelledby="projects-title">
-      <div class="projects-heading">
-        <div>
-          <span class="card-tag">// PORTFÓLIO PESSOAL</span>
-          <h2 id="projects-title">Meus projetos</h2>
-          <p>Ideias que saíram do papel e estão ganhando vida.</p>
-        </div>
-        <details class="project-editor">
-          <summary class="project-add-button"><span aria-hidden="true">＋</span> ADICIONAR PROJETO</summary>
-          <form id="project-form" class="project-form">
-            <label for="project-name">Nome do projeto</label>
-            <input id="project-name" name="name" type="text" maxlength="50" placeholder="Ex.: Meu portfólio" required>
 
-            <label for="project-description">Descrição</label>
-            <textarea id="project-description" name="description" maxlength="180" rows="3" placeholder="O que esse projeto faz?" required></textarea>
-
-            <label for="project-tech">Tecnologias <span>(separe por vírgula)</span></label>
-            <input id="project-tech" name="technologies" type="text" maxlength="100" placeholder="HTML, CSS, JavaScript">
-
-            <label for="project-link">Link do projeto <span>(opcional)</span></label>
-            <input id="project-link" name="link" type="url" placeholder="https://...">
-
-            <button type="submit">SALVAR PROJETO</button>
-            <p class="project-form-message" id="project-form-message" aria-live="polite"></p>
-          </form>
-        </details>
-      </div>
-      <div class="project-grid" id="projects-list" aria-live="polite"></div>
-    </section>
       </div>
     </section>
 
@@ -311,6 +294,41 @@
           <p id="pc-part-message" class="pc-part-message" aria-live="polite"></p>
         </form>
       </details>
+    </section>
+      </div>
+    </section>
+
+    <section class="module-panel" id="module-lab" aria-labelledby="module-lab-title" hidden>
+      <div class="module-heading"><h2 id="module-lab-title" tabindex="-1">RICK_LAB</h2><p>Seus projetos e experimentos de programação.</p></div>
+      <div class="module-grid">
+    <section class="project-showcase" aria-labelledby="projects-title">
+      <div class="projects-heading">
+        <div>
+          <span class="card-tag">// PORTFÓLIO PESSOAL</span>
+          <h2 id="projects-title">Meus projetos</h2>
+          <p>Ideias que saíram do papel e estão ganhando vida.</p>
+        </div>
+        <details class="project-editor">
+          <summary class="project-add-button"><span aria-hidden="true">＋</span> ADICIONAR PROJETO</summary>
+          <form id="project-form" class="project-form">
+            <label for="project-name">Nome do projeto</label>
+            <input id="project-name" name="name" type="text" maxlength="50" placeholder="Ex.: Meu portfólio" required>
+
+            <label for="project-description">Descrição</label>
+            <textarea id="project-description" name="description" maxlength="180" rows="3" placeholder="O que esse projeto faz?" required></textarea>
+
+            <label for="project-tech">Tecnologias <span>(separe por vírgula)</span></label>
+            <input id="project-tech" name="technologies" type="text" maxlength="100" placeholder="HTML, CSS, JavaScript">
+
+            <label for="project-link">Link do projeto <span>(opcional)</span></label>
+            <input id="project-link" name="link" type="url" placeholder="https://...">
+
+            <button type="submit">SALVAR PROJETO</button>
+            <p class="project-form-message" id="project-form-message" aria-live="polite"></p>
+          </form>
+        </details>
+      </div>
+      <div class="project-grid" id="projects-list" aria-live="polite"></div>
     </section>
       </div>
     </section>
@@ -1576,9 +1594,45 @@ const activateButton = document.querySelector("#activate-button");
         const navigation = document.querySelector("#module-navigation");
         const links = [...navigation.querySelectorAll("[data-module]")];
         const panels = [...document.querySelectorAll(".module-panel")];
+        const toggle = document.querySelector("#sidebar-toggle");
+        function setSidebarCollapsed(collapsed) {
+          document.documentElement.classList.toggle("sidebar-collapsed", collapsed);
+          toggle.setAttribute("aria-expanded", String(!collapsed));
+          toggle.setAttribute("aria-label", collapsed ? "Expandir menu lateral" : "Recolher menu lateral");
+          toggle.querySelector(".module-label").textContent = collapsed ? "Expandir menu" : "Recolher menu";
+        }
+        try { setSidebarCollapsed(localStorage.getItem("rick-dev-sidebar-collapsed") === "true"); }
+        catch (_) { setSidebarCollapsed(false); }
+        toggle.addEventListener("click", () => {
+          const collapsed = !document.documentElement.classList.contains("sidebar-collapsed");
+          setSidebarCollapsed(collapsed);
+          try { localStorage.setItem("rick-dev-sidebar-collapsed", String(collapsed)); } catch (_) {}
+        });
+        function syncOverview() {
+          const pairs = [
+            ["home-study-progress", "progress-label"],
+            ["home-mission-progress", "mission-status"],
+            ["home-fitness-progress", "fitness-workout-count"],
+            ["home-pc-progress", "pc-purchased-count"]
+          ];
+          pairs.forEach(([targetId, sourceId]) => {
+            const target = document.getElementById(targetId);
+            const text = document.getElementById(sourceId).textContent;
+            if (target.textContent !== text) target.textContent = text;
+          });
+          const target = document.getElementById("home-lab-progress");
+          const text = String(document.getElementById("projects-list").children.length);
+          if (target.textContent !== text) target.textContent = text;
+        }
+        const overviewObserver = new MutationObserver(syncOverview);
+        ["progress-label", "mission-status", "fitness-workout-count", "pc-purchased-count", "projects-list"].forEach(id => {
+          overviewObserver.observe(document.getElementById(id), { childList: true, characterData: true, subtree: true });
+        });
+        syncOverview();
         function showModule(focusHeading = false) {
           const requested = window.location.hash.replace(/^#module\//, "");
           const active = links.some(link => link.dataset.module === requested) ? requested : "home";
+          document.documentElement.dataset.activeModule = active;
           panels.forEach(panel => { panel.hidden = panel.id !== "module-" + active; });
           links.forEach(link => {
             if (link.dataset.module === active) link.setAttribute("aria-current", "page");
