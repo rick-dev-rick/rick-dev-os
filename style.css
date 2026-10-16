@@ -3726,3 +3726,49 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   #study-library-form input[name="url"] { grid-column: auto; }
   .module-grid > .study-library { padding: 18px 16px; }
 }
+
+/* RICK_SYSTEM tools: use the module's blue theme and existing square surfaces. */
+.system-grid { align-items: start; }
+.system-grid > .system-information, .system-grid > .system-formatter { grid-column: 1 / -1; }
+.system-intro, .system-help { color: var(--muted); line-height: 1.65; }
+.system-intro { margin: 12px 0 18px; font-size: 14px; }
+.system-help { font-size: 12px; margin-top: 14px; }
+.system-grid button { min-height: 44px; padding: 10px 15px; border: 1px solid var(--border); border-radius: 0; background: var(--neon); color: #090B0A; font: 700 11px "Segoe UI",sans-serif; cursor: pointer; }
+.system-grid button:disabled { cursor: default; opacity: .45; }
+.system-grid .system-secondary-button { color: var(--neon-soft); background: rgba(var(--accent-rgb),.08); }
+.system-grid button:focus-visible, .system-grid summary:focus-visible { outline: 2px solid var(--neon); outline-offset: 3px; }
+.system-grid details { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 14px; }
+.system-grid summary { cursor: pointer; color: var(--neon-soft); font-size: 13px; line-height: 1.6; }
+.system-restore-panel label:not(.system-confirm) { display: block; margin: 16px 0 10px; font-size: 13px; }
+.system-grid input[type="file"] { width: 100%; min-width: 0; color: var(--muted); font-size: 12px; }
+.system-confirm { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.system-confirm input { flex: none; width: 16px; height: 16px; margin-top: 2px; accent-color: var(--neon); }
+.system-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.system-feedback { min-height: 1.5em; margin-top: 14px; color: var(--neon-soft); font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; white-space: pre-wrap; }
+.system-history { padding-left: 18px; margin-top: 12px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+.system-diagnostic-results { list-style: none; display: grid; gap: 10px; margin-top: 18px; }
+.system-diagnostic-results li { padding: 12px; border: 1px solid var(--border); font-size: 12px; }
+.system-diagnostic-results strong, .system-diagnostic-results span { display: block; }
+.system-diagnostic-results span { margin-top: 5px; color: var(--muted); line-height: 1.6; overflow-wrap: anywhere; }
+.system-check-ok strong { color: var(--neon-soft); }
+.system-check-warning strong { color: #f1cb81; }
+.system-formatter-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
+.system-version { font-size: 11px; color: var(--muted); }
+.system-formatter-options { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; margin-bottom: 18px; }
+.system-formatter-options label, .system-code-grid label { display: grid; gap: 8px; color: var(--muted); font-size: 12px; min-width: 0; }
+.system-formatter-options select { min-height: 44px; width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 0; color: var(--text); background: #101a21; }
+.system-code-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin-bottom: 16px; }
+.system-code-grid textarea { width: 100%; min-width: 0; min-height: 300px; padding: 14px; resize: vertical; border: 1px solid var(--border); border-radius: 0; background: rgba(0,0,0,.3); color: #e5eef6; font: 12px/1.7 Consolas,"Courier New",monospace; tab-size: 2; }
+.system-code-grid textarea:focus-visible { outline: 1px solid var(--neon); }
+.system-info-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; margin-top: 18px; }
+.system-info-list dt { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.system-info-list dd { font-size: 13px; line-height: 1.65; }
+.system-repository-link { display: inline-block; margin-top: 16px; color: var(--neon-soft); font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+@media (max-width: 900px) {
+  .system-grid { grid-template-columns: minmax(0,1fr); }
+  .system-code-grid, .system-info-list { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 480px) {
+  .system-formatter-options { grid-template-columns: minmax(0,1fr); gap: 10px; }
+  .system-actions > button { flex: 1 1 100%; }
+}

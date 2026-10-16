@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261016-compact-library" />
+    <link rel="stylesheet" href="style.css?v=20261016-system-tools" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -406,16 +406,52 @@
     </section>
 
     <section class="module-panel" id="module-system" aria-labelledby="module-system-title" hidden>
-      <div class="module-heading"><h2 id="module-system-title" tabindex="-1">RICK_SYSTEM</h2><p>Informações sobre acesso, dados e restauração do código.</p></div>
-      <div class="module-grid">
-      <article class="card system-information">
-        <h3>Dados e acesso</h3>
-        <p>O acesso continua protegido pelo login existente. O administrador pode editar; convidados apenas visualizam.</p>
-        <p>Os registros continuam usando a conexão atual com o Supabase. Acompanhe o estado de salvamento na barra da sessão.</p>
-        <h3>Restauração do código</h3>
-        <p>O ponto de restauração desta organização é a branch <code>backup/pre-visual-identity-20261016</code>, no commit <code>c7ac2f6</code>.</p>
-        <p>Esse backup preserva o código do site. Os dados do Supabase e deste navegador são armazenados separadamente.</p>
-      </article>
+      <div class="module-heading"><h2 id="module-system-title" tabindex="-1">RICK_SYSTEM</h2><p>Proteja seus dados, confira o sistema e cuide do seu código.</p></div>
+      <div class="module-grid system-grid">
+        <article class="card system-backups" aria-labelledby="system-backup-title">
+          <h2 id="system-backup-title">Backups e recuperação</h2>
+          <p class="system-intro">Exporte os dados dos módulos e suas preferências. Login, senhas e tokens não entram no arquivo.</p>
+          <button id="system-export" type="button">BAIXAR BACKUP DOS DADOS</button>
+          <details class="system-restore-panel">
+            <summary>Restaurar um backup</summary>
+            <label for="system-import">Arquivo de backup (.json, até 5 MB)</label>
+            <input id="system-import" type="file" accept=".json,application/json">
+            <p id="system-import-preview" class="system-help">Escolha um arquivo para verificar sua integridade e compatibilidade.</p>
+            <label class="system-confirm"><input id="system-restore-confirm" type="checkbox" disabled> Confirmei que a cópia preventiva foi salva e entendo que a restauração substitui os dados atuais dos módulos.</label>
+            <button id="system-restore" class="system-secondary-button" type="button" disabled>RESTAURAR DADOS VALIDADOS</button>
+          </details>
+          <p id="system-backup-status" class="system-feedback" role="status" aria-live="polite"></p>
+          <details><summary>Histórico de exportações deste navegador</summary><ol id="system-backup-history" class="system-history"></ol></details>
+          <p class="system-help">O histórico registra downloads solicitados; os arquivos precisam ser guardados por você. Este backup de dados é separado do código no Git.</p>
+        </article>
+        <article class="card system-diagnostics" aria-labelledby="system-diagnostics-title">
+          <h2 id="system-diagnostics-title">Diagnóstico</h2>
+          <p class="system-intro">Verifique a conexão, os arquivos essenciais e a estrutura dos dados. O diagnóstico só informa os resultados.</p>
+          <div class="system-actions"><button id="system-diagnose" type="button">VERIFICAR SISTEMA</button><button id="system-report" class="system-secondary-button" type="button" disabled>BAIXAR RELATÓRIO</button></div>
+          <ul id="system-diagnostic-results" class="system-diagnostic-results" aria-live="polite"><li>Aguardando verificação.</li></ul>
+          <p id="system-diagnostic-status" class="system-feedback" role="status" aria-live="polite"></p>
+        </article>
+        <article class="card system-formatter" aria-labelledby="system-formatter-title">
+          <div class="system-formatter-heading"><h2 id="system-formatter-title">Formatador de código</h2><span class="system-version">Prettier · navegador</span></div>
+          <p class="system-intro">Cole seu código e organize a escrita. O original fica separado do resultado, e o código não é executado.</p>
+          <div class="system-formatter-options">
+            <label for="system-language">Linguagem<select id="system-language"><option value="babel">JavaScript</option><option value="html">HTML</option><option value="css">CSS</option><option value="json">JSON</option></select></label>
+            <label for="system-indent">Indentação<select id="system-indent"><option value="2">2 espaços</option><option value="4">4 espaços</option></select></label>
+            <label for="system-line-width">Largura da linha<select id="system-line-width"><option value="80">80 caracteres</option><option value="100">100 caracteres</option><option value="120">120 caracteres</option></select></label>
+          </div>
+          <div class="system-code-grid">
+            <label for="system-code-input">Código original<textarea id="system-code-input" spellcheck="false" autocapitalize="off" autocomplete="off" maxlength="200000" placeholder="Cole seu código aqui..."></textarea></label>
+            <label for="system-code-output">Código formatado<textarea id="system-code-output" spellcheck="false" readonly placeholder="O resultado aparecerá aqui."></textarea></label>
+          </div>
+          <div class="system-actions"><button id="system-format" type="button">FORMATAR CÓDIGO</button><button id="system-copy-code" class="system-secondary-button" type="button" disabled>COPIAR RESULTADO</button><button id="system-download-code" class="system-secondary-button" type="button" disabled>BAIXAR CÓDIGO</button></div>
+          <p id="system-formatter-status" class="system-feedback" role="status" aria-live="polite"></p>
+        </article>
+        <article class="card system-information" aria-labelledby="system-information-title">
+          <h2 id="system-information-title">Configurações e versão</h2>
+          <dl class="system-info-list"><div><dt>Versão das ferramentas</dt><dd>SYSTEM 1.0</dd></div><div><dt>Sessão</dt><dd id="system-session-role">Aguardando acesso</dd></div><div><dt>Preferências do formatador</dt><dd>Salvas automaticamente neste navegador e incluídas no backup.</dd></div></dl>
+          <p class="system-help">A autenticação e as permissões continuam no Supabase. O formatador organiza o código; correções automáticas e ferramentas para o notebook ficam para a próxima etapa.</p>
+          <a class="system-repository-link" href="https://github.com/rick-dev-rick/rick-dev-os/tree/backup/pre-system-tools-20261016-0400" target="_blank" rel="noopener noreferrer">Ver o backup do código anterior a estas ferramentas ↗</a>
+        </article>
       </div>
     </section>
 
@@ -1402,6 +1438,66 @@ const activateButton = document.querySelector("#activate-button");
         }
       });
     </script>
+    <script id="rick-system-core">
+(() => {
+  "use strict";
+  const keys = Object.freeze([
+    "rick-dev-study-topics", "rick-dev-studies", "rick-dev-missions", "rick-dev-projects",
+    "rick-dev-pc-parts", "rick-dev-fitness-log", "rick-dev-study-resources",
+    "rick-dev-focus-seconds", "rick-dev-focus-minutes", "rick-dev-focus-remaining"
+  ]);
+  const object = value => value !== null && typeof value === "object" && !Array.isArray(value);
+  const text = value => typeof value === "string";
+  const optionalText = value => value === undefined || text(value);
+  const numeric = value => typeof value === "number" && Number.isFinite(value);
+  const safeLink = value => { try { return ["https:", "http:"].includes(new URL(value).protocol); } catch (_) { return false; } };
+  function validateData(data) {
+    if (!object(data)) throw new Error("Os dados precisam ser um objeto.");
+    if (JSON.stringify(data).length > 5 * 1024 * 1024) throw new Error("O backup excede o limite de 5 MB.");
+    for (const [key, raw] of Object.entries(data)) {
+      if (!keys.includes(key) || !text(raw)) throw new Error("Campo de dados desconhecido ou inválido: " + key);
+      let value;
+      try { value = JSON.parse(raw); } catch (_) { throw new Error("Dados inválidos em " + key); }
+      let valid = false;
+      if (key === "rick-dev-study-topics") valid = Array.isArray(value) && value.every(item => object(item) && text(item.id) && item.id.length > 0 && text(item.label)) && new Set(value.map(item => item.id)).size === value.length;
+      if (key === "rick-dev-studies") valid = Array.isArray(value) && value.every(text);
+      if (key === "rick-dev-missions") valid = Array.isArray(value) && value.every(item => object(item) && text(item.text) && typeof item.done === "boolean" && optionalText(item.description) && (item.progress === undefined || numeric(item.progress) && item.progress >= 0 && item.progress <= 100));
+      if (key === "rick-dev-projects") valid = Array.isArray(value) && value.every(item => object(item) && text(item.name) && text(item.description) && (item.technologies === undefined || Array.isArray(item.technologies) && item.technologies.every(text)) && (item.link === undefined || item.link === "" || safeLink(item.link)));
+      if (key === "rick-dev-pc-parts") valid = Array.isArray(value) && value.every(item => object(item) && text(item.id) && text(item.name) && optionalText(item.model) && typeof item.purchased === "boolean" && (item.price === null || numeric(item.price) && item.price >= 0) && (item.link === undefined || item.link === "" || safeLink(item.link)));
+      if (key === "rick-dev-fitness-log") valid = Array.isArray(value) && value.every(item => object(item) && text(item.date) && /^\d{4}-\d{2}-\d{2}$/.test(item.date) && Number.isFinite(Date.parse(item.date)) && text(item.workout) && (item.weight === null || numeric(item.weight) && item.weight > 0) && optionalText(item.note));
+      if (key === "rick-dev-study-resources") valid = object(value) && Object.values(value).every(items => Array.isArray(items) && items.every(item => object(item) && text(item.id) && text(item.title) && text(item.type) && safeLink(item.url)));
+      if (key.startsWith("rick-dev-focus-")) valid = /^\d+$/.test(raw) && Number.isSafeInteger(value) && value >= 0 && value <= (key === "rick-dev-focus-minutes" ? 1440 : 86400);
+      if (!valid) throw new Error("Estrutura inválida em " + key.replace("rick-dev-", "") + ". Nenhum dado foi alterado.");
+    }
+    return JSON.parse(JSON.stringify(data));
+  }
+  function validatePreferences(value) {
+    if (!object(value) || Object.keys(value).some(key => !["tabWidth", "printWidth", "sidebarCollapsed"].includes(key))) throw new Error("Preferências inválidas.");
+    if (![2, 4].includes(value.tabWidth) || ![80, 100, 120].includes(value.printWidth) || typeof value.sidebarCollapsed !== "boolean") throw new Error("Preferências incompatíveis.");
+    return { tabWidth: value.tabWidth, printWidth: value.printWidth, sidebarCollapsed: value.sidebarCollapsed };
+  }
+  async function checksum(data, preferences) {
+    const orderedData = Object.fromEntries(Object.keys(data).sort().map(key => [key, data[key]]));
+    const input = new TextEncoder().encode(JSON.stringify({ data: orderedData, preferences: validatePreferences(preferences) }));
+    const digest = await crypto.subtle.digest("SHA-256", input);
+    return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
+  }
+  async function createBackup(data, preferences) {
+    data = validateData(data);
+    preferences = validatePreferences(preferences);
+    return { format: "rick-dev-os-data", schemaVersion: 1, appVersion: "SYSTEM 1.0", createdAt: new Date().toISOString(), data, preferences, checksum: await checksum(data, preferences) };
+  }
+  async function validateBackup(backup) {
+    if (!object(backup) || backup.format !== "rick-dev-os-data" || backup.schemaVersion !== 1 || !text(backup.createdAt) || !Number.isFinite(Date.parse(backup.createdAt))) throw new Error("Este arquivo não é um backup compatível do RICK_DEV OS.");
+    const data = validateData(backup.data);
+    validatePreferences(backup.preferences);
+    if (!Object.keys(data).length) throw new Error("O backup não contém dados para restaurar.");
+    if (!text(backup.checksum) || await checksum(backup.data, backup.preferences) !== backup.checksum) throw new Error("A verificação de integridade falhou. O arquivo foi alterado ou está incompleto.");
+    return { ...backup, data, preferences: validatePreferences(backup.preferences) };
+  }
+  window.rickSystemCore = Object.freeze({ keys, validateData, validatePreferences, createBackup, validateBackup });
+})();
+    </script>
     <script>
       (() => {
         const settings = window.RICK_DEV_SUPABASE || {};
@@ -1512,27 +1608,75 @@ const activateButton = document.querySelector("#activate-button");
           }
 
           let saveTimer = null;
+          let pendingSave = Promise.resolve();
+          let isRestoring = false;
+          function queueCloudSave() {
+            const snapshot = JSON.parse(JSON.stringify(sharedData));
+            pendingSave = pendingSave.catch(() => {}).then(async () => {
+              const { error: saveError } = await supabaseClient.from("rick_dev_state").update({ data: snapshot }).eq("id", 1);
+              saveStatus.textContent = saveError ? "ERRO AO SALVAR" : "SALVO NA NUVEM";
+              if (saveError) console.error("Falha ao salvar no banco do RICK_DEV:", saveError.message);
+            }).catch(() => { saveStatus.textContent = "ERRO AO SALVAR"; });
+            return pendingSave;
+          }
           window.rickDevStorage = {
             getItem(key) {
               if (Object.prototype.hasOwnProperty.call(sharedData, key)) return sharedData[key];
               return role === "admin" ? localStorage.getItem(key) : null;
             },
             setItem(key, value) {
-              if (role !== "admin") return;
+              if (role !== "admin" || isRestoring) return;
               sharedData[key] = String(value);
               localStorage.setItem(key, String(value));
               saveStatus.textContent = "SALVANDO...";
               clearTimeout(saveTimer);
-              saveTimer = setTimeout(async () => {
-                const { error: saveError } = await supabaseClient
-                  .from("rick_dev_state")
-                  .update({ data: sharedData })
-                  .eq("id", 1);
-                saveStatus.textContent = saveError ? "ERRO AO SALVAR" : "SALVO NA NUVEM";
-                if (saveError) console.error("Falha ao salvar no banco do RICK_DEV:", saveError.message);
-              }, 500);
+              saveTimer = setTimeout(queueCloudSave, 500);
             }
           };
+          window.rickDevSystem = Object.freeze({
+            role,
+            snapshot() {
+              if (role !== "admin") throw new Error("Entre como ADM para gerenciar backups.");
+              const data = {};
+              window.rickSystemCore.keys.forEach(key => {
+                const value = window.rickDevStorage.getItem(key);
+                if (value !== null) data[key] = String(value);
+              });
+              return data;
+            },
+            async checkCloud() {
+              const { data, error } = await supabaseClient.from("rick_dev_state").select("id").eq("id", 1).maybeSingle();
+              return !error && Boolean(data);
+            },
+            async restore(backup) {
+              if (role !== "admin" || isRestoring) throw new Error("Restauração indisponível para esta sessão.");
+              backup = await window.rickSystemCore.validateBackup(backup);
+              if (isRestoring) throw new Error("Já existe uma restauração em andamento.");
+              isRestoring = true;
+              appShell.inert = true;
+              document.querySelector("#access-signout").disabled = true;
+              clearTimeout(saveTimer);
+              try {
+                await pendingSave;
+                const { data: restoredRow, error } = await supabaseClient.from("rick_dev_state").update({ data: backup.data }).eq("id", 1).select("id").single();
+                if (error || !restoredRow) throw new Error("Não foi possível confirmar a gravação no Supabase. Tente novamente quando a conexão estiver estável.");
+                sharedData = JSON.parse(JSON.stringify(backup.data));
+                window.rickSystemCore.keys.forEach(key => localStorage.removeItem(key));
+                Object.entries(backup.data).forEach(([key, value]) => localStorage.setItem(key, value));
+                localStorage.setItem("rick-dev-system-settings", JSON.stringify({ tabWidth: backup.preferences.tabWidth, printWidth: backup.preferences.printWidth }));
+                localStorage.setItem("rick-dev-sidebar-collapsed", String(backup.preferences.sidebarCollapsed));
+                saveStatus.textContent = "BACKUP RESTAURADO";
+                window.location.reload();
+              } catch (error) {
+                isRestoring = false;
+                appShell.inert = false;
+                document.querySelector("#access-signout").disabled = false;
+                saveStatus.textContent = "CONFIRA A RESTAURAÇÃO";
+                saveTimer = setTimeout(queueCloudSave, 500);
+                throw error;
+              }
+            }
+          });
 
           accessScreen.hidden = true;
           appShell.hidden = false;
@@ -1561,6 +1705,7 @@ const activateButton = document.querySelector("#activate-button");
             appScript.textContent = source;
             document.body.append(appScript);
           }
+          window.dispatchEvent(new CustomEvent("rick-system-ready"));
           return true;
         }
 
@@ -1701,6 +1846,201 @@ const activateButton = document.querySelector("#activate-button");
         window.addEventListener("hashchange", () => showModule(true));
         showModule();
       })();
+    </script>
+    <script id="rick-system-tools">
+(() => {
+  "use strict";
+  const core = window.rickSystemCore;
+  const $ = id => document.getElementById(id);
+  const exportButton = $("system-export");
+  const restoreButton = $("system-restore");
+  const importInput = $("system-import");
+  const restoreConfirm = $("system-restore-confirm");
+  let importedBackup = null;
+  let safetyChecksum = null;
+  let importGeneration = 0;
+  let backupBusy = false;
+  let diagnosticReport = null;
+  let formatterPromise = null;
+  const runtimeErrors = [];
+  window.addEventListener("error", event => { if (event.message) runtimeErrors.push(String(event.message).slice(0, 300)); if (runtimeErrors.length > 10) runtimeErrors.shift(); });
+  function admin() { return window.rickDevSystem?.role === "admin"; }
+  function preferences() {
+    let sidebarCollapsed = false;
+    try { sidebarCollapsed = localStorage.getItem("rick-dev-sidebar-collapsed") === "true"; } catch (_) {}
+    return { tabWidth: Number($("system-indent").value), printWidth: Number($("system-line-width").value), sidebarCollapsed };
+  }
+  function download(text, filename, type = "application/json") {
+    const url = URL.createObjectURL(new Blob([text], { type }));
+    const link = document.createElement("a");
+    link.href = url; link.download = filename; document.body.append(link); link.click(); link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 30000);
+  }
+  function timestamp() { return new Date().toISOString().replace(/[:.]/g, "-"); }
+  function readHistory() {
+    try { const items = JSON.parse(localStorage.getItem("rick-dev-system-history") || "[]"); return Array.isArray(items) ? items.filter(item => item && typeof item.date === "string" && typeof item.label === "string").slice(0, 20) : []; }
+    catch (_) { return []; }
+  }
+  function renderHistory() {
+    const list = $("system-backup-history"); list.replaceChildren();
+    const history = readHistory();
+    if (!history.length) { const item = document.createElement("li"); item.textContent = "Nenhuma exportação registrada neste navegador."; list.append(item); }
+    history.forEach(entry => { const item = document.createElement("li"); item.textContent = new Date(entry.date).toLocaleString("pt-BR") + " · " + entry.label; list.append(item); });
+  }
+  function recordExport(label) {
+    try { localStorage.setItem("rick-dev-system-history", JSON.stringify([{ date: new Date().toISOString(), label }, ...readHistory()].slice(0, 20))); } catch (_) {}
+    renderHistory();
+  }
+  function backupControls() {
+    exportButton.disabled = !admin() || backupBusy;
+    importInput.disabled = !admin() || backupBusy;
+    restoreConfirm.disabled = !admin() || !safetyChecksum || backupBusy;
+    restoreButton.disabled = !admin() || !importedBackup || backupBusy || Boolean(safetyChecksum && !restoreConfirm.checked);
+    restoreButton.textContent = safetyChecksum ? "RESTAURAR DADOS VALIDADOS" : "BAIXAR CÓPIA PREVENTIVA";
+  }
+  function resetSafety() { safetyChecksum = null; restoreConfirm.checked = false; backupControls(); }
+  exportButton.addEventListener("click", async () => {
+    if (!admin() || backupBusy) return;
+    backupBusy = true; backupControls();
+    try {
+      const backup = await core.createBackup(window.rickDevSystem.snapshot(), preferences());
+      download(JSON.stringify(backup, null, 2), "RICK_DEV_dados_" + timestamp() + ".json");
+      recordExport("Backup de dados");
+      $("system-backup-status").textContent = "Download solicitado. Guarde o arquivo de backup em um lugar seguro.";
+    } catch (error) { $("system-backup-status").textContent = error.message; }
+    finally { backupBusy = false; backupControls(); }
+  });
+  importInput.addEventListener("change", async () => {
+    const generation = ++importGeneration;
+    importedBackup = null; resetSafety();
+    const file = importInput.files?.[0];
+    if (!file) { $("system-import-preview").textContent = "Escolha um arquivo de backup."; return; }
+    $("system-import-preview").textContent = "Validando o arquivo...";
+    try {
+      if (file.size > 5 * 1024 * 1024) throw new Error("O arquivo ultrapassa 5 MB.");
+      const raw = await file.text();
+      const backup = await core.validateBackup(JSON.parse(raw));
+      if (generation !== importGeneration) return;
+      importedBackup = backup;
+      $("system-import-preview").textContent = "Backup validado · " + new Date(backup.createdAt).toLocaleString("pt-BR") + " · " + Object.keys(backup.data).length + " conjuntos de dados. Baixe a cópia preventiva dos dados atuais antes de confirmar a restauração.";
+    } catch (error) {
+      if (generation === importGeneration) $("system-import-preview").textContent = "Arquivo recusado: " + (error instanceof SyntaxError ? "JSON inválido." : error.message);
+    }
+    backupControls();
+  });
+  restoreConfirm.addEventListener("change", backupControls);
+  restoreButton.addEventListener("click", async () => {
+    if (!admin() || !importedBackup || backupBusy) return;
+    backupBusy = true; backupControls();
+    try {
+      const current = await core.createBackup(window.rickDevSystem.snapshot(), preferences());
+      if (!safetyChecksum) {
+        download(JSON.stringify(current, null, 2), "RICK_DEV_antes_de_restaurar_" + timestamp() + ".json");
+        safetyChecksum = current.checksum;
+        recordExport("Cópia preventiva antes de restaurar");
+        $("system-backup-status").textContent = "Confira se a cópia preventiva foi salva. Depois marque a confirmação abaixo e restaure os dados.";
+        return;
+      }
+      if (current.checksum !== safetyChecksum) { resetSafety(); throw new Error("Os dados ou as preferências mudaram. Baixe uma nova cópia preventiva antes de restaurar."); }
+      if (!restoreConfirm.checked || !window.confirm("Restaurar o backup selecionado? Os dados atuais dos módulos serão substituídos e o site será recarregado. Sua cópia preventiva deve estar salva.")) return;
+      $("system-backup-status").textContent = "Restaurando e confirmando a gravação na nuvem...";
+      await window.rickDevSystem.restore(importedBackup);
+    } catch (error) { $("system-backup-status").textContent = error.message; }
+    finally { backupBusy = false; backupControls(); }
+  });
+  function diagnosticItem(label, ok, detail) {
+    const item = document.createElement("li"); item.className = ok ? "system-check-ok" : "system-check-warning";
+    const title = document.createElement("strong"); title.textContent = (ok ? "✓ " : "! ") + label;
+    const description = document.createElement("span"); description.textContent = detail;
+    item.append(title, description); $("system-diagnostic-results").append(item);
+    return { label, ok, detail };
+  }
+  $("system-diagnose").addEventListener("click", async () => {
+    const button = $("system-diagnose"); button.disabled = true; $("system-report").disabled = true;
+    $("system-diagnostic-results").replaceChildren(); $("system-diagnostic-status").textContent = "Verificando...";
+    const checks = [];
+    try {
+      checks.push(diagnosticItem("Conexão do navegador", navigator.onLine, navigator.onLine ? "Rede disponível; os testes abaixo verificam o acesso real." : "O navegador informa que está sem rede."));
+      let cloud = false;
+      try { cloud = await window.rickDevSystem?.checkCloud(); } catch (_) {}
+      checks.push(diagnosticItem("Dados na nuvem", Boolean(cloud), cloud ? "Leitura confirmada no Supabase." : "Não foi possível confirmar a leitura no Supabase."));
+      const paths = ["index.html", "style.css", "supabase-config.js", "spotify-player.js", "assets/whablab.m4a", "assets/admin-login-failure.mp3"];
+      const assets = await Promise.all(paths.map(async path => {
+        try { const response = await fetch(new URL(path, document.baseURI), { method: "HEAD", cache: "no-store", signal: AbortSignal.timeout(12000) }); return { path, ok: response.ok }; }
+        catch (_) { return { path, ok: false }; }
+      }));
+      assets.forEach(asset => checks.push(diagnosticItem(asset.path, asset.ok, asset.ok ? "Arquivo acessível." : "Arquivo indisponível ou conexão interrompida.")));
+      try { core.validateData(window.rickDevSystem.snapshot()); checks.push(diagnosticItem("Estrutura dos dados", true, "Os dados dos módulos passaram na validação.")); }
+      catch (error) { checks.push(diagnosticItem("Estrutura dos dados", false, error.message)); }
+      checks.push(diagnosticItem("Módulos da interface", document.querySelectorAll(".module-panel").length === 6, "HOME, STUDY, FIT, FINANCE, LAB e SYSTEM."));
+      checks.push(diagnosticItem("Erros observados nesta sessão", runtimeErrors.length === 0, runtimeErrors.length ? runtimeErrors.join(" · ") : "Nenhum erro de execução foi capturado desde o carregamento destas ferramentas."));
+      diagnosticReport = { app: "RICK_DEV OS", version: "SYSTEM 1.0", createdAt: new Date().toISOString(), checks };
+      const issues = checks.filter(check => !check.ok).length;
+      $("system-diagnostic-status").textContent = issues ? issues + " ponto(s) precisam de atenção. Nenhuma correção foi aplicada." : "Verificação concluída sem problemas nos itens testados.";
+      $("system-report").disabled = false;
+    } catch (_) { $("system-diagnostic-status").textContent = "Não foi possível concluir o diagnóstico. Tente novamente."; }
+    finally { button.disabled = false; }
+  });
+  $("system-report").addEventListener("click", () => { if (diagnosticReport) download(JSON.stringify(diagnosticReport, null, 2), "RICK_DEV_diagnostico_" + timestamp() + ".json"); });
+  function loadScript(url) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script"); const timer = window.setTimeout(() => { script.remove(); reject(new Error("O carregamento do formatador demorou demais. Confira a conexão e tente novamente.")); }, 20000);
+      script.src = url; script.onload = () => { clearTimeout(timer); resolve(); }; script.onerror = () => { clearTimeout(timer); script.remove(); reject(new Error("Não consegui carregar o formatador. Confira sua conexão e tente novamente.")); };
+      document.head.append(script);
+    });
+  }
+  function loadFormatter() {
+    if (!formatterPromise) formatterPromise = (async () => {
+      const base = "https://cdn.jsdelivr.net/npm/prettier@3.6.2/";
+      if (!window.prettier) await loadScript(base + "standalone.js");
+      await Promise.all(["babel", "estree", "html", "postcss"].map(name => window.prettierPlugins?.[name] ? Promise.resolve() : loadScript(base + "plugins/" + name + ".js")));
+      if (!window.prettier?.format) throw new Error("O formatador não ficou disponível.");
+    })().catch(error => { formatterPromise = null; throw error; });
+    return formatterPromise;
+  }
+  function clearFormattedResult() { $("system-code-output").value = ""; $("system-copy-code").disabled = true; $("system-download-code").disabled = true; }
+  $("system-code-input").addEventListener("input", clearFormattedResult);
+  $("system-language").addEventListener("change", clearFormattedResult);
+  $("system-format").addEventListener("click", async () => {
+    const code = $("system-code-input").value; const parser = $("system-language").value; const button = $("system-format");
+    clearFormattedResult();
+    if (!code.trim()) { $("system-formatter-status").textContent = "Cole um código antes de formatar."; return; }
+    if (code.length > 200000) { $("system-formatter-status").textContent = "Use até 200 mil caracteres por vez."; return; }
+    const options = preferences();
+    button.disabled = true; $("system-formatter-status").textContent = "Preparando o formatador...";
+    try {
+      await loadFormatter();
+      const result = await window.prettier.format(code, { parser, plugins: Object.values(window.prettierPlugins), tabWidth: options.tabWidth, printWidth: options.printWidth });
+      if ($("system-code-input").value !== code || $("system-language").value !== parser || preferences().tabWidth !== options.tabWidth || preferences().printWidth !== options.printWidth) { $("system-formatter-status").textContent = "O código ou a linguagem mudou. Formate novamente."; return; }
+      $("system-code-output").value = result; $("system-copy-code").disabled = false; $("system-download-code").disabled = false;
+      $("system-formatter-status").textContent = "Código formatado. O original foi preservado; nenhum código foi executado.";
+    } catch (error) { $("system-formatter-status").textContent = "Não foi possível formatar: " + String(error.message).slice(0, 600); }
+    finally { button.disabled = false; }
+  });
+  $("system-copy-code").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText($("system-code-output").value); $("system-formatter-status").textContent = "Resultado copiado."; }
+    catch (_) { $("system-code-output").focus(); $("system-code-output").select(); $("system-formatter-status").textContent = "Selecionei o resultado. Use Ctrl+C ou a opção Copiar do celular."; }
+  });
+  $("system-download-code").addEventListener("click", () => {
+    const extensions = { babel: "js", html: "html", css: "css", json: "json" };
+    if ($("system-code-output").value) download($("system-code-output").value, "rick-formatado." + extensions[$("system-language").value], "text/plain;charset=utf-8");
+  });
+  function savePreferences() {
+    clearFormattedResult();
+    try { const value = preferences(); localStorage.setItem("rick-dev-system-settings", JSON.stringify({ tabWidth: value.tabWidth, printWidth: value.printWidth })); }
+    catch (_) { $("system-formatter-status").textContent = "As preferências valem nesta sessão, mas não puderam ser salvas neste navegador."; }
+  }
+  $("system-indent").addEventListener("change", savePreferences);
+  $("system-line-width").addEventListener("change", savePreferences);
+  try {
+    const saved = JSON.parse(localStorage.getItem("rick-dev-system-settings") || "{}");
+    if ([2, 4].includes(saved.tabWidth)) $("system-indent").value = String(saved.tabWidth);
+    if ([80, 100, 120].includes(saved.printWidth)) $("system-line-width").value = String(saved.printWidth);
+  } catch (_) {}
+  function sessionReady() { $("system-session-role").textContent = admin() ? "Administrador · dados no Supabase" : "Convidado · somente leitura"; backupControls(); }
+  window.addEventListener("rick-system-ready", sessionReady);
+  renderHistory(); sessionReady();
+})();
     </script>
     <script src="spotify-player.js" defer></script>
   </body>
