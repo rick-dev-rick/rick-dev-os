@@ -3676,8 +3676,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     gap: 10px;
     border: 0;
     border-right: 1px solid rgba(255,255,255,.10);
-    background: radial-gradient(ellipse at 0 20%, rgba(var(--accent-rgb),.075), transparent 65%), linear-gradient(180deg,#191e1b,#0d110f);
-    box-shadow: 8px 0 28px rgba(0,0,0,.22);
+    background: radial-gradient(ellipse at 0 20%, rgba(var(--accent-rgb),.035), transparent 65%), linear-gradient(180deg,rgba(25,30,27,.24),rgba(13,17,15,.12));
+    box-shadow: 4px 0 16px rgba(0,0,0,.08);
   }
   .sidebar-collapsed body:has(#module-navigation:not([hidden])) { padding-left: 96px; }
   .sidebar-collapsed .module-navigation .sidebar-toggle { margin-bottom: 18px; }
@@ -3697,13 +3697,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 }
 
 /* Independent study library. Existing saved materials keep their storage keys. */
-.module-grid > .study-library { grid-column: 1 / -1; min-width: 0; }
-.study-library-intro { color: var(--muted); line-height: 1.65; margin: 10px 0 20px; }
-#study-library-form { display: grid; grid-template-columns: minmax(130px,.65fr) minmax(150px,1fr) minmax(170px,1.25fr); gap: 10px; }
+.module-grid > .study-library { grid-column: auto; min-width: 0; align-self: start; padding: 22px; }
+.study-library-intro { color: var(--muted); line-height: 1.5; font-size: 13px; margin: 8px 0 14px; }
+#study-library-form { display: grid; grid-template-columns: minmax(110px,.65fr) minmax(0,1fr); gap: 8px; }
 #study-library-form input, #study-library-form select { width: 100%; min-width: 0; min-height: 44px; margin: 0; border-radius: 0; }
-#study-library-form input[name="url"] { grid-column: auto; }
+#study-library-form input[name="url"] { grid-column: 1 / -1; }
 #study-library-form button { grid-column: 1 / -1; min-height: 44px; border-radius: 0; }
-.study-library .study-resource-groups { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.study-library .study-resource-groups { display: grid; grid-template-columns: minmax(0,1fr); gap: 10px; max-height: 260px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .study-library .study-resource-group { padding: 16px; border: 1px solid var(--border); background: rgba(0,0,0,.15); }
 .study-library .study-resource-group h3 { font-family: "Rick Display", sans-serif; font-size: 18px; letter-spacing: .04em; color: var(--neon-soft); margin-bottom: 14px; }
 .study-library .study-resource-item { align-items: flex-start; padding: 12px 0; }
@@ -3717,4 +3717,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 }
 @media (max-width: 720px) {
   #study-library-form { grid-template-columns: minmax(0,1fr); }
+}
+
+.study-library > .card-icon { font-size: 22px; margin-bottom: 8px; }
+.study-library > h2 { font-size: 26px; }
+#module-study .module-grid { align-items: start; }
+@media (max-width: 720px) {
+  #study-library-form input[name="url"] { grid-column: auto; }
+  .module-grid > .study-library { padding: 18px 16px; }
 }
