@@ -11,8 +11,8 @@
   --neon: rgb(var(--accent-rgb));
   --neon-soft: color-mix(in srgb, var(--neon) 35%, white);
   --bg: #090B0A;
-  --surface: color-mix(in srgb, var(--neon) 7%, #151716);
-  --panel: color-mix(in srgb, var(--neon) 9%, var(--surface));
+  --surface: color-mix(in srgb, var(--neon) 10%, #151716);
+  --panel: color-mix(in srgb, var(--neon) 13%, var(--surface));
   --border: rgba(var(--accent-rgb), 0.25);
   --text: #eef2ef;
   --muted: #a4afa8;
@@ -3466,7 +3466,7 @@ main.module-workspace { display: block; }
 :root[data-active-module="finance"]:has(#app-shell:not([hidden])) { --accent-rgb: 234, 199, 96; }
 :root[data-active-module="system"]:has(#app-shell:not([hidden])) { --accent-rgb: 121, 180, 255; }
 body {
-  background: radial-gradient(ellipse at 45% 0%, rgba(var(--accent-rgb), .24), transparent 64%), radial-gradient(ellipse at 100% 80%, rgba(var(--accent-rgb), .10), transparent 58%), var(--bg);
+  background: radial-gradient(ellipse at 45% 0%, rgba(var(--accent-rgb), .38), transparent 64%), radial-gradient(ellipse at 100% 80%, rgba(var(--accent-rgb), .18), transparent 58%), var(--bg);
 }
 .module-navigation {
   --module-accent: #39ff14;
@@ -3694,4 +3694,27 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .sidebar-collapsed .spotify-widget.is-minimized { left: 10px; bottom: 18px; width: 52px; height: 42px; }
   .sidebar-collapsed .spotify-widget.is-minimized .spotify-widget-toggle { width: 52px; height: 42px; }
   .sidebar-collapsed .spotify-widget:not(.is-minimized) { left: 84px; }
+}
+
+/* Independent study library. Existing saved materials keep their storage keys. */
+.module-grid > .study-library { grid-column: 1 / -1; min-width: 0; }
+.study-library-intro { color: var(--muted); line-height: 1.65; margin: 10px 0 20px; }
+#study-library-form { display: grid; grid-template-columns: minmax(130px,.65fr) minmax(150px,1fr) minmax(170px,1.25fr); gap: 10px; }
+#study-library-form input, #study-library-form select { width: 100%; min-width: 0; min-height: 44px; margin: 0; border-radius: 0; }
+#study-library-form input[name="url"] { grid-column: auto; }
+#study-library-form button { grid-column: 1 / -1; min-height: 44px; border-radius: 0; }
+.study-library .study-resource-groups { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.study-library .study-resource-group { padding: 16px; border: 1px solid var(--border); background: rgba(0,0,0,.15); }
+.study-library .study-resource-group h3 { font-family: "Rick Display", sans-serif; font-size: 18px; letter-spacing: .04em; color: var(--neon-soft); margin-bottom: 14px; }
+.study-library .study-resource-item { align-items: flex-start; padding: 12px 0; }
+.study-library-link { min-width: 0; flex: 1; }
+.study-library-link a { overflow-wrap: anywhere; }
+.study-library-origin { display: block; margin-top: 6px; color: var(--muted); font-size: 11px; }
+.study-library .study-resources-empty { grid-column: 1 / -1; color: var(--muted); }
+.player-launch-icon { width: 30px; height: 30px; }
+@media (max-width: 900px) {
+  .study-library .study-resource-groups { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 720px) {
+  #study-library-form { grid-template-columns: minmax(0,1fr); }
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261016-refined-rail" />
+    <link rel="stylesheet" href="style.css?v=20261016-study-library" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -228,6 +228,24 @@
         <span class="card-status" id="focus-status">● PRONTO PARA COMEÇAR</span>
       </section>
 
+      <section class="card study-library" aria-labelledby="study-library-title">
+        <div class="card-icon" aria-hidden="true">🔗</div>
+        <h2 id="study-library-title">Biblioteca de materiais</h2>
+        <p class="study-library-intro">Seus vídeos, sites e cursos reunidos em um espaço próprio.</p>
+        <form class="study-resource-form" id="study-library-form">
+          <label class="visually-hidden" for="library-type">Categoria do material</label>
+          <select id="library-type" name="type">
+            <option value="video">Vídeo</option><option value="site">Site / página</option><option value="course">Curso</option>
+          </select>
+          <label class="visually-hidden" for="library-title">Nome do material</label>
+          <input id="library-title" name="title" type="text" maxlength="70" placeholder="Nome do material" required>
+          <label class="visually-hidden" for="library-url">Link do material</label>
+          <input id="library-url" name="url" type="url" placeholder="https://..." required>
+          <button type="submit">ADICIONAR MATERIAL</button>
+        </form>
+        <p id="study-library-message" class="card-action-message" role="status" aria-live="polite"></p>
+        <div id="study-library-groups" class="study-resource-groups"></div>
+      </section>
       </div>
     </section>
 
@@ -411,7 +429,7 @@
 
     <aside class="spotify-widget is-minimized" hidden id="spotify-widget" aria-label="Controles do Spotify">
       <button class="spotify-widget-toggle" id="spotify-widget-toggle" type="button" aria-expanded="false" aria-label="Abrir controles do Spotify" title="Abrir controles do Spotify" aria-controls="spotify-widget-panel">
-        <span class="spotify-widget-mark" aria-hidden="true"><svg class="player-launch-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false"><circle cx="14" cy="14" r="11.2" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.3"/><path d="M7.2 10.2a7.8 7.8 0 0 1 12.4-2.1M20.8 17.8a7.8 7.8 0 0 1-12.4 2.1" stroke="currentColor" stroke-opacity=".4" stroke-width="1.2"/><path d="m11.6 9.7 6.6 4.3-6.6 4.3Z" fill="currentColor"/></svg></span>
+        <span class="spotify-widget-mark" aria-hidden="true"><svg class="player-launch-icon" width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false"><path d="M6 19v-5a10 10 0 0 1 20 0v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M5 15h3v10H6a3 3 0 0 1-3-3v-4a3 3 0 0 1 2-3Zm22 0h-3v10h2a3 3 0 0 0 3-3v-4a3 3 0 0 0-2-3Z" fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m13 13 8 5-8 5Z" fill="currentColor"/><path d="M24 26c-1.4 2-3.4 3-6 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="29" r="1.6" fill="currentColor"/></svg></span>
         <span>SPOTIFY</span>
         <span class="spotify-widget-chevron" aria-hidden="true">⌄</span>
       </button>
@@ -494,133 +512,97 @@
         return button;
       }
 
-      function refreshStudyResources(topicId) {
-        renderStudyTopics();
-        updateStudyProgress();
-        const topicCard = [...studyList.querySelectorAll(".study-topic-card")]
-          .find((card) => card.querySelector("[data-study]")?.dataset.study === topicId);
-        const resourcesPanel = topicCard?.querySelector(".study-resources");
-        if (resourcesPanel) resourcesPanel.open = true;
+      const studyLibraryForm = document.querySelector("#study-library-form");
+      const studyLibraryGroups = document.querySelector("#study-library-groups");
+      const studyLibraryMessage = document.querySelector("#study-library-message");
+
+      function saveStudyLibrary() {
+        localStorage.setItem("rick-dev-study-resources", JSON.stringify(studyResources));
+        renderStudyLibrary();
       }
 
-      function renderStudyResources(topic) {
-        const resources = Array.isArray(studyResources[topic.id]) ? studyResources[topic.id] : [];
-        const details = document.createElement("details");
-        const summary = document.createElement("summary");
-        const form = document.createElement("form");
-        const typeSelect = document.createElement("select");
-        const titleInput = document.createElement("input");
-        const urlInput = document.createElement("input");
-        const addButton = document.createElement("button");
-        const emptyMessage = document.createElement("p");
-        const groups = document.createElement("div");
-
-        details.className = "study-resources";
-        summary.textContent = resources.length
-          ? "MATERIAIS · " + resources.length
-          : "ADICIONAR MATERIAIS";
-        details.append(summary);
-
-        form.className = "study-resource-form";
-        typeSelect.name = "type";
-        typeSelect.setAttribute("aria-label", "Categoria do material");
+      function renderStudyLibrary() {
+        studyLibraryGroups.replaceChildren();
+        // Read every legacy bucket without moving or deleting saved materials.
+        const materials = Object.entries(studyResources).flatMap(([topicId, resources]) =>
+          Array.isArray(resources) ? resources.map((resource, index) => ({ resource, topicId, index })) : []
+        );
+        if (!materials.length) {
+          const empty = document.createElement("p");
+          empty.className = "study-resources-empty";
+          empty.textContent = "Sua biblioteca está pronta. Adicione o primeiro material acima.";
+          studyLibraryGroups.append(empty);
+          return;
+        }
         studyResourceTypes.forEach((resourceType) => {
-          const option = document.createElement("option");
-          option.value = resourceType.id;
-          option.textContent = resourceType.label;
-          typeSelect.append(option);
-        });
-        titleInput.type = "text";
-        titleInput.name = "title";
-        titleInput.maxLength = 70;
-        titleInput.placeholder = "Nome do material";
-        titleInput.setAttribute("aria-label", "Nome do material");
-        titleInput.required = true;
-        urlInput.type = "url";
-        urlInput.name = "url";
-        urlInput.placeholder = "Link https://...";
-        urlInput.setAttribute("aria-label", "Link do material");
-        urlInput.required = true;
-        addButton.type = "submit";
-        addButton.textContent = "ADICIONAR LINK";
-        form.append(typeSelect, titleInput, urlInput, addButton);
-
-        emptyMessage.className = "study-resources-empty";
-        emptyMessage.hidden = resources.length > 0;
-        emptyMessage.textContent = "Guarde aqui links úteis desta matéria.";
-        groups.className = "study-resource-groups";
-
-        form.addEventListener("submit", (event) => {
-          event.preventDefault();
-          const title = titleInput.value.trim();
-          const rawUrl = urlInput.value.trim();
-          let parsedUrl;
-          try {
-            parsedUrl = new URL(rawUrl);
-          } catch (_) {
-            parsedUrl = null;
-          }
-          if (!title || !parsedUrl || !["http:", "https:"].includes(parsedUrl.protocol)) {
-            emptyMessage.hidden = false;
-            emptyMessage.textContent = "Use um nome e um link começando com http:// ou https://.";
-            return;
-          }
-
-          const topicResources = Array.isArray(studyResources[topic.id]) ? studyResources[topic.id] : [];
-          topicResources.push({
-            id: Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8),
-            type: typeSelect.value,
-            title,
-            url: parsedUrl.href
-          });
-          studyResources[topic.id] = topicResources;
-          localStorage.setItem("rick-dev-study-resources", JSON.stringify(studyResources));
-          refreshStudyResources(topic.id);
-        });
-
-        studyResourceTypes.forEach((resourceType) => {
-          const categoryResources = resources.filter((resource) => resource.type === resourceType.id);
-          if (!categoryResources.length) return;
-
+          const entries = materials.filter(({ resource }) =>
+            resource.type === resourceType.id || (resourceType.id === "site" && !studyResourceTypes.some(type => type.id === resource.type))
+          );
+          if (!entries.length) return;
           const group = document.createElement("section");
-          const heading = document.createElement("h4");
+          const heading = document.createElement("h3");
           const list = document.createElement("ul");
           group.className = "study-resource-group";
-          heading.textContent = resourceType.label;
+          heading.textContent = resourceType.label + " · " + entries.length;
           list.className = "study-resource-list";
-
-          categoryResources.forEach((resource) => {
+          entries.forEach(({ resource, topicId, index }) => {
             const item = document.createElement("li");
+            const copy = document.createElement("div");
             const link = document.createElement("a");
             item.className = "study-resource-item";
+            copy.className = "study-library-link";
             link.textContent = resource.title;
             try {
-              const safeUrl = new URL(resource.url);
-              if (["http:", "https:"].includes(safeUrl.protocol)) {
-                link.href = safeUrl.href;
+              const url = new URL(resource.url);
+              if (["http:", "https:"].includes(url.protocol)) {
+                link.href = url.href;
                 link.target = "_blank";
                 link.rel = "noopener noreferrer";
               }
-            } catch (_) {
-              link.removeAttribute("href");
+            } catch (_) { /* Invalid legacy URLs remain visible without a clickable link. */ }
+            copy.append(link);
+            const origin = studyTopics.find(topic => topic.id === topicId);
+            if (origin) {
+              const source = document.createElement("span");
+              source.className = "study-library-origin";
+              source.textContent = origin.label;
+              copy.append(source);
             }
-            item.append(link, createRemoveButton("o material " + resource.title, () => {
-              const remaining = resources.filter((savedResource) => savedResource.id !== resource.id);
-              if (remaining.length) studyResources[topic.id] = remaining;
-              else delete studyResources[topic.id];
-              localStorage.setItem("rick-dev-study-resources", JSON.stringify(studyResources));
-              refreshStudyResources(topic.id);
+            item.append(copy, createRemoveButton("o material " + resource.title, () => {
+              const remaining = studyResources[topicId].filter((_, savedIndex) => savedIndex !== index);
+              if (remaining.length) studyResources[topicId] = remaining;
+              else delete studyResources[topicId];
+              saveStudyLibrary();
+              studyLibraryMessage.textContent = "Material removido da biblioteca.";
             }));
             list.append(item);
           });
-
           group.append(heading, list);
-          groups.append(group);
+          studyLibraryGroups.append(group);
         });
-
-        details.append(form, emptyMessage, groups);
-        return details;
       }
+
+      studyLibraryForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const titleInput = document.querySelector("#library-title");
+        const urlInput = document.querySelector("#library-url");
+        const title = titleInput.value.trim();
+        let url;
+        try { url = new URL(urlInput.value.trim()); } catch (_) { url = null; }
+        if (!title || !url || !["http:", "https:"].includes(url.protocol)) {
+          studyLibraryMessage.textContent = "Use um nome e um link começando com http:// ou https://.";
+          return;
+        }
+        // New materials belong to the library, independently of any subject.
+        const materials = Array.isArray(studyResources.__library__) ? studyResources.__library__ : [];
+        materials.push({ id: Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8), type: document.querySelector("#library-type").value, title, url: url.href });
+        studyResources.__library__ = materials;
+        saveStudyLibrary();
+        titleInput.value = "";
+        urlInput.value = "";
+        studyLibraryMessage.textContent = "Material salvo na biblioteca.";
+        titleInput.focus();
+      });
 
       function renderStudyTopics() {
         studyList.replaceChildren();
@@ -663,17 +645,15 @@
             item.append(createRemoveButton(`o assunto ${topic.label}`, () => {
               studyTopics = studyTopics.filter((savedTopic) => savedTopic.id !== topic.id);
               savedStudies.delete(topic.id);
-              delete studyResources[topic.id];
-              localStorage.setItem("rick-dev-study-resources", JSON.stringify(studyResources));
               saveStudyTopics();
               renderStudyTopics();
               updateStudyProgress();
               studyAddMessage.textContent = `${topic.label} removido dos seus estudos.`;
             }));
           }
-          item.append(renderStudyResources(topic));
           studyList.append(item);
         });
+        renderStudyLibrary();
       }
 
       function updateStudyProgress() {
