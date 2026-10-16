@@ -127,7 +127,7 @@ footer {
   padding: 8px 13px;
 
   border: 1px solid var(--border);
-  border-radius: 30px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.04);
 
   color: var(--neon-soft);
@@ -221,7 +221,7 @@ main {
   margin-bottom: 6px;
 
   border: 1px solid rgba(var(--accent-rgb), 0.4);
-  border-radius: 16px;
+  border-radius: 0;
 
   background: linear-gradient(
     120deg,
@@ -286,7 +286,7 @@ button {
 
   padding: 13px 20px;
   border: 1px solid var(--neon);
-  border-radius: 8px;
+  border-radius: 0;
 
   background: rgba(var(--accent-rgb), 0.08);
   color: var(--neon);
@@ -346,7 +346,7 @@ button.activated {
   padding: 25px;
 
   border: 1px solid var(--border);
-  border-radius: 13px;
+  border-radius: 0;
 
   background: var(--panel);
 
@@ -472,7 +472,7 @@ button.activated {
   height: 6px;
   overflow: hidden;
   border: 1px solid rgba(var(--accent-rgb), 0.2);
-  border-radius: 99px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.06);
 }
 
@@ -526,7 +526,7 @@ button.activated {
   flex: 1;
   padding: 9px;
   border: 1px solid var(--border);
-  border-radius: 7px;
+  border-radius: 0;
   outline: none;
   background: rgba(0, 0, 0, 0.25);
   color: var(--text);
@@ -578,7 +578,7 @@ button.activated {
   flex: 1;
   padding: 10px;
   border: 1px solid var(--border);
-  border-radius: 7px;
+  border-radius: 0;
   outline: none;
   background: rgba(0, 0, 0, 0.25);
   color: var(--text);
@@ -708,7 +708,7 @@ button.activated {
   width: 56px;
   padding: 6px 7px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 0;
   outline: none;
   background: rgba(0, 0, 0, 0.3);
   color: var(--neon-soft);
@@ -778,7 +778,7 @@ button.activated {
   margin: 48px auto 0;
   padding: 30px;
   border: 1px solid rgba(var(--accent-rgb), 0.28);
-  border-radius: 16px;
+  border-radius: 0;
   background:
     linear-gradient(135deg, color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.97)), color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.98)));
   box-shadow:
@@ -817,7 +817,7 @@ button.activated {
   gap: 8px;
   padding: 12px 15px;
   border: 1px solid var(--neon);
-  border-radius: 8px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.08);
   color: var(--neon);
   font-size: 10px;
@@ -848,7 +848,7 @@ button.activated {
   width: min(340px, calc(100vw - 48px));
   padding: 18px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 0;
   background: var(--bg);
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55), 0 0 20px rgba(var(--accent-rgb), 0.08);
 }
@@ -871,7 +871,7 @@ button.activated {
   width: 100%;
   padding: 10px;
   border: 1px solid var(--border);
-  border-radius: 7px;
+  border-radius: 0;
   outline: none;
   background: rgba(0, 0, 0, 0.28);
   color: var(--text);
@@ -911,7 +911,7 @@ button.activated {
   min-width: 0;
   padding: 20px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.62));
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -968,7 +968,7 @@ button.activated {
 .project-tags span {
   padding: 5px 8px;
   border: 1px solid rgba(var(--accent-rgb), 0.16);
-  border-radius: 20px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.045);
   color: var(--text);
   font-size: 9px;
@@ -999,7 +999,7 @@ button.activated {
   margin: 48px auto 0;
   padding: 30px;
   border: 1px solid rgba(var(--accent-rgb), 0.34);
-  border-radius: 16px;
+  border-radius: 0;
   background:
     radial-gradient(ellipse at 100% 0%, rgba(var(--accent-rgb), 0.09), transparent 42%),
     linear-gradient(135deg, color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.98)), color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.99)));
@@ -1033,7 +1033,7 @@ button.activated {
   flex: 0 0 auto;
   place-items: center;
   border: 1px solid var(--border);
-  border-radius: 15px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.055);
   font-size: 29px;
   box-shadow: 0 0 22px rgba(var(--accent-rgb), 0.08);
@@ -1052,7 +1052,7 @@ button.activated {
   min-width: 0;
   padding: 15px;
   border: 1px solid rgba(var(--accent-rgb), 0.15);
-  border-radius: 10px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.45));
 }
 
@@ -1075,7 +1075,7 @@ button.activated {
   overflow: hidden;
   margin-bottom: 19px;
   border: 1px solid rgba(var(--accent-rgb), 0.2);
-  border-radius: 99px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.05);
 }
 
@@ -1099,7 +1099,7 @@ button.activated {
   min-width: 0;
   padding: 15px;
   border: 1px solid rgba(var(--accent-rgb), 0.16);
-  border-radius: 10px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.38));
   transition: border-color 0.25s ease, background 0.25s ease;
 }
@@ -1165,7 +1165,7 @@ button.activated {
   min-width: 0;
   padding: 9px;
   border: 1px solid rgba(var(--accent-rgb), 0.16);
-  border-radius: 6px;
+  border-radius: 0;
   outline: none;
   background: rgba(0, 0, 0, 0.27);
   color: var(--text);
@@ -1195,7 +1195,7 @@ button.activated {
   gap: 8px;
   padding: 12px 15px;
   border: 1px solid var(--neon);
-  border-radius: 8px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.08);
   color: var(--neon);
   font-size: 10px;
@@ -1223,7 +1223,7 @@ button.activated {
   margin-top: 13px;
   padding: 17px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 0;
   background: rgba(0, 0, 0, 0.24);
 }
 
@@ -1250,7 +1250,7 @@ button.activated {
   margin-top: 10px;
   padding: 5px 8px;
   border: 1px solid rgba(255, 110, 110, 0.22);
-  border-radius: 5px;
+  border-radius: 0;
   background: transparent;
   color: #c98282;
   font-size: 8px;
@@ -1269,7 +1269,7 @@ button.activated {
   margin: 28px auto 0;
   padding: 30px;
   border: 1px solid rgba(var(--accent-rgb), 0.28);
-  border-radius: 16px;
+  border-radius: 0;
   background:
     radial-gradient(ellipse at 100% 0%, rgba(var(--accent-rgb), 0.075), transparent 42%),
     linear-gradient(135deg, color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.97)), color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.98)));
@@ -1304,7 +1304,7 @@ button.activated {
   flex: 0 0 auto;
   place-items: center;
   border: 1px solid var(--border);
-  border-radius: 15px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.055);
   font-size: 28px;
   box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.08);
@@ -1323,7 +1323,7 @@ button.activated {
   min-width: 0;
   padding: 16px;
   border: 1px solid rgba(var(--accent-rgb), 0.15);
-  border-radius: 10px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.45));
 }
 
@@ -1352,7 +1352,7 @@ button.activated {
   gap: 8px;
   padding: 12px 15px;
   border: 1px solid var(--neon);
-  border-radius: 8px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.08);
   color: var(--neon);
   font-size: 10px;
@@ -1377,7 +1377,7 @@ button.activated {
   margin-top: 14px;
   padding: 18px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 0;
   background: rgba(0, 0, 0, 0.22);
 }
 
@@ -1411,7 +1411,7 @@ button.activated {
   min-width: 0;
   padding: 10px;
   border: 1px solid var(--border);
-  border-radius: 7px;
+  border-radius: 0;
   outline: none;
   background: var(--bg);
   color: var(--text);
@@ -1480,7 +1480,7 @@ button.activated {
   gap: 14px;
   padding: 12px 14px;
   border: 1px solid rgba(var(--accent-rgb), 0.12);
-  border-radius: 9px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.35));
 }
 
@@ -1518,7 +1518,7 @@ button.activated {
 .fitness-empty-state {
   padding: 17px;
   border: 1px dashed rgba(var(--accent-rgb), 0.16);
-  border-radius: 9px;
+  border-radius: 0;
   color: var(--muted);
   font-size: 11px;
   text-align: center;
@@ -1715,7 +1715,7 @@ footer {
   .project-showcase,
   .body-evolution {
     padding: 20px 18px;
-    border-radius: 14px;
+    border-radius: 0;
   }
 
   .welcome-panel > p:not(.system-message) {
@@ -1917,7 +1917,7 @@ footer {
   width: min(100%, 420px);
   padding: clamp(25px, 6vw, 42px);
   border: 1px solid rgba(var(--accent-rgb), 0.32);
-  border-radius: 18px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.96));
   box-shadow: 0 0 38px rgba(var(--accent-rgb), 0.09), inset 0 1px rgba(255, 255, 255, 0.035);
 }
@@ -1967,7 +1967,7 @@ footer {
   width: 100%;
   padding: 12px;
   border: 1px solid var(--border);
-  border-radius: 7px;
+  border-radius: 0;
   outline: none;
   background: rgba(0, 0, 0, 0.32);
   color: var(--text);
@@ -1986,7 +1986,7 @@ footer {
   min-height: 43px;
   margin-top: 9px;
   border: 1px solid var(--neon);
-  border-radius: 7px;
+  border-radius: 0;
   background: var(--neon);
   color: var(--bg);
   font-size: 10px;
@@ -2043,7 +2043,7 @@ footer {
   gap: 10px;
   padding: 7px 9px 7px 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.96));
   color: var(--neon-soft);
   font-size: 9px;
@@ -2054,7 +2054,7 @@ footer {
 .access-session button {
   padding: 6px 8px;
   border: 1px solid rgba(var(--accent-rgb), 0.3);
-  border-radius: 5px;
+  border-radius: 0;
   background: transparent;
   color: var(--neon-soft);
   font-size: 8px;
@@ -2142,7 +2142,7 @@ footer {
   min-height: 138px;
   padding: 13px;
   border: 1px solid rgba(var(--accent-rgb), 0.2);
-  border-radius: 10px;
+  border-radius: 0;
   background: linear-gradient(145deg, color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.78)), color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.82)));
   transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
 }
@@ -2163,7 +2163,7 @@ footer {
   height: 38px;
   place-items: center;
   border: 1px solid rgba(var(--accent-rgb), 0.28);
-  border-radius: 9px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.08);
   font-size: 20px;
 }
@@ -2226,7 +2226,7 @@ footer {
   gap: 11px;
   padding: 14px 42px 14px 14px;
   border: 1px solid rgba(var(--accent-rgb), 0.2);
-  border-radius: 10px;
+  border-radius: 0;
   background: linear-gradient(145deg, color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.76)), color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.84)));
   transition: border-color 0.25s ease, background 0.25s ease;
 }
@@ -2249,7 +2249,7 @@ footer {
   flex: 0 0 auto;
   place-items: center;
   border: 1px solid rgba(var(--accent-rgb), 0.26);
-  border-radius: 8px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.08);
   font-size: 16px;
 }
@@ -2313,7 +2313,7 @@ footer {
   height: 5px;
   overflow: hidden;
   border: 1px solid rgba(var(--accent-rgb), 0.2);
-  border-radius: 99px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.06);
 }
 
@@ -2379,7 +2379,7 @@ footer {
   place-items: center;
   padding: 0;
   border: 1px solid transparent;
-  border-radius: 7px;
+  border-radius: 0;
   background: transparent;
   color: var(--muted);
   font: inherit;
@@ -2549,7 +2549,7 @@ body.presentation-mode footer {
   width: min(320px, calc(100vw - 28px));
   overflow: hidden;
   border: 1px solid rgba(var(--accent-rgb), 0.32);
-  border-radius: 13px;
+  border-radius: 0;
   background: color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.96));
   box-shadow: 0 12px 38px rgba(0, 0, 0, 0.56), 0 0 22px rgba(var(--accent-rgb), 0.08);
   backdrop-filter: blur(18px);
@@ -2625,7 +2625,7 @@ body.presentation-mode footer {
   flex: 0 0 auto;
   place-items: center;
   border: 1px solid rgba(var(--accent-rgb), 0.2);
-  border-radius: 8px;
+  border-radius: 0;
   background: linear-gradient(145deg, var(--surface), var(--bg));
   color: var(--neon);
   font-size: 21px;
@@ -2715,7 +2715,7 @@ body.presentation-mode footer {
   min-height: 29px;
   padding: 6px 9px;
   border: 1px solid rgba(var(--accent-rgb), 0.25);
-  border-radius: 6px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.04);
   color: var(--text);
   font-size: 8px;
@@ -2756,7 +2756,7 @@ body.presentation-mode footer {
   min-width: 0;
   padding: 9px 10px;
   border: 1px solid rgba(var(--accent-rgb), 0.25);
-  border-radius: 6px;
+  border-radius: 0;
   outline: none;
   background: rgba(0, 0, 0, 0.28);
   color: var(--text);
@@ -2785,7 +2785,7 @@ body.presentation-mode footer {
   overflow-wrap: anywhere;
   padding: 7px;
   border: 1px solid rgba(var(--accent-rgb), 0.14);
-  border-radius: 5px;
+  border-radius: 0;
   background: rgba(0, 0, 0, 0.24);
   color: var(--text);
   font-size: 9px;
@@ -2794,7 +2794,7 @@ body.presentation-mode footer {
 .spotify-settings button[type="submit"] {
   min-height: 31px;
   border: 1px solid rgba(var(--accent-rgb), 0.48);
-  border-radius: 6px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.1);
   color: var(--neon);
   font-size: 8px;
@@ -2830,7 +2830,7 @@ body.presentation-mode .spotify-widget {
 .spotify-widget.is-minimized {
   width: 60px;
   height: 32px;
-  border-radius: 999px;
+  border-radius: 0;
 }
 
 .spotify-widget.is-minimized .spotify-widget-toggle {
@@ -2839,7 +2839,7 @@ body.presentation-mode .spotify-widget {
   justify-content: center;
   gap: 0;
   padding: 0;
-  border-radius: 999px;
+  border-radius: 0;
 }
 
 .spotify-widget.is-minimized .spotify-widget-mark {
@@ -2871,7 +2871,7 @@ body.presentation-mode .spotify-widget {
   min-height: 26px;
   padding: 4px 9px;
   border: 1px solid rgba(var(--accent-rgb), 0.22);
-  border-radius: 6px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.045);
   color: var(--muted);
   font: inherit;
@@ -3138,7 +3138,7 @@ body.presentation-mode .spotify-widget {
   min-height: 34px;
   padding: 7px 8px;
   border: 1px solid rgba(var(--accent-rgb), 0.2);
-  border-radius: 6px;
+  border-radius: 0;
   outline: none;
   background: rgba(0, 0, 0, 0.28);
   color: var(--text);
@@ -3164,7 +3164,7 @@ body.presentation-mode .spotify-widget {
 .study-resource-form button {
   min-height: 32px;
   border: 1px solid rgba(var(--accent-rgb), 0.28);
-  border-radius: 6px;
+  border-radius: 0;
   background: rgba(var(--accent-rgb), 0.07);
   color: var(--neon-soft);
   font: inherit;
@@ -3293,7 +3293,7 @@ body.presentation-mode .spotify-widget {
   margin-top: 4px;
   padding: 0 10px 10px;
   border: 1px solid rgba(var(--accent-rgb), 0.2);
-  border-radius: 9px;
+  border-radius: 0;
   background-color: var(--bg) !important;
   background-image: linear-gradient(145deg, color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.98)), color-mix(in srgb, var(--neon) 5%, rgba(9, 11, 10, 0.99))) !important;
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.025), 0 0 16px rgba(var(--accent-rgb), 0.045);
@@ -3346,14 +3346,14 @@ body.presentation-mode .spotify-widget {
 .study-resources[open] .study-resources-empty {
   padding: 8px 9px;
   border: 1px dashed rgba(var(--accent-rgb), 0.17);
-  border-radius: 6px;
+  border-radius: 0;
   background: rgba(0, 0, 0, 0.22);
 }
 
 .study-resources[open] .study-resource-group {
   padding: 8px 9px 5px;
   border: 1px solid rgba(var(--accent-rgb), 0.11);
-  border-radius: 7px;
+  border-radius: 0;
   background: linear-gradient(120deg, rgba(var(--accent-rgb), 0.035), rgba(0, 0, 0, 0.18));
 }
 
@@ -3478,3 +3478,27 @@ body {
 /* Keep text readable on bright action buttons in every module. */
 #activate-button:hover, .card-action-button:hover, .project-form button,
 .pc-part-form button, .fitness-form button, .access-form button { color: #090B0A; }
+
+/* Square surfaces and a compact, icon-only sidebar control. */
+.module-navigation .sidebar-toggle,
+.sidebar-collapsed .module-navigation .sidebar-toggle {
+  align-self: flex-end;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  min-height: 28px;
+  margin: 0 0 8px;
+  padding: 6px;
+  gap: 0;
+  justify-content: center;
+  border: 0;
+  color: var(--muted);
+}
+.sidebar-collapsed .module-navigation .sidebar-toggle { align-self: center; }
+.sidebar-toggle-icon { display: block; flex: none; }
+.sidebar-collapsed .sidebar-toggle-icon { transform: rotate(180deg); }
+.module-home-icon { display: inline-flex; align-items: center; justify-content: center; }
+@media (max-width: 720px) {
+  .module-navigation .sidebar-toggle,
+  .sidebar-collapsed .module-navigation .sidebar-toggle { display: none; }
+}

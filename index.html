@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261016-module-colors" />
+    <link rel="stylesheet" href="style.css?v=20261016-square-minimal" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -36,8 +36,8 @@
     <script src="supabase-config.js"></script>
 
     <nav id="module-navigation" class="module-navigation" aria-label="Módulos do RICK_DEV OS" hidden>
-      <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-label="Recolher menu lateral"><span aria-hidden="true">☰</span><span class="module-label">Recolher menu</span></button>
-      <a href="#module/home" data-module="home" aria-label="RICK_HOME" title="RICK_HOME" aria-current="page"><span aria-hidden="true">⌂</span><span class="module-label">RICK_HOME</span></a>
+      <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-controls="module-navigation" aria-label="Recolher menu lateral" title="Recolher menu lateral"><svg class="sidebar-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="m14 6-6 6 6 6" /></svg></button>
+      <a href="#module/home" data-module="home" aria-label="RICK_HOME" title="RICK_HOME" aria-current="page"><span class="module-home-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="miter" focusable="false"><path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z" /></svg></span><span class="module-label">RICK_HOME</span></a>
       <a href="#module/study" data-module="study" aria-label="RICK_STUDY" title="RICK_STUDY"><span>📚</span><span class="module-label">RICK_STUDY</span></a>
       <a href="#module/fit" data-module="fit" aria-label="RICK_FIT" title="RICK_FIT"><span>🏋️</span><span class="module-label">RICK_FIT</span></a>
       <a href="#module/finance" data-module="finance" aria-label="RICK_FINANCE" title="RICK_FINANCE"><span>◈</span><span class="module-label">RICK_FINANCE</span></a>
@@ -1599,7 +1599,7 @@ const activateButton = document.querySelector("#activate-button");
           document.documentElement.classList.toggle("sidebar-collapsed", collapsed);
           toggle.setAttribute("aria-expanded", String(!collapsed));
           toggle.setAttribute("aria-label", collapsed ? "Expandir menu lateral" : "Recolher menu lateral");
-          toggle.querySelector(".module-label").textContent = collapsed ? "Expandir menu" : "Recolher menu";
+          toggle.setAttribute("title", collapsed ? "Expandir menu lateral" : "Recolher menu lateral");
         }
         try { setSidebarCollapsed(localStorage.getItem("rick-dev-sidebar-collapsed") === "true"); }
         catch (_) { setSidebarCollapsed(false); }
