@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261016-system-tools" />
+    <link rel="stylesheet" href="style.css?v=20261016-code-vault" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -373,6 +373,27 @@
     <section class="module-panel" id="module-lab" aria-labelledby="module-lab-title" hidden>
       <div class="module-heading"><h2 id="module-lab-title" tabindex="-1">RICK_LAB</h2><p>Seus projetos e experimentos de programação.</p></div>
       <div class="module-grid">
+        <section class="card code-vault" aria-labelledby="vault-title">
+          <div class="vault-heading"><div><h2 id="vault-title" tabindex="-1">Cofre de Códigos</h2><p class="vault-intro">Guarde o que você aprende e encontre o código quando precisar.</p></div><span class="vault-storage-label">Local · acesso ADM</span></div>
+          <p id="vault-access-message" class="system-help">Entre como ADM para acessar os códigos salvos neste navegador.</p>
+          <div id="vault-private" hidden>
+            <div class="vault-toolbar"><button id="vault-new" type="button">NOVO TRECHO</button><button id="vault-refresh" type="button">ATUALIZAR LISTA</button><button id="vault-export" type="button">EXPORTAR COFRE</button><label class="vault-import-label" for="vault-import">IMPORTAR COFRE<input id="vault-import" type="file" accept=".json,application/json"></label></div>
+            <p class="system-help">Os códigos ficam neste navegador, separados dos dados compartilhados. A exportação abaixo é o backup do cofre; a importação adiciona trechos sem substituir os existentes.</p>
+            <details id="vault-editor" class="vault-editor"><summary id="vault-editor-summary">Adicionar um código</summary>
+              <form id="vault-form"><fieldset id="vault-fields" disabled>
+                <div class="vault-editor-grid"><label for="vault-input-title">Título<input id="vault-input-title" type="text" maxlength="100" placeholder="Ex.: Validar um formulário" required></label><label for="vault-input-language">Linguagem<select id="vault-input-language"></select></label><label for="vault-input-category">Categoria<input id="vault-input-category" type="text" maxlength="50" placeholder="Ex.: Funções, banco de dados..."></label><label class="vault-editor-wide" for="vault-input-description">Descrição<input id="vault-input-description" type="text" maxlength="500" placeholder="O que este trecho faz?"></label></div>
+                <label class="vault-code-label" for="vault-input-code">Código<textarea id="vault-input-code" maxlength="100000" spellcheck="false" autocapitalize="off" autocomplete="off" required></textarea></label>
+                <label class="vault-code-label" for="vault-input-notes">Anotações<textarea id="vault-input-notes" maxlength="4000" rows="3" placeholder="Como usar, o que você aprendeu..."></textarea></label>
+                <label class="vault-checkbox" for="vault-input-favorite"><input id="vault-input-favorite" type="checkbox"> Marcar como favorito</label>
+                <div class="vault-actions"><button id="vault-save" type="submit">SALVAR TRECHO</button><button id="vault-cancel" type="button">CANCELAR</button></div>
+              </fieldset></form>
+            </details>
+            <div class="vault-filters"><label class="visually-hidden" for="vault-search">Pesquisar no cofre</label><input id="vault-search" type="search" maxlength="200" placeholder="Buscar por nome, linguagem ou palavra-chave..."><label class="visually-hidden" for="vault-language-filter">Filtrar por linguagem</label><select id="vault-language-filter"><option value="">Todas as linguagens</option></select><label class="vault-checkbox" for="vault-favorites-only"><input id="vault-favorites-only" type="checkbox"> Só favoritos</label></div>
+            <p id="vault-results-count" class="system-help"></p><div id="vault-records" class="vault-records"></div><button id="vault-more" type="button" hidden>VER MAIS TRECHOS</button>
+          </div>
+          <p id="vault-status" class="system-feedback" role="status" aria-live="polite"></p>
+        </section>
+
     <section class="project-showcase" aria-labelledby="projects-title">
       <div class="projects-heading">
         <div>
@@ -408,9 +429,17 @@
     <section class="module-panel" id="module-system" aria-labelledby="module-system-title" hidden>
       <div class="module-heading"><h2 id="module-system-title" tabindex="-1">RICK_SYSTEM</h2><p>Proteja seus dados, confira o sistema e cuide do seu código.</p></div>
       <div class="module-grid system-grid">
+        <article class="card system-overview-panel" aria-labelledby="system-overview-title">
+          <div class="system-formatter-heading"><h2 id="system-overview-title">Painel do Sistema</h2><span class="system-version">Visão geral · SYSTEM 1.1</span></div>
+          <dl class="system-overview-stats"><div><dt>Módulos disponíveis</dt><dd id="panel-module-count">6</dd></div><div><dt>Dados na nuvem</dt><dd id="panel-cloud-status">Aguardando sessão</dd></div><div><dt>Cofre local</dt><dd id="panel-vault-count">Aguardando abertura</dd></div><div><dt>Último diagnóstico</dt><dd id="panel-diagnostic-status">Ainda não executado nesta sessão</dd></div><div><dt>Última exportação de dados</dt><dd id="panel-last-backup">Nenhum registro neste navegador</dd></div></dl>
+          <ul class="system-module-list" id="panel-module-list" aria-label="Módulos disponíveis"></ul>
+          <div class="system-actions"><button type="button" data-system-jump="system-backup-title">BACKUPS E RECUPERAÇÃO</button><button type="button" id="panel-run-diagnostics">VERIFICAR SISTEMA</button><button type="button" data-system-jump="system-formatter-title">FORMATADOR</button><button type="button" id="panel-open-vault">ABRIR COFRE DE CÓDIGOS</button></div>
+          <p class="system-help">Backups de dados e restauração estão disponíveis. O diagnóstico verifica sem corrigir automaticamente. O cofre tem armazenamento e exportação próprios no RICK_LAB.</p>
+        </article>
+
         <article class="card system-backups" aria-labelledby="system-backup-title">
           <h2 id="system-backup-title">Backups e recuperação</h2>
-          <p class="system-intro">Exporte os dados dos módulos e suas preferências. Login, senhas e tokens não entram no arquivo.</p>
+          <p class="system-intro">Exporte os dados compartilhados dos módulos e suas preferências. Credenciais e tokens de sessão não entram no arquivo. O Cofre de Códigos tem uma exportação local própria no RICK_LAB.</p>
           <button id="system-export" type="button">BAIXAR BACKUP DOS DADOS</button>
           <details class="system-restore-panel">
             <summary>Restaurar um backup</summary>
@@ -448,7 +477,7 @@
         </article>
         <article class="card system-information" aria-labelledby="system-information-title">
           <h2 id="system-information-title">Configurações e versão</h2>
-          <dl class="system-info-list"><div><dt>Versão das ferramentas</dt><dd>SYSTEM 1.0</dd></div><div><dt>Sessão</dt><dd id="system-session-role">Aguardando acesso</dd></div><div><dt>Preferências do formatador</dt><dd>Salvas automaticamente neste navegador e incluídas no backup.</dd></div></dl>
+          <dl class="system-info-list"><div><dt>Versão das ferramentas</dt><dd>SYSTEM 1.1</dd></div><div><dt>Sessão</dt><dd id="system-session-role">Aguardando acesso</dd></div><div><dt>Preferências do formatador</dt><dd>Salvas automaticamente neste navegador e incluídas no backup.</dd></div></dl>
           <p class="system-help">A autenticação e as permissões continuam no Supabase. O formatador organiza o código; correções automáticas e ferramentas para o notebook ficam para a próxima etapa.</p>
           <a class="system-repository-link" href="https://github.com/rick-dev-rick/rick-dev-os/tree/backup/pre-system-tools-20261016-0400" target="_blank" rel="noopener noreferrer">Ver o backup do código anterior a estas ferramentas ↗</a>
         </article>
@@ -1485,7 +1514,7 @@ const activateButton = document.querySelector("#activate-button");
   async function createBackup(data, preferences) {
     data = validateData(data);
     preferences = validatePreferences(preferences);
-    return { format: "rick-dev-os-data", schemaVersion: 1, appVersion: "SYSTEM 1.0", createdAt: new Date().toISOString(), data, preferences, checksum: await checksum(data, preferences) };
+    return { format: "rick-dev-os-data", schemaVersion: 1, appVersion: "SYSTEM 1.1", createdAt: new Date().toISOString(), data, preferences, checksum: await checksum(data, preferences) };
   }
   async function validateBackup(backup) {
     if (!object(backup) || backup.format !== "rick-dev-os-data" || backup.schemaVersion !== 1 || !text(backup.createdAt) || !Number.isFinite(Date.parse(backup.createdAt))) throw new Error("Este arquivo não é um backup compatível do RICK_DEV OS.");
@@ -1890,6 +1919,7 @@ const activateButton = document.querySelector("#activate-button");
   function recordExport(label) {
     try { localStorage.setItem("rick-dev-system-history", JSON.stringify([{ date: new Date().toISOString(), label }, ...readHistory()].slice(0, 20))); } catch (_) {}
     renderHistory();
+    window.dispatchEvent(new CustomEvent("rick-system-exported"));
   }
   function backupControls() {
     exportButton.disabled = !admin() || backupBusy;
@@ -1974,7 +2004,8 @@ const activateButton = document.querySelector("#activate-button");
       catch (error) { checks.push(diagnosticItem("Estrutura dos dados", false, error.message)); }
       checks.push(diagnosticItem("Módulos da interface", document.querySelectorAll(".module-panel").length === 6, "HOME, STUDY, FIT, FINANCE, LAB e SYSTEM."));
       checks.push(diagnosticItem("Erros observados nesta sessão", runtimeErrors.length === 0, runtimeErrors.length ? runtimeErrors.join(" · ") : "Nenhum erro de execução foi capturado desde o carregamento destas ferramentas."));
-      diagnosticReport = { app: "RICK_DEV OS", version: "SYSTEM 1.0", createdAt: new Date().toISOString(), checks };
+      diagnosticReport = { app: "RICK_DEV OS", version: "SYSTEM 1.1", createdAt: new Date().toISOString(), checks };
+      window.dispatchEvent(new CustomEvent("rick-system-diagnostic", { detail: diagnosticReport }));
       const issues = checks.filter(check => !check.ok).length;
       $("system-diagnostic-status").textContent = issues ? issues + " ponto(s) precisam de atenção. Nenhuma correção foi aplicada." : "Verificação concluída sem problemas nos itens testados.";
       $("system-report").disabled = false;
@@ -2040,6 +2071,281 @@ const activateButton = document.querySelector("#activate-button");
   function sessionReady() { $("system-session-role").textContent = admin() ? "Administrador · dados no Supabase" : "Convidado · somente leitura"; backupControls(); }
   window.addEventListener("rick-system-ready", sessionReady);
   renderHistory(); sessionReady();
+})();
+    </script>
+    <script id="rick-vault-core">
+(() => {
+  "use strict";
+  const languages = Object.freeze({ javascript: "JavaScript", html: "HTML", css: "CSS", json: "JSON", python: "Python", java: "Java", sql: "SQL", typescript: "TypeScript", other: "Outra" });
+  const object = value => value !== null && typeof value === "object" && !Array.isArray(value);
+  const string = (value, max, required = false) => typeof value === "string" && value.length <= max && (!required || value.trim().length > 0);
+  const date = value => typeof value === "string" && Number.isFinite(Date.parse(value));
+  function validateSnippet(value) {
+    if (!object(value) || !string(value.id, 100, true) || !string(value.title, 100, true) || !string(value.description, 500) || !Object.hasOwn(languages, value.language) || !string(value.category, 50) || !string(value.code, 100000, true) || !string(value.notes, 4000) || typeof value.favorite !== "boolean" || !date(value.createdAt) || !date(value.updatedAt) || !Number.isSafeInteger(value.revision) || value.revision < 1) throw new Error("O trecho contém campos inválidos ou ultrapassa os limites permitidos.");
+    return { id: value.id, title: value.title, description: value.description, language: value.language, category: value.category, code: value.code, notes: value.notes, favorite: value.favorite, createdAt: value.createdAt, updatedAt: value.updatedAt, revision: value.revision };
+  }
+  function validateCollection(records) {
+    if (!Array.isArray(records) || records.length > 1000) throw new Error("O cofre aceita até mil trechos.");
+    const clean = records.map(validateSnippet);
+    if (new Set(clean.map(record => record.id)).size !== clean.length) throw new Error("Existem identificadores repetidos no cofre.");
+    if (new TextEncoder().encode(JSON.stringify(clean)).byteLength > 4 * 1024 * 1024) throw new Error("O cofre ultrapassaria o limite de 4 MB. Exporte e organize seus trechos antes de adicionar mais.");
+    return clean;
+  }
+  async function checksum(records) {
+    const bytes = new TextEncoder().encode(JSON.stringify(records));
+    const digest = await crypto.subtle.digest("SHA-256", bytes);
+    return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
+  }
+  async function makeArchive(records) {
+    records = validateCollection(records);
+    return { format: "rick-code-vault", schemaVersion: 1, exportedAt: new Date().toISOString(), records, checksum: await checksum(records) };
+  }
+  async function validateArchive(archive) {
+    if (!object(archive) || archive.format !== "rick-code-vault" || archive.schemaVersion !== 1 || !date(archive.exportedAt)) throw new Error("Este arquivo não é uma exportação compatível do Cofre de Códigos.");
+    const records = validateCollection(archive.records);
+    if (archive.checksum !== await checksum(records)) throw new Error("A integridade do cofre não pôde ser confirmada. Nenhum trecho foi importado.");
+    return records;
+  }
+  function normalize(text) { return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-BR"); }
+  function search(records, query = "", language = "", favoritesOnly = false) {
+    const terms = normalize(query).trim().split(/\s+/).filter(Boolean);
+    return records.filter(record => (!language || record.language === language) && (!favoritesOnly || record.favorite) && terms.every(term => normalize([record.title, record.description, languages[record.language], record.category, record.notes, record.code].join(" ")).includes(term))).sort((a, b) => Number(b.favorite) - Number(a.favorite) || b.updatedAt.localeCompare(a.updatedAt));
+  }
+  function fingerprint(record) { return JSON.stringify([record.title, record.description, record.language, record.category, record.code, record.notes]); }
+  window.rickVaultCore = Object.freeze({ languages, validateSnippet, validateCollection, makeArchive, validateArchive, search, fingerprint });
+})();
+    </script>
+    <script id="rick-vault-repository">
+(() => {
+  "use strict";
+  const core = window.rickVaultCore;
+  let connectionPromise = null;
+  function requireAdmin() { if (window.rickDevSystem?.role !== "admin") throw new Error("Entre como ADM para acessar este cofre local."); }
+  function database() {
+    requireAdmin();
+    if (!window.indexedDB) return Promise.reject(new Error("Este navegador não disponibilizou o armazenamento do cofre."));
+    if (!connectionPromise) connectionPromise = new Promise((resolve, reject) => {
+      const request = window.indexedDB.open("rick-dev-code-vault", 1);
+      let settled = false;
+      request.onupgradeneeded = () => { if (!request.result.objectStoreNames.contains("snippets")) request.result.createObjectStore("snippets", { keyPath: "id" }); };
+      request.onsuccess = () => {
+        const db = request.result;
+        if (settled) { db.close(); return; }
+        settled = true; db.onversionchange = () => { db.close(); connectionPromise = null; }; resolve(db);
+      };
+      request.onerror = () => { settled = true; reject(new Error("Não foi possível abrir o armazenamento local do cofre.")); };
+      request.onblocked = () => { settled = true; reject(new Error("Feche outras abas antigas do RICK_DEV OS e tente abrir o cofre novamente.")); };
+    }).catch(error => { connectionPromise = null; throw error; });
+    return connectionPromise;
+  }
+  async function list() {
+    const db = await database(); requireAdmin();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("snippets", "readonly");
+      const request = transaction.objectStore("snippets").getAll();
+      let records;
+      request.onsuccess = () => { records = request.result; };
+      transaction.oncomplete = () => { try { requireAdmin(); resolve(core.validateCollection(records)); } catch (error) { reject(error); } };
+      transaction.onerror = transaction.onabort = () => reject(new Error("Não foi possível ler os trechos salvos."));
+    });
+  }
+  async function commit(change) {
+    const db = await database(); requireAdmin();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("snippets", "readwrite");
+      const store = transaction.objectStore("snippets");
+      const request = store.getAll(); let result; let failure;
+      request.onsuccess = () => {
+        try {
+          requireAdmin();
+          const records = core.validateCollection(request.result);
+          const plan = change(records);
+          const next = new Map(records.map(record => [record.id, record]));
+          (plan.remove || []).forEach(id => next.delete(id));
+          (plan.put || []).forEach(record => next.set(record.id, record));
+          core.validateCollection([...next.values()]);
+          (plan.remove || []).forEach(id => store.delete(id));
+          (plan.put || []).forEach(record => store.put(record));
+          result = plan.result;
+        } catch (error) { failure = error; transaction.abort(); }
+      };
+      transaction.oncomplete = () => resolve(result);
+      transaction.onerror = transaction.onabort = () => reject(failure || new Error("Não foi possível gravar no cofre. Confira o espaço disponível neste navegador."));
+    });
+  }
+  async function save(value, expectedRevision = null) {
+    value = core.validateSnippet(value);
+    return commit(records => {
+      const previous = records.find(record => record.id === value.id);
+      if (previous ? previous.revision !== expectedRevision : expectedRevision !== null) throw new Error("Este trecho mudou em outra aba. Atualize a lista antes de editar novamente.");
+      const saved = core.validateSnippet({ ...value, createdAt: previous?.createdAt || value.createdAt, updatedAt: new Date().toISOString(), revision: previous ? previous.revision + 1 : 1 });
+      return { put: [saved], result: saved };
+    });
+  }
+  async function remove(id, expectedRevision) {
+    return commit(records => {
+      const previous = records.find(record => record.id === id);
+      if (!previous || previous.revision !== expectedRevision) throw new Error("Este trecho mudou em outra aba. Atualize a lista antes de remover.");
+      return { remove: [id], result: true };
+    });
+  }
+  async function merge(records) {
+    records = core.validateCollection(records);
+    return commit(current => {
+      const known = new Set(current.map(core.fingerprint)); const put = [];
+      records.forEach(record => {
+        const key = core.fingerprint(record); if (known.has(key)) return; known.add(key);
+        const now = new Date().toISOString(); put.push({ ...record, id: crypto.randomUUID(), createdAt: now, updatedAt: now, revision: 1 });
+      });
+      return { put, result: { added: put.length, skipped: records.length - put.length } };
+    });
+  }
+  window.rickVaultRepository = Object.freeze({ list, save, remove, merge });
+})();
+    </script>
+    <script id="rick-vault-tools">
+(() => {
+  "use strict";
+  const core = window.rickVaultCore, repository = window.rickVaultRepository;
+  const $ = id => document.getElementById(id);
+  let records = [], editing = null, ready = false, busy = false, visible = 12, generation = 0;
+  const status = message => { $("vault-status").textContent = message; };
+  const admin = () => window.rickDevSystem?.role === "admin";
+  Object.entries(core.languages).forEach(([value, label]) => {
+    for (const id of ["vault-input-language", "vault-language-filter"]) { const option = document.createElement("option"); option.value = value; option.textContent = label; $(id).append(option); }
+  });
+  function controls() {
+    $("vault-fields").disabled = !admin() || !ready || busy;
+    for (const id of ["vault-new", "vault-import", "vault-search", "vault-language-filter", "vault-favorites-only"]) $(id).disabled = !admin() || !ready || busy;
+    $("vault-refresh").disabled = !admin() || busy;
+    $("vault-export").disabled = !admin() || !ready || busy || records.length === 0;
+    $("vault-records").querySelectorAll("[data-vault-action]").forEach(button => { button.disabled = !admin() || busy; });
+  }
+  function resetEditor() {
+    editing = null; $("vault-form").reset(); $("vault-editor-summary").textContent = "Adicionar um código"; $("vault-save").textContent = "SALVAR TRECHO"; $("vault-editor").open = false;
+  }
+  function dirty() { return ["vault-input-title", "vault-input-description", "vault-input-category", "vault-input-code", "vault-input-notes"].some(id => $(id).value.trim()); }
+  function canDiscard() { return !dirty() || window.confirm("Descartar as alterações ainda não salvas no formulário?"); }
+  function action(label, handler, className = "") {
+    const button = document.createElement("button"); button.type = "button"; button.textContent = label; button.dataset.vaultAction = "true"; button.className = className; button.addEventListener("click", handler); return button;
+  }
+  function download(content, filename) {
+    const url = URL.createObjectURL(new Blob([content], { type: "application/json" })); const link = document.createElement("a"); link.href = url; link.download = filename; document.body.append(link); link.click(); link.remove(); window.setTimeout(() => URL.revokeObjectURL(url), 30000);
+  }
+  async function refresh(message = "") {
+    const current = ++generation; ready = false; controls();
+    try {
+      const loaded = await repository.list();
+      if (current !== generation || !admin()) return;
+      records = loaded; ready = true; render(); if (message) status(message);
+    } catch (error) { if (current === generation && admin()) { ready = false; status(error.message); window.dispatchEvent(new CustomEvent("rick-vault-updated", { detail: { count: null, ready: false } })); } }
+    finally { if (current === generation) controls(); }
+  }
+  async function run(operation) {
+    if (!admin() || busy) return;
+    busy = true; controls();
+    try { await operation(); } catch (error) { status(error.message); }
+    finally { busy = false; controls(); }
+  }
+  function edit(record) {
+    if (!canDiscard()) return;
+    editing = record;
+    for (const field of ["title", "description", "language", "category", "code", "notes"]) $("vault-input-" + field).value = record[field];
+    $("vault-input-favorite").checked = record.favorite; $("vault-editor-summary").textContent = "Editar código"; $("vault-save").textContent = "SALVAR ALTERAÇÕES"; $("vault-editor").open = true;
+    $("vault-editor").scrollIntoView({ behavior: "smooth", block: "start" }); $("vault-input-title").focus({ preventScroll: true });
+  }
+  function openFormatter(record) {
+    const parsers = { javascript: "babel", html: "html", css: "css", json: "json" };
+    if (!parsers[record.language]) return;
+    if ($("system-code-input").value.trim() && $("system-code-input").value !== record.code && !window.confirm("Substituir o código que está no formatador por este trecho do cofre?")) return;
+    $("system-language").value = parsers[record.language]; $("system-language").dispatchEvent(new Event("change"));
+    $("system-code-input").value = record.code; $("system-code-input").dispatchEvent(new Event("input"));
+    window.location.hash = "#module/system";
+    window.setTimeout(() => { $("system-formatter-title").scrollIntoView({ behavior: "smooth", block: "start" }); $("system-code-input").focus({ preventScroll: true }); }, 0);
+  }
+  function render() {
+    const list = $("vault-records"); list.replaceChildren();
+    const filtered = core.search(records, $("vault-search").value, $("vault-language-filter").value, $("vault-favorites-only").checked);
+    $("vault-results-count").textContent = filtered.length + " trecho(s) encontrado(s) · " + records.length + " salvo(s) neste navegador";
+    if (!filtered.length) { const empty = document.createElement("p"); empty.className = "vault-empty"; empty.textContent = records.length ? "Nenhum trecho corresponde à pesquisa." : "Seu cofre está pronto. Salve o primeiro trecho de código."; list.append(empty); }
+    filtered.slice(0, visible).forEach(record => {
+      const card = document.createElement("article"); card.className = "vault-record";
+      const heading = document.createElement("div"); heading.className = "vault-record-heading";
+      const title = document.createElement("h3"); title.textContent = record.title;
+      const favorite = action(record.favorite ? "★" : "☆", () => run(async () => { await repository.save({ ...record, favorite: !record.favorite }, record.revision); await refresh(); status(record.favorite ? "Trecho removido dos favoritos." : "Trecho adicionado aos favoritos."); }), "vault-favorite");
+      favorite.setAttribute("aria-label", (record.favorite ? "Remover dos favoritos: " : "Favoritar: ") + record.title); favorite.setAttribute("aria-pressed", String(record.favorite)); heading.append(title, favorite);
+      const metadata = document.createElement("p"); metadata.className = "vault-record-meta"; metadata.textContent = core.languages[record.language] + (record.category ? " · " + record.category : "") + " · " + new Date(record.updatedAt).toLocaleDateString("pt-BR");
+      card.append(heading, metadata);
+      if (record.description) { const description = document.createElement("p"); description.className = "vault-record-description"; description.textContent = record.description; card.append(description); }
+      const detail = document.createElement("details"), summary = document.createElement("summary"), pre = document.createElement("pre"), code = document.createElement("code"); summary.textContent = "Ver código"; code.textContent = record.code; pre.append(code); detail.append(summary, pre); card.append(detail);
+      if (record.notes) { const notes = document.createElement("details"), notesSummary = document.createElement("summary"), content = document.createElement("p"); notesSummary.textContent = "Anotações"; content.className = "vault-note"; content.textContent = record.notes; notes.append(notesSummary, content); card.append(notes); }
+      const buttons = document.createElement("div"); buttons.className = "vault-record-actions";
+      buttons.append(action("COPIAR", async () => { try { await navigator.clipboard.writeText(record.code); status("Código copiado: " + record.title); } catch (_) { detail.open = true; const range = document.createRange(); range.selectNodeContents(code); const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range); status("Código selecionado. Use Ctrl+C ou Copiar no celular."); } }), action("EDITAR", () => edit(record)), action("EXCLUIR", () => { if (window.confirm('Excluir o trecho "' + record.title + '"? Exporte o cofre antes se quiser manter uma cópia.')) run(async () => { await repository.remove(record.id, record.revision); if (editing?.id === record.id) resetEditor(); await refresh(); status("Trecho excluído do cofre local."); }); }));
+      if (["javascript", "html", "css", "json"].includes(record.language)) buttons.append(action("ABRIR NO FORMATADOR", () => openFormatter(record)));
+      card.append(buttons); list.append(card);
+    });
+    $("vault-more").hidden = filtered.length <= visible;
+    controls();
+    window.dispatchEvent(new CustomEvent("rick-vault-updated", { detail: { count: records.length, ready: true } }));
+  }
+  $("vault-new").addEventListener("click", () => { if (!ready || !canDiscard()) return; resetEditor(); $("vault-editor").open = true; $("vault-input-title").focus(); });
+  $("vault-cancel").addEventListener("click", () => { if (canDiscard()) resetEditor(); });
+  $("vault-form").addEventListener("submit", event => {
+    event.preventDefault();
+    run(async () => {
+      const now = new Date().toISOString();
+      const value = { id: editing?.id || crypto.randomUUID(), title: $("vault-input-title").value.trim(), description: $("vault-input-description").value.trim(), language: $("vault-input-language").value, category: $("vault-input-category").value.trim(), code: $("vault-input-code").value, notes: $("vault-input-notes").value, favorite: $("vault-input-favorite").checked, createdAt: editing?.createdAt || now, updatedAt: now, revision: editing?.revision || 1 };
+      await repository.save(value, editing?.revision ?? null); resetEditor(); await refresh(); status("Trecho salvo no cofre deste navegador.");
+    });
+  });
+  $("vault-refresh").addEventListener("click", () => run(() => refresh("Lista atualizada.")));
+  for (const [id, event] of [["vault-search", "input"], ["vault-language-filter", "change"], ["vault-favorites-only", "change"]]) $(id).addEventListener(event, () => { visible = 12; render(); });
+  $("vault-more").addEventListener("click", () => { visible += 12; render(); });
+  $("vault-export").addEventListener("click", () => run(async () => { const latest = await repository.list(); const archive = await core.makeArchive(latest); download(JSON.stringify(archive, null, 2), "RICK_CODE_VAULT_" + new Date().toISOString().replace(/[:.]/g, "-") + ".json"); status("Download do cofre solicitado. Guarde esse arquivo para recuperar seus códigos em outro navegador ou dispositivo."); }));
+  $("vault-import").addEventListener("change", () => {
+    const file = $("vault-import").files?.[0]; if (!file) return;
+    run(async () => {
+      try {
+        if (file.size > 5 * 1024 * 1024) throw new Error("Use um arquivo de cofre de até 5 MB.");
+        const imported = await core.validateArchive(JSON.parse(await file.text()));
+        if (!window.confirm("Adicionar os trechos deste arquivo ao cofre local? Trechos idênticos serão ignorados e os existentes serão preservados.")) return;
+        const result = await repository.merge(imported); await refresh(); status(result.added + " trecho(s) adicionado(s); " + result.skipped + " repetido(s) ignorado(s).");
+      } catch (error) { status(error instanceof SyntaxError ? "O arquivo não contém um JSON válido." : error.message); }
+      finally { $("vault-import").value = ""; }
+    });
+  });
+  function sessionReady() {
+    generation++; records = []; ready = false; editing = null; $("vault-records").replaceChildren(); resetEditor();
+    $("vault-private").hidden = !admin(); $("vault-access-message").hidden = admin(); controls();
+    if (admin()) { status("Abrindo o cofre local..."); refresh("Cofre local disponível."); }
+    else status("");
+  }
+  window.addEventListener("rick-system-ready", sessionReady); sessionReady();
+})();
+    </script>
+    <script id="rick-system-panel">
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  function updateCloud() { $("panel-cloud-status").textContent = $("cloud-save-status").textContent || "Aguardando sessão"; }
+  function updateExport() {
+    try { const history = JSON.parse(localStorage.getItem("rick-dev-system-history") || "[]"); $("panel-last-backup").textContent = history[0]?.date ? new Date(history[0].date).toLocaleString("pt-BR") : "Nenhum registro neste navegador"; }
+    catch (_) { $("panel-last-backup").textContent = "Histórico indisponível neste navegador"; }
+  }
+  function jump(id) { const target = $(id); if (!target) return; target.setAttribute("tabindex", "-1"); target.scrollIntoView({ behavior: "smooth", block: "start" }); target.focus({ preventScroll: true }); }
+  const modules = [...document.querySelectorAll("#module-navigation [data-module]")];
+  $("panel-module-count").textContent = String(modules.length);
+  modules.forEach(link => { const item = document.createElement("li"); item.textContent = link.getAttribute("aria-label"); $("panel-module-list").append(item); });
+  document.querySelectorAll("[data-system-jump]").forEach(button => button.addEventListener("click", () => jump(button.dataset.systemJump)));
+  $("panel-run-diagnostics").addEventListener("click", () => { jump("system-diagnostics-title"); $("system-diagnose").click(); });
+  $("panel-open-vault").addEventListener("click", () => { window.location.hash = "#module/lab"; window.setTimeout(() => jump("vault-title"), 0); });
+  const observer = new MutationObserver(updateCloud); observer.observe($("cloud-save-status"), { childList: true, characterData: true, subtree: true });
+  window.addEventListener("rick-system-ready", () => { updateCloud(); if (window.rickDevSystem?.role !== "admin") $("panel-vault-count").textContent = "Somente ADM"; });
+  window.addEventListener("rick-system-exported", updateExport);
+  window.addEventListener("storage", event => { if (event.key === "rick-dev-system-history") updateExport(); });
+  window.addEventListener("rick-system-diagnostic", event => { const report = event.detail; const issues = report.checks.filter(check => !check.ok).length; $("panel-diagnostic-status").textContent = new Date(report.createdAt).toLocaleTimeString("pt-BR") + " · " + (issues ? issues + " ponto(s) de atenção" : "Itens testados sem problemas"); });
+  window.addEventListener("rick-vault-updated", event => { $("panel-vault-count").textContent = event.detail.ready ? event.detail.count + " trecho(s) neste navegador" : "Indisponível neste navegador"; });
+  updateCloud(); updateExport();
 })();
     </script>
     <script src="spotify-player.js" defer></script>

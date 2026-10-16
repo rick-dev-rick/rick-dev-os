@@ -3772,3 +3772,54 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .system-formatter-options { grid-template-columns: minmax(0,1fr); gap: 10px; }
   .system-actions > button { flex: 1 1 100%; }
 }
+
+/* SYSTEM overview and private, browser-local code vault. */
+.system-grid > .system-overview-panel, .module-grid > .code-vault { grid-column: 1 / -1; }
+.system-overview-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(145px,1fr)); gap: 14px; margin: 22px 0; }
+.system-overview-stats > div { padding: 15px; border: 1px solid var(--border); background: rgba(0,0,0,.12); }
+.system-overview-stats dt { color: var(--muted); font-size: 11px; margin-bottom: 9px; }
+.system-overview-stats dd { font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.system-module-list { display: flex; flex-wrap: wrap; gap: 10px 20px; padding: 0; list-style: none; color: var(--neon-soft); font: 600 14px "Rick Display",sans-serif; margin-bottom: 22px; }
+.vault-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: flex-start; }
+.vault-heading h2 { font-family: "Rick Display",sans-serif; font-size: 32px; letter-spacing: .04em; }
+.vault-intro { color: var(--muted); line-height: 1.6; font-size: 13px; margin-top: 8px; }
+.vault-storage-label { color: var(--muted); font-size: 11px; line-height: 1.6; }
+.code-vault button, .vault-import-label { min-height: 40px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 0; background: rgba(var(--accent-rgb),.08); color: var(--neon-soft); cursor: pointer; font: 700 10px/1.5 "Segoe UI",sans-serif; }
+.code-vault button:disabled { opacity: .45; cursor: default; }
+.code-vault button:focus-visible, .code-vault summary:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
+.vault-toolbar, .vault-actions, .vault-record-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+.vault-import-label { display: inline-flex; align-items: center; position: relative; }
+.vault-import-label input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.vault-import-label:focus-within { outline: 2px solid var(--neon); outline-offset: 2px; }
+.vault-editor { margin-top: 22px; border: 1px solid var(--border); padding: 16px; }
+.vault-editor > summary, .vault-record summary { cursor: pointer; color: var(--neon-soft); font-size: 13px; line-height: 1.7; }
+#vault-fields { border: 0; min-width: 0; padding-top: 18px; }
+.vault-editor-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
+.vault-editor-grid label, .vault-code-label { display: grid; gap: 8px; color: var(--muted); font-size: 12px; min-width: 0; }
+.vault-editor-wide { grid-column: 1 / -1; }
+.code-vault input:not([type="checkbox"]):not([type="file"]), .code-vault select, .code-vault textarea { width: 100%; min-width: 0; border: 1px solid var(--border); border-radius: 0; padding: 11px; background: rgba(0,0,0,.25); color: var(--text); font: 13px "Segoe UI",sans-serif; }
+.code-vault input:not([type="checkbox"]):not([type="file"]), .code-vault select { min-height: 44px; }
+.code-vault select option { background: #101b12; color: var(--text); }
+.vault-code-label { margin-top: 16px; }
+#vault-input-code { min-height: 240px; font: 12px/1.7 Consolas,"Courier New",monospace; resize: vertical; }
+#vault-input-notes { min-height: 80px; resize: vertical; }
+.vault-checkbox { display: flex; gap: 9px; align-items: center; font-size: 12px; color: var(--muted); line-height: 1.5; }
+#vault-fields > .vault-checkbox { margin-top: 16px; }
+.vault-checkbox input { flex: none; accent-color: var(--neon); }
+.vault-filters { display: grid; grid-template-columns: minmax(0,2fr) minmax(130px,1fr) auto; gap: 12px; margin-top: 24px; align-items: center; }
+.vault-records { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin-top: 16px; }
+.vault-record { padding: 18px; border: 1px solid var(--border); background: rgba(0,0,0,.13); min-width: 0; }
+.vault-record-heading { display: flex; gap: 12px; justify-content: space-between; align-items: flex-start; }
+.vault-record-heading h3 { font: 600 24px/1.2 "Rick Display",sans-serif; overflow-wrap: anywhere; }
+.code-vault .vault-favorite { flex: none; min-height: 32px; height: 32px; width: 32px; padding: 2px; font-size: 22px; border: 0; background: transparent; color: #eac760; }
+.vault-record-meta { color: var(--muted); font-size: 11px; line-height: 1.7; margin-top: 8px; overflow-wrap: anywhere; }
+.vault-record-description { font-size: 13px; color: var(--text); line-height: 1.7; margin-top: 12px; overflow-wrap: anywhere; }
+.vault-record details { margin-top: 14px; }
+.vault-record pre { padding: 14px; background: rgba(0,0,0,.3); margin-top: 10px; max-height: 300px; overflow: auto; font: 12px/1.7 Consolas,"Courier New",monospace; }
+.vault-note { color: var(--muted); line-height: 1.7; font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 8px; }
+.vault-empty { grid-column: 1 / -1; color: var(--muted); line-height: 1.7; font-size: 13px; }
+#vault-more { margin-top: 18px; }
+@media (max-width: 900px) {
+  .vault-records, .vault-editor-grid { grid-template-columns: minmax(0,1fr); }
+  .vault-filters { grid-template-columns: minmax(0,1fr); }
+}
