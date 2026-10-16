@@ -4178,3 +4178,140 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   body:has(#module-navigation:not([hidden])) { padding-left: 248px; }
   .spotify-widget:not(.is-minimized) { left: 240px; }
 }
+
+/* Shared visual finish: the existing workspace, with clearer depth and hierarchy. */
+:root { --text: #edf4ef; --muted: #b2c0b7; }
+.topbar { max-width: 1320px; margin: 0 auto 32px; padding: 24px 0; text-align: left; border-bottom: 1px solid rgba(var(--accent-rgb),.2); }
+.topbar h1 { font-size: clamp(34px,4vw,48px); line-height: 1.05; letter-spacing: .07em; animation: none; }
+.topbar .subtitle { margin: 12px 0 0; max-width: none; font-size: 11px; line-height: 1.6; letter-spacing: .15em; }
+.topbar .system-status { position: absolute; right: 0; top: 28px; margin: 0; padding: 10px 14px; border-color: rgba(var(--accent-rgb),.22); background: rgba(var(--accent-rgb),.07); font-size: 10px; letter-spacing: .1em; }
+.topbar .header-line { display: none; }
+main.module-workspace { max-width: 1320px; }
+.module-heading { position: relative; padding: 0 0 22px; margin-bottom: 26px; border-bottom: 1px solid rgba(var(--accent-rgb),.15); }
+.module-heading h2 { display: flex; align-items: center; gap: 14px; margin: 0 0 10px; font-size: clamp(30px,3.5vw,40px); letter-spacing: .055em; }
+.module-heading h2::before { content: ""; display: block; width: 4px; height: .75em; flex: 0 0 4px; background: var(--module-accent); box-shadow: 0 0 14px rgba(var(--accent-rgb),.2); }
+.module-heading p { font-size: 14px; color: #bccbc2; line-height: 1.7; }
+.module-grid { gap: 24px; }
+.module-workspace :is(.card,.welcome-panel,.pc-build,.project-showcase,.body-evolution) {
+  border: 1px solid rgba(var(--accent-rgb),.24); border-radius: 0;
+  background: linear-gradient(135deg,rgba(var(--accent-rgb),.12),transparent 62%),linear-gradient(180deg,#1b1f1d,#121614);
+  box-shadow: 0 12px 32px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.055);
+  padding: 28px;
+}
+.module-workspace .card { transition: border-color .2s ease,box-shadow .2s ease; }
+.module-workspace .card::before { left: 0; right: 0; height: 2px; background: linear-gradient(90deg,rgba(var(--accent-rgb),.65),rgba(var(--accent-rgb),.05) 75%); opacity: .8; }
+.module-workspace .card:hover { transform: none; border-color: rgba(var(--accent-rgb),.4); box-shadow: 0 14px 36px rgba(0,0,0,.26),inset 0 1px rgba(255,255,255,.06); }
+.module-workspace .card p { min-height: 0; }
+.module-workspace .card > h2, .module-workspace .system-formatter-heading h2 { margin: 0 0 14px; font: 600 29px/1.2 "Rick Display","Segoe UI",sans-serif; letter-spacing: .02em; color: #eff8f2; }
+.module-workspace .card > .card-tag + h2 { margin-top: 12px; }
+.module-workspace .card > .card-icon { display: inline-grid; place-items: center; width: 46px; height: 46px; font-size: 24px; margin: 0 12px 18px 0; vertical-align: middle; border: 1px solid rgba(var(--accent-rgb),.25); background: rgba(var(--accent-rgb),.08); filter: none; }
+.module-workspace :is(.card-tag,.panel-tag) { font: 700 10px/1.7 "Segoe UI",sans-serif; letter-spacing: .12em; color: var(--neon-soft); }
+.module-workspace :is(.system-intro,.vault-intro,.studies-intro,.mission-intro,.focus-intro,.study-library-intro) { color: #bdccc3; font-size: 14px; line-height: 1.75; }
+.module-workspace :is(.system-help,.home-panel-note,.running-help) { font-size: 13px; line-height: 1.75; color: #b7c7bd; }
+.module-workspace :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),select,textarea) {
+  border-color: rgba(var(--accent-rgb),.23); border-radius: 0;
+  background: linear-gradient(rgba(var(--accent-rgb),.035),rgba(var(--accent-rgb),.035)),#0d1210;
+  color: var(--text); box-shadow: inset 0 1px 3px rgba(0,0,0,.18);
+}
+.module-workspace :is(input,textarea)::placeholder { color: #879b8e; opacity: 1; }
+.module-workspace :is(input,select,textarea):focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; border-color: var(--neon); }
+.module-workspace :is(button:not(.item-remove-button):not(.vault-favorite),.vault-import-label) { min-height: 44px; font-weight: 700; letter-spacing: .055em; }
+.module-workspace :is(button,summary,a):focus-visible { outline: 2px solid var(--neon); outline-offset: 3px; }
+.module-workspace button:disabled { cursor: default; box-shadow: none; }
+.module-workspace :is(.study-topic-card,.mission-card,.project-card,.pc-part-card,.vault-record,.running-history-item) {
+  border-color: rgba(var(--accent-rgb),.18);
+  background: linear-gradient(145deg,rgba(var(--accent-rgb),.055),rgba(0,0,0,.12));
+  box-shadow: inset 0 1px rgba(255,255,255,.025);
+}
+.module-workspace .study-topic-card:hover, .module-workspace .project-card:hover { transform: none; border-color: rgba(var(--accent-rgb),.42); }
+.module-workspace .study-topic-card.is-complete, .module-workspace .mission-card.is-complete, .module-workspace .pc-part-card.is-purchased { border-color: rgba(var(--accent-rgb),.45); background: rgba(var(--accent-rgb),.09); }
+.module-workspace .study-topic-card .study-topic-description, .module-workspace .mission-card-description { font-size: 13px; line-height: 1.65; color: #b8c9be; }
+.module-workspace .study-topic-state, .module-workspace .mission-card-state { font-size: 10px; letter-spacing: .08em; }
+.module-workspace .study-topic-card label { font-size: 14px; }
+.module-workspace .study-progress { padding: 16px; border: 1px solid rgba(var(--accent-rgb),.18); background: rgba(0,0,0,.14); }
+.module-workspace .study-progress-label { font-size: 11px; letter-spacing: .07em; }
+.module-workspace :is(.study-progress-track,.mission-card-progress-track,.pc-progress) { height: 7px; border: 0; background: rgba(var(--accent-rgb),.1); }
+.module-workspace .card-status { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 7px 10px; border: 1px solid rgba(var(--accent-rgb),.2); background: rgba(var(--accent-rgb),.06); font-size: 10px; letter-spacing: .06em; }
+.module-workspace .focus-clock { width: 100%; margin: 24px 0; padding: 22px 12px; border-block: 1px solid rgba(var(--accent-rgb),.2); background: linear-gradient(90deg,transparent,rgba(var(--accent-rgb),.06),transparent); font-variant-numeric: tabular-nums; letter-spacing: .035em; text-shadow: 0 0 22px rgba(var(--accent-rgb),.13); }
+.module-workspace .focus-duration-control { border-color: rgba(var(--accent-rgb),.2); background: rgba(0,0,0,.13); }
+.module-workspace .study-library .study-resource-group { border-color: rgba(var(--accent-rgb),.17); border-left: 2px solid rgba(var(--accent-rgb),.6); background: rgba(0,0,0,.14); }
+.module-workspace .study-library .study-resource-group h3 { font-size: 22px; letter-spacing: .015em; }
+.module-workspace .study-library .study-library-link a { font-size: 17px; line-height: 1.65; }
+.module-workspace :is(.pc-stat,.fitness-stat,.running-stats > div,.system-overview-stats > div) { position: relative; padding: 20px 18px; border: 1px solid rgba(var(--accent-rgb),.18); background: linear-gradient(145deg,rgba(var(--accent-rgb),.08),rgba(0,0,0,.13)); box-shadow: inset 0 2px rgba(var(--accent-rgb),.28); }
+.module-workspace :is(.pc-stat > span,.fitness-stat > span,.running-stats dt,.system-overview-stats dt) { font-size: 11px; color: #b6c8bc; letter-spacing: .045em; line-height: 1.6; }
+.module-workspace :is(.pc-stat > strong,.fitness-stat > strong,.running-stats dd) { font-family: "Rick Display","Segoe UI",sans-serif; font-size: clamp(25px,2.5vw,32px); font-weight: 600; line-height: 1.25; color: var(--neon-soft); }
+.module-workspace .system-overview-stats dd { font-size: 14px; line-height: 1.7; color: #ebf4ef; }
+.module-workspace :is(.fitness-history-item,.running-history-item) { border-left: 2px solid rgba(var(--accent-rgb),.45); }
+.module-workspace :is(.pc-heading-icon,.body-evolution-icon) { border-color: rgba(var(--accent-rgb),.25); background: rgba(var(--accent-rgb),.09); box-shadow: none; }
+.module-workspace :is(.pc-heading h2,.body-evolution-heading h2,.projects-heading h2,.vault-heading h2) { font: 600 32px/1.25 "Rick Display","Segoe UI",sans-serif; letter-spacing: .02em; }
+.module-workspace .project-card { padding: 22px; }
+.module-workspace .project-card h3, .module-workspace .vault-record-heading h3 { font: 600 27px/1.25 "Rick Display","Segoe UI",sans-serif; letter-spacing: .015em; }
+.module-workspace .project-card > p { font-size: 14px; line-height: 1.75; color: #bccdc2; }
+.module-workspace :is(.vault-record-meta,.vault-storage-label,.system-version) { font-size: 12px; line-height: 1.6; color: #afc2b7; }
+.module-workspace :is(.vault-editor,.system-restore-panel) { border-color: rgba(var(--accent-rgb),.2); background: rgba(0,0,0,.11); padding: 18px; }
+.module-workspace :is(.vault-record pre,.system-code-grid textarea,#vault-input-code) { background: #0c110f; border: 1px solid rgba(var(--accent-rgb),.2); line-height: 1.8; }
+.module-workspace .system-module-list { gap: 10px; }
+.module-workspace .system-module-list li { padding: 7px 10px; border: 1px solid rgba(var(--accent-rgb),.2); background: rgba(var(--accent-rgb),.05); font-size: 13px; }
+.module-workspace .fit-tabs { padding: 6px; gap: 6px; border: 1px solid rgba(var(--accent-rgb),.22); background: rgba(0,0,0,.13); }
+.module-workspace .fit-tabs button { border-color: transparent; padding: 12px 18px; }
+.module-workspace .fit-tabs button[aria-selected="true"] { border-color: rgba(var(--accent-rgb),.32); background: rgba(var(--accent-rgb),.14); }
+/* Home retains its module-specific milestone colors and continuous progress rings. */
+.home-shortcuts { gap: 12px; margin-bottom: 24px; }
+.home-shortcuts a { padding: 18px 16px; background: linear-gradient(140deg,color-mix(in srgb,var(--shortcut) 13%,#161c18),#111612); box-shadow: inset 0 1px rgba(255,255,255,.04); transition: border-color .2s ease,background .2s ease; }
+.home-shortcuts a > span:first-child { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid color-mix(in srgb,var(--shortcut) 25%,transparent); background: color-mix(in srgb,var(--shortcut) 7%,transparent); font-size: 21px; }
+.home-shortcuts strong { font-size: 21px; letter-spacing: .025em; }
+.home-shortcuts a > span:last-child { font-size: 12px; color: #becdc4; }
+.home-overview { gap: 16px; }
+.home-overview article { background: linear-gradient(145deg,rgba(var(--accent-rgb),.08),#141a16); border-color: rgba(var(--accent-rgb),.22); box-shadow: inset 0 1px rgba(255,255,255,.04),0 8px 22px rgba(0,0,0,.12); }
+.home-overview .home-ring-card h3 { font: 600 21px "Rick Display",sans-serif; letter-spacing: .02em; }
+.home-progress-ring .home-ring-track { stroke: #303e34; }
+.home-progress-ring .home-ring-face { fill: #111813; stroke: rgba(var(--accent-rgb),.16); }
+.home-overview .home-ring-caption { font-size: 14px; color: #d6e4da; }
+.home-ring-description { color: #adc0b2; font-size: 12px; line-height: 1.6; }
+.home-overview .home-count-card { gap: 14px; }
+.home-overview .home-count-card p { color: var(--neon-soft); font: 600 30px "Rick Display",sans-serif; }
+.home-overview .home-count-icon { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--border); background: rgba(var(--accent-rgb),.06); }
+.module-workspace .home-panel-heading h2 { font: 600 31px/1.2 "Rick Display",sans-serif; letter-spacing: .02em; }
+.home-board-column { padding: 14px; border-color: rgba(255,255,255,.08); background: rgba(0,0,0,.17); }
+.home-board-column > h3 { padding: 4px 0 14px; font-size: 21px; }
+.home-board-item { padding: 16px; }
+.home-board-item h4 { font-size: 15px; line-height: 1.65; }
+.home-next-list, .home-care-list { gap: 20px; }
+.home-next-list dt, .home-care-list dt { color: #aec1b5; font-size: 12px; }
+.home-next-list dd, .home-care-list dd { color: #e4efe8; line-height: 1.75; }
+.access-card { border-color: rgba(var(--accent-rgb),.35); background: linear-gradient(135deg,rgba(var(--accent-rgb),.1),transparent 65%),#141b16; box-shadow: 0 24px 80px rgba(0,0,0,.4),inset 0 1px rgba(255,255,255,.06); }
+.access-card .access-description { color: #bacbc0; font-size: 14px; line-height: 1.75; }
+.access-card .access-form label { font-size: 12px; }
+.access-card .access-form input { min-height: 46px; border-color: rgba(var(--accent-rgb),.25); background: #0d1310; }
+.access-session { border-color: rgba(var(--accent-rgb),.22); background: #172019; }
+.spotify-widget { border-color: rgba(var(--accent-rgb),.3); box-shadow: 0 12px 35px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.06); }
+footer { max-width: 1320px; color: #9db1a4; border-top-color: rgba(var(--accent-rgb),.16); }
+@media (max-width: 1100px) and (min-width: 721px) {
+  .topbar .system-status { position: static; margin-bottom: 16px; }
+  .module-workspace :is(.card,.welcome-panel,.pc-build,.project-showcase,.body-evolution) { padding: 22px; }
+  .home-shortcuts strong { font-size: 19px; }
+}
+@media (max-width: 720px) {
+  .topbar { margin-bottom: 24px; padding: 10px 0 20px; }
+  .topbar h1 { font-size: 32px; }
+  .topbar .system-status { position: static; margin-bottom: 14px; padding: 7px 10px; }
+  .topbar .subtitle { font-size: 10px; letter-spacing: .1em; }
+  .module-heading { padding-bottom: 18px; margin-bottom: 20px; }
+  .module-heading h2 { font-size: 32px; gap: 10px; }
+  .module-grid { gap: 16px; }
+  .module-workspace :is(.card,.welcome-panel,.pc-build,.project-showcase,.body-evolution) { padding: 22px 16px; }
+  .module-workspace .card > h2, .module-workspace .system-formatter-heading h2, .module-workspace .home-panel-heading h2 { font-size: 27px; }
+  .module-workspace :is(.pc-heading h2,.body-evolution-heading h2,.projects-heading h2,.vault-heading h2) { font-size: 29px; }
+  .module-workspace :is(.pc-stat,.fitness-stat,.running-stats > div,.system-overview-stats > div) { padding: 16px 12px; }
+  .module-workspace :is(.pc-stat > strong,.fitness-stat > strong,.running-stats dd) { font-size: 27px; }
+  .home-shortcuts { gap: 10px; }.home-shortcuts a { padding: 14px; }.home-shortcuts strong { font-size: 20px; }
+  .home-overview { gap: 8px; }.home-overview .home-ring-card h3 { font-size: 18px; }
+  .home-overview .home-ring-caption { font-size: 12px; }.home-ring-description { font-size: 11px; }
+  .home-overview .home-count-card { padding: 16px; }
+  .module-workspace .focus-clock { margin: 20px 0; padding: 18px 8px; }
+  .module-workspace .vault-record pre { font-size: 14px; }
+  .module-workspace .fit-tabs { flex-wrap: nowrap; }.module-workspace .fit-tabs button { flex: 1; padding: 12px 8px; font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .module-workspace .card, .home-shortcuts a { transition: none; }
+}
