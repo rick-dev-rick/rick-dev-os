@@ -3892,3 +3892,56 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .running-period input, .running-grid input, .running-grid select { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .running-goal-fill { transition: none; } }
+
+/* RICK_HOME command center and editable evolution board. */
+.home-shortcuts { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 10px; margin-bottom: 22px; }
+.home-shortcuts a { --shortcut: #39ff14; display: grid; gap: 7px; text-decoration: none; padding: 16px 12px; border: 1px solid color-mix(in srgb,var(--shortcut) 25%,transparent); background: linear-gradient(140deg,color-mix(in srgb,var(--shortcut) 8%,#111712),#101411); color: var(--text); }
+.home-shortcuts a > span:first-child { font-size: 23px; }
+.home-shortcuts strong { font: 600 19px "Rick Display",sans-serif; color: var(--shortcut); }
+.home-shortcuts a > span:last-child { color: #c3d1c6; font-size: 11px; line-height: 1.6; }
+.home-shortcuts .home-shortcut-fit { --shortcut: #b68cff; }.home-shortcuts .home-shortcut-finance { --shortcut: #eac760; }.home-shortcuts .home-shortcut-system { --shortcut: #79b4ff; }
+.home-shortcuts a:hover { border-color: var(--shortcut); }.home-shortcuts a:focus-visible { outline: 2px solid var(--shortcut); outline-offset: 2px; }
+#module-home .module-grid { align-items: start; }
+.module-grid > .home-evolution-panel, .module-grid > .home-care-panel { grid-column: 1 / -1; }
+.home-next-panel h2, .home-project-panel h2, .home-evolution-panel h2, .home-care-panel h2 { font-family: "Rick Display",sans-serif; }
+.home-next-list, .home-care-list { display: grid; gap: 18px; margin-top: 20px; }
+.home-next-list dt, .home-care-list dt { font-size: 12px; color: var(--muted); margin-bottom: 7px; }
+.home-next-list dd, .home-care-list dd { font-size: 15px; line-height: 1.65; color: #e0eee3; overflow-wrap: anywhere; }
+.home-project-preview { list-style: none; display: grid; gap: 14px; margin-top: 20px; }
+.home-project-preview li { border-left: 2px solid var(--border); padding-left: 14px; }
+.home-project-preview h3 { color: #e5f8e9; font: 600 23px "Rick Display",sans-serif; margin-bottom: 5px; }.home-project-preview p { color: #c4d4c8; line-height: 1.65; font-size: 13px; }
+.home-panel-note { color: #c4d4c8; font-size: 13px; line-height: 1.65; margin-top: 10px; }
+.home-panel-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 14px; }
+.home-evolution-board { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; margin-top: 20px; }
+.home-board-column { --stage: #7be398; padding: 12px; border: 1px solid rgba(255,255,255,.08); background: rgba(0,0,0,.13); min-width: 0; }
+.home-board-column[data-stage="doing"] { --stage: #83bfff; }.home-board-column[data-stage="improve"] { --stage: #e5c77a; }.home-board-column[data-stage="later"] { --stage: #baa3db; }
+.home-board-column > h3 { padding-bottom: 12px; border-bottom: 2px solid var(--stage); color: var(--stage); font: 600 19px "Rick Display",sans-serif; }
+.home-board-list { list-style: none; display: grid; gap: 12px; margin-top: 14px; max-height: 460px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.home-board-item { padding: 13px; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.08); min-width: 0; }
+.home-board-item h4 { color: #edf9f0; font-size: 15px; line-height: 1.5; font-weight: 600; overflow-wrap: anywhere; }
+.home-board-module { font: 600 13px "Rick Display",sans-serif; color: #bdd0c2; margin-bottom: 8px; }.home-board-description, .home-board-empty { font-size: 13px; color: #bdcfc3; line-height: 1.65; margin-top: 8px; overflow-wrap: anywhere; }
+.home-evolution-panel button { min-height: 38px; padding: 8px 10px; border: 1px solid var(--border); background: rgba(var(--accent-rgb),.07); color: #d8f7dc; font: 700 10px "Segoe UI",sans-serif; cursor: pointer; }
+.home-evolution-panel button:disabled { opacity: .45; cursor: default; }
+.home-board-actions, .home-editor-actions { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 10px; }
+.home-evolution-panel select, .home-evolution-panel input { width: 100%; min-width: 0; min-height: 42px; border: 1px solid var(--border); background: #132016; color: #e5f4e8; padding: 8px; font: 12px "Segoe UI",sans-serif; border-radius: 0; }
+.home-board-item > select { margin-top: 14px; }
+#home-evolution-editor { margin-top: 18px; padding: 14px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }#home-evolution-editor summary { cursor: pointer; color: #d8f7dc; font-size: 14px; }
+#home-evolution-fields { border: 0; padding-top: 16px; min-width: 0; }.home-editor-fields { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }.home-editor-fields label { display: grid; gap: 8px; min-width: 0; font-size: 12px; color: #c4d4c8; }.home-item-description { grid-column: 1 / -1; }
+.home-evolution-panel button:focus-visible, .home-evolution-panel select:focus-visible, .home-evolution-panel input:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
+.home-care-list { grid-template-columns: repeat(3,minmax(0,1fr)); }
+@media (max-width: 1100px) { .home-evolution-board { grid-template-columns: repeat(2,minmax(0,1fr)); }.home-shortcuts { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+@media (max-width: 720px) { .home-shortcuts { grid-template-columns: repeat(2,minmax(0,1fr)); }.home-evolution-board, .home-editor-fields, .home-care-list { grid-template-columns: minmax(0,1fr); }.home-board-list { max-height: 360px; }.home-evolution-panel input, .home-evolution-panel select { font-size: 16px; } }
+
+/* Each evolution item follows its module, regardless of its workflow stage. */
+#module-home [data-home-module] { --panel-rgb: 57,255,20; }
+#module-home [data-home-module="fit"] { --panel-rgb: 182,140,255; }
+#module-home [data-home-module="finance"] { --panel-rgb: 234,199,96; }
+#module-home [data-home-module="system"] { --panel-rgb: 121,180,255; }
+#module-home .home-board-item { border-color: rgba(var(--panel-rgb),.3); border-left: 3px solid rgb(var(--panel-rgb)); background: linear-gradient(135deg,rgba(var(--panel-rgb),.16),rgba(var(--panel-rgb),.05)); }
+#module-home .home-board-module { color: rgb(var(--panel-rgb)); }
+#module-home .home-board-item button { border-color: rgba(var(--panel-rgb),.3); background: rgba(var(--panel-rgb),.1); color: rgb(var(--panel-rgb)); }
+#module-home .home-board-item select { border-color: rgba(var(--panel-rgb),.3); background: #111813; }
+#module-home .home-project-panel, #module-home .home-care-panel { border-color: rgba(var(--panel-rgb),.3); background: linear-gradient(140deg,rgba(var(--panel-rgb),.14),rgba(10,15,13,.94)); }
+#module-home .home-project-panel h2, #module-home .home-care-panel h2 { color: rgb(var(--panel-rgb)); }
+.home-next-list > div { padding-left: 12px; border-left: 2px solid rgb(var(--panel-rgb)); }
+#module-home .home-progress-ring[data-home-module] { --accent-rgb: var(--panel-rgb); --neon: rgb(var(--panel-rgb)); }

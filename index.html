@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261016-running" />
+    <link rel="stylesheet" href="style.css?v=20261016-home-evolution" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -65,6 +65,13 @@
     <main class="module-workspace">
     <section class="module-panel" id="module-home" aria-labelledby="module-home-title">
       <div class="module-heading"><h2 id="module-home-title" tabindex="-1">RICK_HOME</h2><p>Sua evolução e o panorama do seu sistema.</p></div>
+      <nav class="home-shortcuts" aria-label="Atalhos da central de comando">
+        <a href="#module/study"><span aria-hidden="true">📚</span><strong>RICK_STUDY</strong><span>Estudos e missões</span></a>
+        <a href="#module/fit" class="home-shortcut-fit"><span aria-hidden="true">🏃</span><strong>RICK_FIT</strong><span>Treinos e corrida</span></a>
+        <a href="#module/finance" class="home-shortcut-finance"><span aria-hidden="true">💵</span><strong>RICK_FINANCE</strong><span>Planejamento do PC</span></a>
+        <a href="#module/lab"><span aria-hidden="true">🧪</span><strong>RICK_LAB</strong><span>Projetos e códigos</span></a>
+        <a href="#module/system" class="home-shortcut-system"><span aria-hidden="true">⚙️</span><strong>RICK_SYSTEM</strong><span>Backups e ferramentas</span></a>
+      </nav>
       <div class="module-grid">
       <section class="welcome-panel" aria-labelledby="welcome-title">
         <span class="panel-tag">// CENTRAL DE COMANDO</span>
@@ -117,7 +124,7 @@
         </article>
         <article class="home-ring-card">
           <h3>RICK_PC</h3>
-          <div class="home-progress-ring" id="home-pc-ring" role="progressbar" aria-label="Progresso das compras do PC" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="home-progress-ring" data-home-module="finance" id="home-pc-ring" role="progressbar" aria-label="Progresso das compras do PC" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
             <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
               <defs>
                 <mask id="home-pc-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
@@ -139,6 +146,13 @@
       </section>
 
 
+      <section class="card home-next-panel" aria-labelledby="home-next-title"><h2 id="home-next-title">Seu próximo passo</h2><dl class="home-next-list"><div data-home-module="study"><dt>Continuar os estudos</dt><dd id="home-next-study">Carregando sua trilha...</dd></div><div data-home-module="study"><dt>Próxima missão</dt><dd id="home-next-mission">Carregando suas metas...</dd></div><div data-home-module="fit"><dt>Corrida neste mês</dt><dd id="home-current-running">Sem registros carregados</dd></div></dl></section>
+      <section class="card home-project-panel" data-home-module="lab" aria-labelledby="home-projects-title"><h2 id="home-projects-title">Seus projetos</h2><ul id="home-project-preview" class="home-project-preview"></ul><p class="home-panel-note">Gerencie seus projetos e códigos no RICK_LAB.</p></section>
+      <section class="card home-evolution-panel" aria-labelledby="home-evolution-title"><div class="home-panel-heading"><div><h2 id="home-evolution-title">Evolução do RICK_DEV OS</h2><p class="home-panel-note">O que já construímos e o que vem depois. Ajuste os marcos conforme o projeto evoluir.</p></div><p id="home-board-count" class="home-panel-note"></p></div>
+        <details id="home-evolution-editor"><summary id="home-editor-summary">Adicionar um marco</summary><form id="home-evolution-form"><fieldset id="home-evolution-fields"><div class="home-editor-fields"><label for="home-item-title">Título<input id="home-item-title" maxlength="100" required placeholder="Qual é o próximo avanço?"></label><label for="home-item-module">Módulo<select id="home-item-module"></select></label><label for="home-item-status">Etapa<select id="home-item-status"></select></label><label class="home-item-description" for="home-item-description">Descrição<input id="home-item-description" maxlength="300" placeholder="Objetivo ou próximo passo..."></label></div><div class="home-editor-actions"><button type="submit" id="home-item-save">SALVAR MARCO</button><button type="button" id="home-item-cancel" hidden>CANCELAR EDIÇÃO</button></div></fieldset></form></details>
+        <p id="home-evolution-status" class="system-feedback" role="status" aria-live="polite"></p><div id="home-evolution-board" class="home-evolution-board"></div>
+      </section>
+      <section class="card home-care-panel" data-home-module="system" aria-labelledby="home-care-title"><h2 id="home-care-title">Cuidados com o sistema</h2><dl class="home-care-list"><div><dt>Salvamento dos dados</dt><dd id="home-save-status">Aguardando sessão</dd></div><div><dt>Última exportação de dados</dt><dd id="home-backup-status">Nenhum registro neste navegador</dd></div><div><dt>Diagnóstico</dt><dd id="home-diagnostic-status">Ainda não executado nesta sessão</dd></div></dl><p class="home-panel-note">Backups, verificações e configurações ficam no RICK_SYSTEM. O cofre local tem exportação própria.</p></section>
       </div>
     </section>
 
@@ -445,7 +459,7 @@
       <div class="module-heading"><h2 id="module-system-title" tabindex="-1">RICK_SYSTEM</h2><p>Proteja seus dados, confira o sistema e cuide do seu código.</p></div>
       <div class="module-grid system-grid">
         <article class="card system-overview-panel" aria-labelledby="system-overview-title">
-          <div class="system-formatter-heading"><h2 id="system-overview-title">Painel do Sistema</h2><span class="system-version">Visão geral · SYSTEM 1.2</span></div>
+          <div class="system-formatter-heading"><h2 id="system-overview-title">Painel do Sistema</h2><span class="system-version">Visão geral · SYSTEM 1.3</span></div>
           <dl class="system-overview-stats"><div><dt>Módulos disponíveis</dt><dd id="panel-module-count">6</dd></div><div><dt>Dados na nuvem</dt><dd id="panel-cloud-status">Aguardando sessão</dd></div><div><dt>Cofre local</dt><dd id="panel-vault-count">Aguardando abertura</dd></div><div><dt>Último diagnóstico</dt><dd id="panel-diagnostic-status">Ainda não executado nesta sessão</dd></div><div><dt>Última exportação de dados</dt><dd id="panel-last-backup">Nenhum registro neste navegador</dd></div></dl>
           <ul class="system-module-list" id="panel-module-list" aria-label="Módulos disponíveis"></ul>
           <div class="system-actions"><button type="button" data-system-jump="system-backup-title">BACKUPS E RECUPERAÇÃO</button><button type="button" id="panel-run-diagnostics">VERIFICAR SISTEMA</button><button type="button" data-system-jump="system-formatter-title">FORMATADOR</button><button type="button" id="panel-open-vault">ABRIR COFRE DE CÓDIGOS</button></div>
@@ -492,7 +506,7 @@
         </article>
         <article class="card system-information" aria-labelledby="system-information-title">
           <h2 id="system-information-title">Configurações e versão</h2>
-          <dl class="system-info-list"><div><dt>Versão das ferramentas</dt><dd>SYSTEM 1.2</dd></div><div><dt>Sessão</dt><dd id="system-session-role">Aguardando acesso</dd></div><div><dt>Preferências do formatador</dt><dd>Salvas automaticamente neste navegador e incluídas no backup.</dd></div></dl>
+          <dl class="system-info-list"><div><dt>Versão das ferramentas</dt><dd>SYSTEM 1.3</dd></div><div><dt>Sessão</dt><dd id="system-session-role">Aguardando acesso</dd></div><div><dt>Preferências do formatador</dt><dd>Salvas automaticamente neste navegador e incluídas no backup.</dd></div></dl>
           <p class="system-help">A autenticação e as permissões continuam no Supabase. O formatador organiza o código; correções automáticas e ferramentas para o notebook ficam para a próxima etapa.</p>
           <a class="system-repository-link" href="https://github.com/rick-dev-rick/rick-dev-os/tree/backup/pre-system-tools-20261016-0400" target="_blank" rel="noopener noreferrer">Ver o backup do código anterior a estas ferramentas ↗</a>
         </article>
@@ -1523,13 +1537,43 @@ const activateButton = document.querySelector("#activate-button");
   window.rickRunningCore = Object.freeze({ types, places, efforts, localDate, validMonth, validateEntry, validateJournal, isValidJournal, summarize, duration, pace });
 })();
     </script>
+    <script id="rick-evolution-core">
+(() => {
+  const statuses = Object.freeze({ done: "Concluído", doing: "Em desenvolvimento", improve: "Melhorias", later: "Depois" });
+  const modules = Object.freeze({ home: "RICK_HOME", study: "RICK_STUDY", fit: "RICK_FIT", finance: "RICK_FINANCE", lab: "RICK_LAB", system: "RICK_SYSTEM" });
+  const seed = [
+    ["modules", "Organização dos módulos", "Áreas próprias, menu recolhível e navegação no celular.", "home", "done"],
+    ["library", "Biblioteca de materiais independente", "Vídeos, sites e cursos separados das matérias.", "study", "done"],
+    ["running", "Diário de corrida", "Distância, duração, ritmo, metas mensais e histórico.", "fit", "done"],
+    ["vault", "Cofre de Códigos local", "Trechos, favoritos, pesquisa e exportação no navegador.", "lab", "done"],
+    ["tools", "Ferramentas do sistema", "Backups de dados, recuperação validada, diagnóstico e formatador.", "system", "done"],
+    ["visual-review", "Conferir a interface nos dispositivos", "Revisar o uso no notebook e no iPhone.", "home", "improve"],
+    ["restore-test", "Validar uma recuperação de ponta a ponta", "Conferir a restauração com cópias de teste dos dados.", "system", "improve"],
+    ["vault-sync", "Sincronização do Cofre de Códigos", "Avaliar o acesso aos trechos entre dispositivos.", "lab", "later"],
+    ["fixer", "RICK_FIXER com revisão", "Propostas de correção, aprovação e testes.", "system", "later"],
+    ["app", "Aplicativo instalável", "Avaliar a evolução para PWA após estabilizar a base.", "home", "later"]
+  ];
+  function initial() { return { items: seed.map(([id, title, description, module, status]) => ({ id: "initial-" + id, title, description, module, status })) }; }
+  function validate(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value) || Object.keys(value).some(key => key !== "items") || !Array.isArray(value.items) || value.items.length > 200) throw new Error("O painel aceita até 200 marcos válidos.");
+    const items = value.items.map(item => {
+      if (!item || typeof item.id !== "string" || !item.id || item.id.length > 100 || typeof item.title !== "string" || !item.title.trim() || item.title.length > 100 || typeof item.description !== "string" || item.description.length > 300 || !Object.hasOwn(modules, item.module) || !Object.hasOwn(statuses, item.status)) throw new Error("Existe um marco inválido no painel de evolução.");
+      return { id: item.id, title: item.title, description: item.description, module: item.module, status: item.status };
+    });
+    if (new Set(items.map(item => item.id)).size !== items.length) throw new Error("Existem marcos repetidos no painel.");
+    return { items };
+  }
+  function isValid(value) { try { validate(value); return true; } catch (_) { return false; } }
+  window.rickEvolutionCore = Object.freeze({ statuses, modules, initial, validate, isValid });
+})();
+    </script>
     <script id="rick-system-core">
 (() => {
   "use strict";
   const keys = Object.freeze([
     "rick-dev-study-topics", "rick-dev-studies", "rick-dev-missions", "rick-dev-projects",
     "rick-dev-pc-parts", "rick-dev-fitness-log", "rick-dev-study-resources",
-    "rick-dev-focus-seconds", "rick-dev-focus-minutes", "rick-dev-focus-remaining", "rick-dev-running"
+    "rick-dev-focus-seconds", "rick-dev-focus-minutes", "rick-dev-focus-remaining", "rick-dev-running", "rick-dev-evolution"
   ]);
   const object = value => value !== null && typeof value === "object" && !Array.isArray(value);
   const text = value => typeof value === "string";
@@ -1551,6 +1595,7 @@ const activateButton = document.querySelector("#activate-button");
       if (key === "rick-dev-pc-parts") valid = Array.isArray(value) && value.every(item => object(item) && text(item.id) && text(item.name) && optionalText(item.model) && typeof item.purchased === "boolean" && (item.price === null || numeric(item.price) && item.price >= 0) && (item.link === undefined || item.link === "" || safeLink(item.link)));
       if (key === "rick-dev-fitness-log") valid = Array.isArray(value) && value.every(item => object(item) && text(item.date) && /^\d{4}-\d{2}-\d{2}$/.test(item.date) && Number.isFinite(Date.parse(item.date)) && text(item.workout) && (item.weight === null || numeric(item.weight) && item.weight > 0) && optionalText(item.note));
       if (key === "rick-dev-study-resources") valid = object(value) && Object.values(value).every(items => Array.isArray(items) && items.every(item => object(item) && text(item.id) && text(item.title) && text(item.type) && safeLink(item.url)));
+      if (key === "rick-dev-evolution") valid = window.rickEvolutionCore.isValid(value);
       if (key === "rick-dev-running") valid = window.rickRunningCore.isValidJournal(value);
       if (key.startsWith("rick-dev-focus-")) valid = /^\d+$/.test(raw) && Number.isSafeInteger(value) && value >= 0 && value <= (key === "rick-dev-focus-minutes" ? 1440 : 86400);
       if (!valid) throw new Error("Estrutura inválida em " + key.replace("rick-dev-", "") + ". Nenhum dado foi alterado.");
@@ -1571,7 +1616,7 @@ const activateButton = document.querySelector("#activate-button");
   async function createBackup(data, preferences) {
     data = validateData(data);
     preferences = validatePreferences(preferences);
-    return { format: "rick-dev-os-data", schemaVersion: 1, appVersion: "SYSTEM 1.2", createdAt: new Date().toISOString(), data, preferences, checksum: await checksum(data, preferences) };
+    return { format: "rick-dev-os-data", schemaVersion: 1, appVersion: "SYSTEM 1.3", createdAt: new Date().toISOString(), data, preferences, checksum: await checksum(data, preferences) };
   }
   async function validateBackup(backup) {
     if (!object(backup) || backup.format !== "rick-dev-os-data" || backup.schemaVersion !== 1 || !text(backup.createdAt) || !Number.isFinite(Date.parse(backup.createdAt))) throw new Error("Este arquivo não é um backup compatível do RICK_DEV OS.");
@@ -1673,7 +1718,7 @@ const activateButton = document.querySelector("#activate-button");
               "rick-dev-study-topics", "rick-dev-studies", "rick-dev-missions",
               "rick-dev-projects", "rick-dev-pc-parts", "rick-dev-fitness-log",
               "rick-dev-study-resources", "rick-dev-focus-seconds",
-              "rick-dev-focus-minutes", "rick-dev-focus-remaining", "rick-dev-running"
+              "rick-dev-focus-minutes", "rick-dev-focus-remaining", "rick-dev-running", "rick-dev-evolution"
             ];
             const previousData = {};
             legacyKeys.forEach((key) => {
@@ -2062,7 +2107,7 @@ const activateButton = document.querySelector("#activate-button");
       catch (error) { checks.push(diagnosticItem("Estrutura dos dados", false, error.message)); }
       checks.push(diagnosticItem("Módulos da interface", document.querySelectorAll(".module-panel").length === 6, "HOME, STUDY, FIT, FINANCE, LAB e SYSTEM."));
       checks.push(diagnosticItem("Erros observados nesta sessão", runtimeErrors.length === 0, runtimeErrors.length ? runtimeErrors.join(" · ") : "Nenhum erro de execução foi capturado desde o carregamento destas ferramentas."));
-      diagnosticReport = { app: "RICK_DEV OS", version: "SYSTEM 1.2", createdAt: new Date().toISOString(), checks };
+      diagnosticReport = { app: "RICK_DEV OS", version: "SYSTEM 1.3", createdAt: new Date().toISOString(), checks };
       window.dispatchEvent(new CustomEvent("rick-system-diagnostic", { detail: diagnosticReport }));
       const issues = checks.filter(check => !check.ok).length;
       $("system-diagnostic-status").textContent = issues ? issues + " ponto(s) precisam de atenção. Nenhuma correção foi aplicada." : "Verificação concluída sem problemas nos itens testados.";
@@ -2531,6 +2576,82 @@ const activateButton = document.querySelector("#activate-button");
     controls();
   }
   window.addEventListener("rick-system-ready", sessionReady); sessionReady();
+})();
+    </script>
+    <script id="rick-evolution-tools">
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id), core = window.rickEvolutionCore, key = "rick-dev-evolution";
+  let board = core.initial(), editingId = null, ready = false, queued = false;
+  const admin = () => window.rickDevSystem?.role === "admin";
+  function read(key, fallback) { try { const raw = window.rickDevStorage?.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (_) { return fallback; } }
+  for (const [id, values] of [["home-item-module", core.modules], ["home-item-status", core.statuses]]) Object.entries(values).forEach(([value, label]) => { const option = document.createElement("option"); option.value = value; option.textContent = label; $(id).append(option); });
+  function reset() { editingId = null; $("home-evolution-form").reset(); $("home-item-status").value = "later"; $("home-editor-summary").textContent = "Adicionar um marco"; $("home-item-cancel").hidden = true; $("home-item-save").textContent = "SALVAR MARCO"; }
+  function controls() { $("home-evolution-fields").disabled = !admin() || !ready; }
+  function save(next) { if (!admin() || !ready) throw new Error("Entre como ADM para editar a evolução do projeto."); next = core.validate(next); window.rickDevStorage.setItem(key, JSON.stringify(next)); board = next; renderBoard(); }
+  function edit(item) {
+    if (($("home-item-title").value || $("home-item-description").value) && !window.confirm("Carregar este marco e descartar as alterações ainda não salvas no formulário?")) return;
+    editingId = item.id; $("home-item-title").value = item.title; $("home-item-description").value = item.description; $("home-item-module").value = item.module; $("home-item-status").value = item.status; $("home-item-cancel").hidden = false; $("home-editor-summary").textContent = "Editar marco"; $("home-item-save").textContent = "SALVAR ALTERAÇÕES"; $("home-evolution-editor").open = true; $("home-item-title").focus();
+  }
+  function renderBoard() {
+    const root = $("home-evolution-board"); root.replaceChildren();
+    const done = board.items.filter(item => item.status === "done").length;
+    $("home-board-count").textContent = done + " concluído(s) · " + board.items.length + " marco(s) no quadro";
+    Object.entries(core.statuses).forEach(([status, label]) => {
+      const column = document.createElement("section"); column.className = "home-board-column"; column.dataset.stage = status;
+      const heading = document.createElement("h3"); const items = board.items.filter(item => item.status === status); heading.textContent = label + " · " + items.length;
+      const list = document.createElement("ul"); list.className = "home-board-list";
+      if (!items.length) { const empty = document.createElement("li"); empty.className = "home-board-empty"; empty.textContent = status === "doing" ? "Escolha o próximo marco para começar." : "Nenhum marco nesta etapa."; list.append(empty); }
+      items.forEach(item => {
+        const card = document.createElement("li"); card.className = "home-board-item"; card.dataset.homeModule = item.module;
+        const module = document.createElement("p"); module.className = "home-board-module"; module.textContent = core.modules[item.module];
+        const title = document.createElement("h4"); title.textContent = item.title;
+        const description = document.createElement("p"); description.className = "home-board-description"; description.textContent = item.description;
+        card.append(module, title); if (item.description) card.append(description);
+        if (admin()) {
+          const select = document.createElement("select"); select.setAttribute("aria-label", "Etapa de " + item.title);
+          Object.entries(core.statuses).forEach(([value, text]) => { const option = document.createElement("option"); option.value = value; option.textContent = text; select.append(option); }); select.value = item.status;
+          select.addEventListener("change", () => { try { save({ items: board.items.map(saved => saved.id === item.id ? { ...saved, status: select.value } : saved) }); $("home-evolution-status").textContent = "Etapa atualizada."; } catch (error) { select.value = item.status; $("home-evolution-status").textContent = error.message; } });
+          const actions = document.createElement("div"); actions.className = "home-board-actions";
+          const editButton = document.createElement("button"); editButton.type = "button"; editButton.textContent = "EDITAR"; editButton.addEventListener("click", () => edit(item));
+          const remove = document.createElement("button"); remove.type = "button"; remove.textContent = "EXCLUIR"; remove.addEventListener("click", () => { if (!window.confirm('Excluir o marco "' + item.title + '"?')) return; try { save({ items: board.items.filter(saved => saved.id !== item.id) }); if (editingId === item.id) reset(); $("home-evolution-status").textContent = "Marco excluído."; } catch (error) { $("home-evolution-status").textContent = error.message; } });
+          actions.append(editButton, remove); card.append(select, actions);
+        }
+        list.append(card);
+      }); column.append(heading, list); root.append(column);
+    }); controls();
+  }
+  function summaries() {
+    const next = document.querySelector('#study-list [data-study]:not(:checked)');
+    $("home-next-study").textContent = next?.nextElementSibling?.textContent || "Trilha concluída. Você pode adicionar novos assuntos no RICK_STUDY.";
+    const missions = read("rick-dev-missions", []); const mission = Array.isArray(missions) ? missions.find(item => !item.done) : null;
+    $("home-next-mission").textContent = mission ? mission.text + (Number(mission.progress) > 0 ? " · " + mission.progress + "%" : "") : "Sem missão pendente. Defina seu próximo objetivo no RICK_STUDY.";
+    try { const running = window.rickRunningCore.validateJournal(read("rick-dev-running", { entries: [], goals: {} })); const summary = window.rickRunningCore.summarize(running, window.rickRunningCore.localDate().slice(0, 7)); $("home-current-running").textContent = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 2 }).format(summary.distanceKm) + " km · " + summary.sessions + " atividade(s)"; }
+    catch (_) { $("home-current-running").textContent = "Confira os registros na aba Corrida do RICK_FIT."; }
+    const projects = [...document.querySelectorAll("#projects-list .project-card")]; const list = $("home-project-preview"); list.replaceChildren();
+    projects.slice(0, 3).forEach(card => { const item = document.createElement("li"), title = document.createElement("h3"), description = document.createElement("p"); title.textContent = card.querySelector("h3")?.textContent || "Projeto"; description.textContent = card.querySelector("p")?.textContent || ""; item.append(title, description); list.append(item); });
+    if (!projects.length) { const empty = document.createElement("li"); empty.textContent = "Seus projetos aparecerão aqui quando forem adicionados ao RICK_LAB."; list.append(empty); }
+    $("home-save-status").textContent = $("cloud-save-status").textContent || "Aguardando sessão";
+    try { const history = JSON.parse(localStorage.getItem("rick-dev-system-history") || "[]"); $("home-backup-status").textContent = history[0]?.date ? new Date(history[0].date).toLocaleString("pt-BR") : "Nenhum registro neste navegador"; } catch (_) { $("home-backup-status").textContent = "Histórico indisponível neste navegador"; }
+  }
+  function scheduleSummaries() { if (queued) return; queued = true; queueMicrotask(() => { queued = false; summaries(); }); }
+  const observer = new MutationObserver(scheduleSummaries);
+  ["study-list", "mission-list", "projects-list", "cloud-save-status", "running-total-km", "running-session-count"].forEach(id => observer.observe($(id), { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["class"] }));
+  $("home-evolution-form").addEventListener("submit", event => {
+    event.preventDefault();
+    try { const item = { id: editingId || crypto.randomUUID(), title: $("home-item-title").value.trim(), description: $("home-item-description").value.trim(), module: $("home-item-module").value, status: $("home-item-status").value }; save({ items: editingId ? board.items.map(saved => saved.id === editingId ? item : saved) : [...board.items, item] }); reset(); $("home-evolution-editor").open = false; $("home-evolution-status").textContent = "Marco salvo no painel de evolução."; }
+    catch (error) { $("home-evolution-status").textContent = error.message; }
+  });
+  $("home-item-cancel").addEventListener("click", () => { if (window.confirm("Cancelar a edição sem salvar?")) reset(); });
+  function sessionReady() {
+    ready = false; controls(); reset();
+    try { const raw = window.rickDevStorage?.getItem(key); board = raw ? core.validate(JSON.parse(raw)) : core.initial(); ready = Boolean(window.rickDevStorage); renderBoard(); summaries(); }
+    catch (_) { $("home-evolution-status").textContent = "Não consegui validar o painel salvo. Nenhum marco foi substituído. Confira seus backups e o diagnóstico."; }
+    controls();
+  }
+  window.addEventListener("rick-system-ready", sessionReady); window.addEventListener("rick-system-exported", summaries);
+  window.addEventListener("rick-system-diagnostic", event => { const report = event.detail; const issues = report.checks.filter(check => !check.ok).length; $("home-diagnostic-status").textContent = new Date(report.createdAt).toLocaleTimeString("pt-BR") + " · " + (issues ? issues + " ponto(s) de atenção" : "Itens testados sem problemas"); });
+  sessionReady();
 })();
     </script>
     <script src="spotify-player.js" defer></script>
