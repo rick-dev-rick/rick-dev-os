@@ -3945,3 +3945,143 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 #module-home .home-project-panel h2, #module-home .home-care-panel h2 { color: rgb(var(--panel-rgb)); }
 .home-next-list > div { padding-left: 12px; border-left: 2px solid rgb(var(--panel-rgb)); }
 #module-home .home-progress-ring[data-home-module] { --accent-rgb: var(--panel-rgb); --neon: rgb(var(--panel-rgb)); }
+
+/* Mobile workspace: readable controls, compact overview and safe iPhone navigation. */
+.module-label-mobile, .home-mobile-hint { display: none; }
+@media (max-width: 720px) {
+  :root { --mobile-nav-height: calc(70px + env(safe-area-inset-bottom,0px)); }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-bottom: calc(var(--mobile-nav-height) + 70px); }
+  body { min-height: 100svh; padding: max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 24px max(12px,env(safe-area-inset-left)); }
+  body:has(#module-navigation:not([hidden])), .sidebar-collapsed body:has(#module-navigation:not([hidden])) {
+    padding-left: max(12px,env(safe-area-inset-left));
+    padding-right: max(12px,env(safe-area-inset-right));
+    padding-bottom: calc(var(--mobile-nav-height) + 82px);
+  }
+  .module-navigation, .sidebar-collapsed .module-navigation {
+    height: var(--mobile-nav-height); align-items: stretch;
+    padding: 5px max(4px,env(safe-area-inset-right)) calc(5px + env(safe-area-inset-bottom)) max(4px,env(safe-area-inset-left));
+    border: 0; border-top: 1px solid rgba(var(--accent-rgb),.25);
+    background: linear-gradient(180deg,#1b211e,#101512); z-index: 40;
+  }
+  .module-navigation a, .sidebar-collapsed .module-navigation a {
+    flex: 1 1 0; justify-content: center; min-height: 58px; padding: 5px 1px;
+    gap: 4px; line-height: 1; text-align: center; touch-action: manipulation;
+  }
+  .module-navigation a .module-label, .sidebar-collapsed .module-navigation a .module-label { display: none; }
+  .module-navigation .module-label-mobile { display: block; font: 600 11px/1.2 "Rick Display","Segoe UI",sans-serif; letter-spacing: .03em; }
+  .module-navigation a > span:first-child { flex: 0 0 25px; display: grid; place-items: center; font-size: 22px; }
+  .module-navigation a[aria-current="page"] { color: var(--module-accent); background: color-mix(in srgb,var(--module-accent) 13%,#111813); }
+  .module-navigation .system-gear-icon { width: 24px; height: 24px; }
+  .topbar { padding-top: 0; margin-bottom: 22px; }
+  .topbar h1 { font-size: clamp(28px,7.5vw,36px); line-height: 1.15; animation: none; }
+  .system-status { padding: 6px 10px; margin-bottom: 10px; font-size: 10px; letter-spacing: .09em; }
+  .subtitle { max-width: none; margin-top: 7px; font-size: 10px; letter-spacing: .1em; }
+  .header-line { margin-top: 16px; }
+  .access-session { width: 100%; max-width: 100%; gap: 6px 10px; padding: 8px 10px; margin-bottom: 16px; font-size: 10px; text-align: left; }
+  #access-role-label { flex: 1; min-width: 0; }
+  .access-session .cloud-save-status { order: 3; flex-basis: 100%; font-size: 10px; text-align: left; }
+  .access-session button { min-height: 44px; min-width: 52px; font-size: 11px; }
+  .access-screen { min-height: calc(100svh - 40px); padding: 16px 0; }
+  .access-card { width: min(100%,420px); padding: 24px 20px; }
+  .access-form label { font-size: 12px; }
+  .access-description { font-size: 14px; }
+  .access-form input { min-height: 48px; font-size: 16px; }
+  .access-form button, .guest-access-button { min-height: 48px; font-size: 12px; }
+  .access-message { font-size: 12px; }
+  .module-heading { margin-bottom: 18px; }
+  .module-heading h2 { font-size: clamp(28px,7vw,34px); overflow-wrap: anywhere; }
+  .module-heading p { font-size: 14px; }
+  .module-grid, .system-grid { grid-template-columns: minmax(0,1fr); gap: 16px; }
+  .module-grid > *, .module-workspace form, .module-workspace fieldset { min-width: 0; }
+  .module-workspace .card, .module-workspace .welcome-panel, .module-workspace .pc-build,
+  .module-workspace .project-showcase, .module-workspace .body-evolution { padding: 20px 16px; }
+  .module-workspace h2 { overflow-wrap: anywhere; }
+  .module-workspace input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  .module-workspace select, .module-workspace textarea, .spotify-settings input { font-size: 16px; }
+  .module-workspace input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), .module-workspace select { min-height: 46px; }
+  .module-workspace button, .spotify-widget button { min-height: 44px; touch-action: manipulation; }
+  .module-workspace button, .module-workspace summary { overflow-wrap: anywhere; }
+  .module-workspace summary { min-height: 44px; padding-top: 10px; padding-bottom: 10px; line-height: 1.6; }
+  .module-workspace label, .system-formatter-options label, .system-code-grid label { font-size: 13px; line-height: 1.5; }
+  .module-workspace .item-remove-button { width: 44px; height: 44px; min-width: 44px; opacity: .85; }
+  .study-list { grid-template-columns: minmax(0,1fr); gap: 10px; }
+  .study-list li.study-topic-card { min-height: 0; padding: 14px 58px 14px 14px; }
+  .mission-list li.mission-card { padding-right: 58px; }
+  .fitness-history-item { padding: 14px 54px 14px 12px; grid-template-columns: minmax(0,1fr); gap: 8px; }
+  .fitness-history-item time, .fitness-entry-details span, .fitness-entry-details strong, .fitness-entry-weight { font-size: 13px; }
+  .fitness-entry-details span { white-space: normal; overflow-wrap: anywhere; }
+  .pc-bought-toggle { min-height: 44px; }
+  .pc-bought-toggle input { width: 20px; height: 20px; }
+  .study-topic-card .study-topic-description, .mission-card-description { font-size: 13px; line-height: 1.65; }
+  .study-topic-state, .mission-card-state, .mission-card-progress-label { font-size: 11px; letter-spacing: .03em; }
+  .study-topic-card label, .mission-list label.mission-card-label { min-height: 44px; }
+  .study-library .study-resource-groups { max-height: none; overflow: visible; }
+  .study-library .study-resource-group { padding: 14px 12px; }
+  .study-library .study-resource-item { gap: 8px; }
+  .pc-part-fields { grid-template-columns: minmax(0,1fr); }
+  .pc-stat span, .fitness-stat span { font-size: 11px; letter-spacing: .03em; }
+  .pc-part-header h3 { font-size: 15px; line-height: 1.5; }
+  .home-shortcuts { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(148px,44%); gap: 10px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  .home-shortcuts a { min-width: 0; padding: 13px; scroll-snap-align: start; }
+  .home-shortcuts a > span:last-child { font-size: 12px; }
+  .home-shortcuts strong { font-size: 20px; }
+  #welcome-title { font-size: 30px; }
+  .welcome-panel > p:not(.system-message) { line-height: 1.65; }
+  .home-overview { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+  .home-overview .home-ring-card, .home-overview .home-ring-card:nth-child(3) { grid-column: auto; padding: 16px 7px; }
+  .home-overview .home-ring-card h3 { margin-bottom: 14px; font-size: 15px; }
+  .home-overview .home-progress-ring { width: min(100%,108px); margin-bottom: 12px; }
+  .home-overview .home-ring-value { font-size: clamp(20px,6vw,28px); }
+  .home-ring-center-label { font-size: 6px; letter-spacing: .03em; }
+  .home-overview .home-ring-caption { font-size: 12px; }
+  .home-ring-description { font-size: 11px; }
+  .home-overview .home-count-card { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 12px; padding: 14px; }
+  .home-overview .home-count-card h3 { font-size: 14px; }
+  .home-overview .home-count-card p { font-size: 22px; }
+  .home-evolution-board { display: grid; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(240px,88%); align-items: start; overflow-x: auto; gap: 12px; padding-bottom: 12px; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  .home-board-column { scroll-snap-align: start; }
+  .home-board-list { max-height: min(56svh,520px); padding-right: 4px; }
+  .home-mobile-hint { display: block; color: var(--muted); font-size: 12px; line-height: 1.6; margin-top: 14px; }
+  .home-board-item h4 { font-size: 16px; }
+  .home-board-description { font-size: 14px; margin-bottom: 0; }
+  .home-board-module { font-size: 15px; }
+  .home-board-actions > button { flex: 1; font-size: 11px; }
+  .home-editor-actions > button { flex: 1 1 130px; font-size: 11px; }
+  .home-editor-fields, .home-care-list { grid-template-columns: minmax(0,1fr); }
+  .running-stats { gap: 10px; }
+  .running-stats > div { padding: 14px 12px; }
+  .running-stats dd { font-size: 26px; }
+  .running-actions > button, .running-history-item button { font-size: 12px; }
+  .running-time > div { gap: 10px; }
+  .system-overview-stats { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+  .system-overview-stats > div { padding: 12px; }
+  .system-overview-stats dt { font-size: 12px; }
+  .system-overview-stats dd { font-size: 14px; }
+  .system-formatter-options { grid-template-columns: minmax(0,1fr); }
+  .system-code-grid { grid-template-columns: minmax(0,1fr); }
+  .system-code-grid textarea, #vault-input-code { min-height: 220px; line-height: 1.6; tab-size: 2; }
+  .system-help, .system-version, .vault-intro, .vault-storage-label, .vault-record-meta, .vault-note { font-size: 13px; }
+  .system-actions, .vault-toolbar, .vault-actions, .vault-record-actions { gap: 10px; }
+  .system-actions > button, .vault-toolbar > button, .vault-toolbar > label, .vault-actions > button, .vault-record-actions > button { flex: 1 1 130px; min-width: 0; font-size: 11px; }
+  .vault-import-label { min-height: 44px; justify-content: center; }
+  .code-vault .vault-favorite { width: 44px; height: 44px; }
+  .vault-record { padding: 16px; }
+  .vault-record pre { max-width: 100%; font-size: 14px; }
+  .spotify-widget { left: max(12px,env(safe-area-inset-left)); bottom: calc(var(--mobile-nav-height) + 12px); width: min(360px,calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right))); max-height: calc(100svh - var(--mobile-nav-height) - 36px); backdrop-filter: none; background: #141d17; }
+  .spotify-widget.is-minimized, .spotify-widget.is-minimized .spotify-widget-toggle { width: 48px; height: 48px; }
+  .spotify-widget:not(.is-minimized) .spotify-widget-toggle { min-height: 48px; }
+  .spotify-widget-panel { max-height: calc(100svh - var(--mobile-nav-height) - 96px); max-height: calc(100dvh - var(--mobile-nav-height) - 96px); overflow-y: auto; }
+  .spotify-track-copy strong { font-size: 14px; }.spotify-track-copy span, .spotify-status, .spotify-settings p, .spotify-settings label { font-size: 12px; }
+  .spotify-playback-controls button, .spotify-playback-controls .spotify-play-toggle { width: 44px; height: 44px; }
+  .spotify-widget-actions { flex-wrap: wrap; }.spotify-widget-actions button { flex: 1 1 auto; font-size: 11px; }
+  .spotify-settings code { font-size: 12px; }
+  .orb { display: none; }.status-dot { animation: none; }
+  footer { font-size: 12px; overflow-wrap: anywhere; }
+}
+@media (max-width: 360px) {
+  .home-overview { gap: 6px; }.home-overview .home-ring-card { padding-inline: 5px; }
+  .system-overview-stats { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 720px) and (hover: none) {
+  .card:hover, .project-card:hover, .study-topic-card:hover { transform: none; }
+}
