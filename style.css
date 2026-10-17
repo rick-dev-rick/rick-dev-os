@@ -4488,3 +4488,64 @@ footer { max-width: 1320px; color: #9db1a4; border-top-color: rgba(var(--accent-
   #module-home .welcome-panel > p:not(.system-message) { font-size: 13px; }
   #module-home .home-hero-grid { gap: 14px; margin-bottom: 18px; }
 }
+
+
+/* Agreed polish: readable secondary text and synchronized progress indicators. */
+:root { --muted: #c4d0c8; }
+.module-workspace :is(.mission-intro,.studies-intro,.focus-intro,.study-library-intro,.system-intro,.vault-intro,.system-help,.home-panel-note,.running-help,.home-board-description,.home-board-empty,.vault-record-meta,.vault-storage-label,.system-version,.study-topic-description,.mission-card-description,.project-development-status) {
+  color: #cbd8cf; opacity: 1; line-height: 1.75;
+}
+.module-workspace :is(.study-topic-card .study-topic-description,.mission-card-description,.project-card > p,.home-project-preview p,.home-ring-description,.home-ring-center-label) { color: #cbd8cf; opacity: 1; }
+.module-workspace :is(.home-next-list dt,.home-care-list dt,.pc-stat > span,.fitness-stat > span,.running-stats dt,.system-overview-stats dt) { color: #c4d0c8; }
+.module-heading p,.home-shortcuts a > span:last-child,.access-card .access-description { color: #cbd8cf; }
+.module-workspace :is(.card-tag,.panel-tag) { color: #c7dfcc; }
+.module-workspace :is(input,textarea)::placeholder,.access-card input::placeholder { color: #a9b9ae; opacity: 1; }
+.module-workspace label,.access-form label { color: #d6e2da; }
+#module-home .home-overview .home-ring-description { color: #cbd8cf; font-size: 12px; line-height: 1.6; }
+#module-home .home-overview .home-ring-caption { color: #d4e1d8; overflow-wrap: anywhere; }
+#module-home .home-hero-grid .home-ring-card { min-width: 0; }
+#home-system-ring { --accent-rgb: 121,180,255; --neon: #79b4ff; }
+#home-system-ring .home-ring-track { stroke: #304156; }
+#home-system-ring .home-ring-bezel { stroke: #1c2736; }
+#home-system-ring .home-ring-face { fill: #111b28; }
+#home-system-ring .home-ring-center-label { color: #c3d9f4; }
+@media (min-width: 1101px) {
+  #module-home .home-hero-grid { grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); }
+  #module-home .home-hero-grid .home-overview { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  #module-home .home-hero-grid .home-ring-card h3 { font-size: 17px; }
+}
+@media (min-width: 721px) and (max-width: 1100px) {
+  #module-home .home-overview { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  #module-home .home-overview .home-count-card { grid-column: span 2; }
+}
+@media (max-width: 720px) {
+  #module-home .home-overview { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #module-home .home-overview .home-ring-card { grid-column: auto; }
+  #module-home .home-overview .home-count-card { grid-column: 1 / -1; }
+}
+/* Vertical bars sit behind the login card; only aggregate percentages are cached. */
+.access-screen { position: relative; isolation: isolate; overflow: hidden; }
+.access-card { position: relative; z-index: 1; }
+.login-progress {
+  position: absolute; inset: 36px 24px 28px; max-width: 1380px; margin-inline: auto;
+  display: grid; grid-template-columns: 1fr 1fr minmax(420px,1.8fr) 1fr 1fr;
+  gap: clamp(10px,2vw,28px); align-items: stretch; pointer-events: none;
+}
+.login-progress-column { --progress: 0%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; min-width: 0; }
+.login-progress-column:nth-child(3) { grid-column: 4; }
+.login-progress-column:nth-child(4) { grid-column: 5; }
+.login-progress-value { color: color-mix(in srgb,var(--progress-color) 65%,white); font: 600 20px/1.2 "Segoe UI",sans-serif; font-variant-numeric: tabular-nums; }
+.login-progress-track { position: relative; width: min(100%,64px); height: clamp(220px,52vh,560px); overflow: hidden; border: 1px solid color-mix(in srgb,var(--progress-color) 28%,transparent); border-radius: 14px; background: rgba(15,24,18,.65); }
+.login-progress-fill { position: absolute; inset: auto 0 0; height: var(--progress); border-radius: 12px; background: linear-gradient(0deg,color-mix(in srgb,var(--progress-color) 26%,#101812),color-mix(in srgb,var(--progress-color) 75%,#101812)); box-shadow: inset 0 1px color-mix(in srgb,var(--progress-color) 75%,white); transition: height .6s ease; }
+.login-progress-label { color: #ceddd2; font: 600 10px/1.5 "Segoe UI",sans-serif; letter-spacing: .08em; text-align: center; }
+.login-progress-note { grid-column: 1 / -1; align-self: end; color: #b9cbbf; font: 12px/1.6 "Segoe UI",sans-serif; text-align: center; }
+@media (max-width: 1050px) {
+  .access-screen { padding-bottom: 240px; }
+  .login-progress { inset: auto 20px 24px; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+  .login-progress-column:nth-child(3),.login-progress-column:nth-child(4) { grid-column: auto; }
+  .login-progress-track { height: 128px; width: 42px; }
+  .login-progress-column { gap: 8px; }
+  .login-progress-value { font-size: 16px; }
+  .login-progress-note { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { .login-progress-fill { transition: none; } }

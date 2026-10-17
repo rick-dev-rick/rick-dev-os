@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261016-home-balance" />
+    <link rel="stylesheet" href="style.css?v=20261017-progress-legibility" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
+      <div class="login-progress" aria-label="Último progresso neste navegador"><div class="login-progress-column" data-login-progress="study" style="--progress-color:#39ff14"><span class="login-progress-value">0%</span><div class="login-progress-track" role="progressbar" aria-label="ESTUDOS" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="login-progress-fill"></span></div><span class="login-progress-label">ESTUDOS</span></div><div class="login-progress-column" data-login-progress="mission" style="--progress-color:#89ed69"><span class="login-progress-value">0%</span><div class="login-progress-track" role="progressbar" aria-label="MISSÕES" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="login-progress-fill"></span></div><span class="login-progress-label">MISSÕES</span></div><div class="login-progress-column" data-login-progress="pc" style="--progress-color:#eac760"><span class="login-progress-value">0%</span><div class="login-progress-track" role="progressbar" aria-label="RICK_PC" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="login-progress-fill"></span></div><span class="login-progress-label">RICK_PC</span></div><div class="login-progress-column" data-login-progress="system" style="--progress-color:#79b4ff"><span class="login-progress-value">0%</span><div class="login-progress-track" role="progressbar" aria-label="SYSTEM" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="login-progress-fill"></span></div><span class="login-progress-label">SYSTEM</span></div><p class="login-progress-note">Sua evolução no laboratório · último progresso carregado neste navegador</p></div>
       <div class="access-card">
         <p class="access-kicker">// ACESSO AO LABORATÓRIO</p>
         <h1 id="access-title">RICK<span>_</span>DEV OS</h1>
@@ -101,7 +102,7 @@
         </article>
         <article class="home-ring-card">
           <h3>Missões</h3>
-          <div class="home-progress-ring" id="home-mission-ring" role="progressbar" aria-label="Progresso médio das missões" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="home-progress-ring" id="home-mission-ring" role="progressbar" aria-label="Progresso das missões e projetos" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
             <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
               <defs>
                 <mask id="home-mission-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
@@ -116,7 +117,7 @@
             <span class="home-ring-center" aria-hidden="true"><strong class="home-ring-value" id="home-mission-percent">0%</strong><span class="home-ring-center-label">CONCLUÍDO</span></span>
           </div>
           <p class="home-ring-caption" id="home-mission-progress">—</p>
-          <span class="home-ring-description">Progresso médio das missões</span>
+          <span class="home-ring-description">Missões + projetos cadastrados</span>
         </article>
         <article class="home-ring-card">
           <h3>RICK_PC</h3>
@@ -136,6 +137,25 @@
           </div>
           <p class="home-ring-caption" id="home-pc-progress">—</p>
           <span class="home-ring-description">Peças compradas da sua lista</span>
+        </article>
+        <article class="home-ring-card">
+          <h3>RICK_SYSTEM</h3>
+          <div class="home-progress-ring" data-home-module="system" id="home-system-ring" role="progressbar" aria-label="Progresso dos cuidados com o sistema" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+              <defs>
+                <mask id="home-system-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
+                  <circle class="home-ring-mask" cx="60" cy="60" r="50" pathLength="100" />
+                </mask>
+              </defs>
+              <circle class="home-ring-bezel" cx="60" cy="60" r="50" />
+              <circle class="home-ring-track" cx="60" cy="60" r="50" pathLength="100" />
+              <circle class="home-ring-fill" cx="60" cy="60" r="50" pathLength="100" mask="url(#home-system-reveal)" />
+              <circle class="home-ring-face" cx="60" cy="60" r="40" />
+            </svg>
+            <span class="home-ring-center" aria-hidden="true"><strong class="home-ring-value" id="home-system-percent">0%</strong><span class="home-ring-center-label">CONCLUÍDO</span></span>
+          </div>
+          <p class="home-ring-caption" id="home-system-progress">—</p>
+          <span class="home-ring-description">Backup +10% e diagnóstico +5% por dia</span>
         </article>
         <article class="home-count-card" data-home-module="fit"><span class="home-count-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false"><path d="M2 8h4v8H2zm4-3h4v14H6zm8 0h4v14h-4zm4 3h4v8h-4zM10 10h4v4h-4z" fill="currentColor"/></svg></span><div><h3>Treinos registrados</h3><p id="home-fitness-progress">—</p></div></article>
         <article class="home-count-card" data-home-module="lab"><span class="home-count-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false"><path d="M8 3h8M10 3v7L4 19a1.3 1.3 0 0 0 1 2h14a1.3 1.3 0 0 0 1-2l-6-9V3" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m8 14-4 6h16l-4-6Z" fill="currentColor" fill-opacity=".7"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></span><div><h3>Projetos no laboratório</h3><p id="home-lab-progress">—</p></div></article>
@@ -1573,13 +1593,35 @@ const activateButton = document.querySelector("#activate-button");
   window.rickEvolutionCore = Object.freeze({ statuses, modules, initial, validate, isValid });
 })();
     </script>
+    <script id="rick-progress-core">
+(() => {
+  "use strict";
+  const key = "rick-dev-system-progress";
+  const validDay = day => typeof day === "string" && /^\d{4}-\d{2}-\d{2}$/.test(day) && Number.isFinite(Date.parse(day)) && new Date(day).toISOString().slice(0,10) === day;
+  function valid(value) {
+    return value !== null && typeof value === "object" && !Array.isArray(value)
+      && ["backupDays","diagnosticDays"].every(k => Array.isArray(value[k]) && value[k].length <= 20 && value[k].every(validDay) && new Set(value[k]).size === value[k].length);
+  }
+  const empty = () => ({ backupDays: [], diagnosticDays: [] });
+  function parse(raw) { try { const v = JSON.parse(raw); return valid(v) ? v : empty(); } catch (_) { return empty(); } }
+  function percent(v) { return Math.min(100, v.backupDays.length * 10 + v.diagnosticDays.length * 5); }
+  function missions(total, count, projects) { return Math.max(0, Math.min(100, (count ? total / count : 0) + projects * 5)); }
+  function day(date = new Date()) {
+    const parts = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(date);
+    const get = type => parts.find(p => p.type === type).value;
+    return get("year") + "-" + get("month") + "-" + get("day");
+  }
+  window.rickProgressCore = Object.freeze({ key, valid, parse, percent, missions, day });
+})();
+
+    </script>
     <script id="rick-system-core">
 (() => {
   "use strict";
   const keys = Object.freeze([
     "rick-dev-study-topics", "rick-dev-studies", "rick-dev-missions", "rick-dev-projects",
     "rick-dev-pc-parts", "rick-dev-fitness-log", "rick-dev-study-resources",
-    "rick-dev-focus-seconds", "rick-dev-focus-minutes", "rick-dev-focus-remaining", "rick-dev-running", "rick-dev-evolution"
+    "rick-dev-focus-seconds", "rick-dev-focus-minutes", "rick-dev-focus-remaining", "rick-dev-running", "rick-dev-evolution", "rick-dev-system-progress"
   ]);
   const object = value => value !== null && typeof value === "object" && !Array.isArray(value);
   const text = value => typeof value === "string";
@@ -1601,6 +1643,7 @@ const activateButton = document.querySelector("#activate-button");
       if (key === "rick-dev-pc-parts") valid = Array.isArray(value) && value.every(item => object(item) && text(item.id) && text(item.name) && optionalText(item.model) && typeof item.purchased === "boolean" && (item.price === null || numeric(item.price) && item.price >= 0) && (item.link === undefined || item.link === "" || safeLink(item.link)));
       if (key === "rick-dev-fitness-log") valid = Array.isArray(value) && value.every(item => object(item) && text(item.date) && /^\d{4}-\d{2}-\d{2}$/.test(item.date) && Number.isFinite(Date.parse(item.date)) && text(item.workout) && (item.weight === null || numeric(item.weight) && item.weight > 0) && optionalText(item.note));
       if (key === "rick-dev-study-resources") valid = object(value) && Object.values(value).every(items => Array.isArray(items) && items.every(item => object(item) && text(item.id) && text(item.title) && text(item.type) && safeLink(item.url)));
+      if (key === "rick-dev-system-progress") valid = window.rickProgressCore.valid(value);
       if (key === "rick-dev-evolution") valid = window.rickEvolutionCore.isValid(value);
       if (key === "rick-dev-running") valid = window.rickRunningCore.isValidJournal(value);
       if (key.startsWith("rick-dev-focus-")) valid = /^\d+$/.test(raw) && Number.isSafeInteger(value) && value >= 0 && value <= (key === "rick-dev-focus-minutes" ? 1440 : 86400);
@@ -1937,7 +1980,6 @@ const activateButton = document.querySelector("#activate-button");
         function syncOverview() {
           const pairs = [
             ["home-study-progress", "progress-label"],
-            ["home-mission-progress", "mission-status"],
             ["home-fitness-progress", "fitness-workout-count"],
             ["home-pc-progress", "pc-purchased-count"]
           ];
@@ -1950,13 +1992,27 @@ const activateButton = document.querySelector("#activate-button");
           updateHomeRing("study", Number(studyTrack.getAttribute("aria-valuenow")), Number(studyTrack.getAttribute("aria-valuemax")));
           const missions = [...document.querySelectorAll("#mission-list .mission-card-progress-track")];
           const missionProgress = missions.reduce((sum, track) => sum + (Number(track.getAttribute("aria-valuenow")) || 0), 0);
-          updateHomeRing("mission", missionProgress, missions.length * 100);
+          let customProjects = 0;
+          try {
+            const projects = JSON.parse(window.rickDevStorage?.getItem("rick-dev-projects") || "[]");
+            if (Array.isArray(projects)) customProjects = projects.filter(project => project && !project.featured).length;
+          } catch (_) {}
+          const missionPercent = window.rickProgressCore.missions(missionProgress, missions.length, customProjects);
+          updateHomeRing("mission", missionPercent, 100);
+          const missionLabel = missions.length + " missão(ões) · " + customProjects + " projeto(s) (+5% cada)";
+          if (document.getElementById("home-mission-progress").textContent !== missionLabel) document.getElementById("home-mission-progress").textContent = missionLabel;
           const pcCounts = document.getElementById("pc-purchased-count").textContent.match(/(\d+)\s*\/\s*(\d+)/);
           updateHomeRing("pc", pcCounts ? Number(pcCounts[1]) : 0, pcCounts ? Number(pcCounts[2]) : 0);
           const target = document.getElementById("home-lab-progress");
           const text = String(document.getElementById("projects-list").children.length);
           if (target.textContent !== text) target.textContent = text;
+          window.rickProgressUI?.sync({
+            study: Number(document.getElementById("home-study-ring").getAttribute("aria-valuenow")),
+            mission: missionPercent,
+            pc: Number(document.getElementById("home-pc-ring").getAttribute("aria-valuenow"))
+          });
         }
+        window.addEventListener("rick-progress-refresh", syncOverview);
         const overviewObserver = new MutationObserver(syncOverview);
         ["progress-label", "mission-status", "fitness-workout-count", "pc-purchased-count", "projects-list"].forEach(id => {
           overviewObserver.observe(document.getElementById(id), { childList: true, characterData: true, subtree: true });
@@ -2689,5 +2745,65 @@ const activateButton = document.querySelector("#activate-button");
 })();
     </script>
     <script src="spotify-player.js" defer></script>
+      <script id="rick-progress-ui">
+(() => {
+  "use strict";
+  const core = window.rickProgressCore;
+  const cacheKey = "rick-dev-login-progress-v1";
+  const $ = id => document.getElementById(id);
+  const admin = () => window.rickDevSystem?.role === "admin";
+  function showLogin(values) {
+    document.querySelectorAll("[data-login-progress]").forEach(column => {
+      const value = Math.max(0, Math.min(100, Math.round(Number(values[column.dataset.loginProgress]) || 0)));
+      column.querySelector(".login-progress-value").textContent = value + "%";
+      column.querySelector(".login-progress-track").setAttribute("aria-valuenow", String(value));
+      column.style.setProperty("--progress", value + "%");
+    });
+  }
+  function sync(values) {
+    const progress = core.parse(window.rickDevStorage?.getItem(core.key));
+    const system = core.percent(progress);
+    const ring = $("home-system-ring");
+    ring.style.setProperty("--ring-percent", String(system));
+    ring.setAttribute("aria-valuenow", String(system));
+    ring.setAttribute("aria-valuetext", system + "% · cuidados com o sistema");
+    $("home-system-percent").textContent = system + "%";
+    $("home-system-progress").textContent = progress.backupDays.length + " dia(s) com backup · " + progress.diagnosticDays.length + " com diagnóstico";
+    if (admin()) {
+      const snapshot = { ...values, system };
+      showLogin(snapshot);
+      try { localStorage.setItem(cacheKey, JSON.stringify(snapshot)); } catch (_) {}
+    }
+  }
+  function award(kind) {
+    if (!admin()) return;
+    const progress = core.parse(window.rickDevStorage.getItem(core.key));
+    const list = progress[kind], today = core.day();
+    if (!list.includes(today) && list.length < 20 && core.percent(progress) < 100) {
+      list.push(today);
+      window.rickDevStorage.setItem(core.key, JSON.stringify(progress));
+    }
+    window.dispatchEvent(new CustomEvent("rick-progress-refresh"));
+  }
+  window.rickProgressUI = Object.freeze({ sync });
+  window.addEventListener("rick-system-exported", () => award("backupDays"));
+  window.addEventListener("rick-system-diagnostic", () => award("diagnosticDays"));
+  window.addEventListener("rick-system-ready", () => {
+    if (admin() && !window.rickDevStorage.getItem(core.key)) {
+      const progress = core.parse(null);
+      try {
+        const history = JSON.parse(localStorage.getItem("rick-dev-system-history") || "[]");
+        if (Array.isArray(history)) progress.backupDays = [...new Set(history.filter(item => item && Number.isFinite(Date.parse(item.date))).map(item => core.day(new Date(item.date))))].slice(0,10);
+      } catch (_) {}
+      window.rickDevStorage.setItem(core.key, JSON.stringify(progress));
+    }
+    window.dispatchEvent(new CustomEvent("rick-progress-refresh"));
+  });
+  try { showLogin(JSON.parse(localStorage.getItem(cacheKey) || "{}") || {}); } catch (_) { showLogin({}); }
+  window.dispatchEvent(new CustomEvent("rick-progress-refresh"));
+})();
+
+    </script>
   </body>
 </html>
+
