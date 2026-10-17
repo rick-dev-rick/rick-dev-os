@@ -4523,49 +4523,61 @@ footer { max-width: 1320px; color: #9db1a4; border-top-color: rgba(var(--accent-
   #module-home .home-overview .home-ring-card { grid-column: auto; }
   #module-home .home-overview .home-count-card { grid-column: 1 / -1; }
 }
-/* Progress is a background layer behind the centered login, never a content panel. */
+/* Selected Product Design concept: precision spectrum. Real progress, square channels. */
+body:has(#access-screen:not([hidden])) { padding: 0; background: #090b0a; }
 .access-screen {
   position: relative; isolation: isolate; overflow: hidden;
   display: grid; grid-template-columns: minmax(0,1fr); place-items: center;
-  min-height: calc(100svh - 55px); max-width: none; margin: 0; padding: 40px 20px;
-  background: radial-gradient(ellipse at 50% 40%,rgba(57,255,20,.045),transparent 65%),#090b0a;
+  min-height: 100svh; max-width: none; margin: 0; padding: 40px 20px;
+  background: radial-gradient(ellipse at 50% 56%,rgba(57,255,20,.025),transparent 65%),#090b0a;
 }
 .access-screen::after {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background: radial-gradient(ellipse at 50% 45%,transparent 30%,rgba(9,11,10,.12) 100%);
+  background: radial-gradient(ellipse at 50% 40%,rgba(9,11,10,.3),transparent 65%),linear-gradient(180deg,rgba(9,11,10,.55),transparent 23%,transparent 85%,rgba(9,11,10,.3));
 }
 .access-card {
-  position: relative; z-index: 1; width: min(100%,420px); margin: 0;
-  padding: clamp(26px,5vw,40px); background: rgba(18,26,21,.97);
-  border-color: rgba(187,226,194,.18); box-shadow: 0 24px 72px rgba(0,0,0,.4);
+  position: relative; z-index: 1; width: min(100%,440px); margin: 0;
+  padding: clamp(26px,3vw,40px); background: rgba(16,23,19,.98);
+  border: 1px solid rgba(187,226,194,.2); border-radius: 0;
+  box-shadow: 0 24px 72px rgba(0,0,0,.5),0 0 60px rgba(9,11,10,.8);
 }
 .access-card h1 { text-shadow: none; }
 .access-card .access-description { color: #c2d0c6; line-height: 1.75; }
 .access-card .access-form input { background: #0b120e; border-color: rgba(184,211,191,.2); min-height: 48px; }
 .access-card button { min-height: 46px; }
 .login-progress {
-  position: absolute; inset: 28px 4vw; z-index: 0; pointer-events: none; user-select: none;
-  display: grid; grid-template-columns: repeat(28,minmax(0,1fr)); align-items: end;
-  gap: clamp(4px,.9vw,16px); padding: 0; opacity: .7;
+  position: absolute; inset: 50px 12px 10vh; z-index: 0; pointer-events: none; user-select: none;
+  display: grid; grid-template-columns: repeat(48,minmax(0,1fr)); align-items: end;
+  gap: clamp(3px,.65vw,12px); padding: 0; opacity: .9;
 }
-.login-progress-column { --progress: 0%; position: relative; justify-self: center; width: 100%; max-width: 14px; min-width: 0; height: var(--bar-height,100%); }
+.login-progress::before,.login-progress::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg,transparent,rgba(121,180,255,.1),rgba(57,255,20,.16),rgba(234,199,96,.1),transparent);
+}
+.login-progress::before { bottom: 0; }
+.login-progress::after { bottom: 24px; opacity: .45; }
+.login-progress-column { --progress: 0%; position: relative; justify-self: center; width: 100%; max-width: 5px; min-width: 0; height: var(--bar-height,100%); }
 .login-progress-track {
-  position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden;
-  border: 0; border-radius: 999px; background: color-mix(in srgb,var(--progress-color) 7%,#101712);
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;
+  border: 0; border-radius: 0;
+  background: linear-gradient(0deg,color-mix(in srgb,var(--progress-color) 10%,transparent),color-mix(in srgb,var(--progress-color) 4%,transparent));
 }
+.login-progress-track::before { content: ""; position: absolute; inset: 0 0 auto; height: 2px; background: color-mix(in srgb,var(--progress-color) 22%,transparent); }
 .login-progress-fill {
-  position: absolute; inset: auto 0 0; height: var(--progress); border-radius: 999px;
-  background: linear-gradient(0deg,color-mix(in srgb,var(--progress-color) 35%,#102015),color-mix(in srgb,var(--progress-color) 85%,#102015));
-  box-shadow: inset 0 1px color-mix(in srgb,var(--progress-color) 55%,white),0 -6px 28px color-mix(in srgb,var(--progress-color) 12%,transparent);
+  position: absolute; inset: auto 0 0; height: var(--progress); border-radius: 0; overflow: hidden;
+  background: linear-gradient(0deg,color-mix(in srgb,var(--progress-color) 12%,#0a130d),color-mix(in srgb,var(--progress-color) 58%,#0a130d) 70%,var(--progress-color));
+  box-shadow: 0 0 12px color-mix(in srgb,var(--progress-color) 14%,transparent);
   transition: height 1.1s cubic-bezier(.2,.7,.2,1);
 }
+.login-progress-fill::after { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: color-mix(in srgb,var(--progress-color) 45%,white); }
 .login-progress-value,.login-progress-label {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
 }
 @media (max-width: 720px) {
-  .access-screen { min-height: calc(100svh - 24px); padding: 24px 4px; }
-  .access-card { padding: 28px 22px; }
-  .login-progress { inset: 12px 0; gap: 4px; padding: 0; opacity: .65; }
+  .access-screen { min-height: 100svh; padding: 24px 12px; }
+  .access-card { width: min(100%,420px); padding: 28px 22px; }
+  .login-progress { inset: 20px 0 6vh; gap: 3px; padding: 0; opacity: .8; }
+  .login-progress-column { max-width: 3px; }
 }
 @media (prefers-reduced-motion: reduce) { .login-progress-fill { transition: none; } }
