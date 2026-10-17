@@ -4523,72 +4523,49 @@ footer { max-width: 1320px; color: #9db1a4; border-top-color: rgba(var(--accent-
   #module-home .home-overview .home-ring-card { grid-column: auto; }
   #module-home .home-overview .home-count-card { grid-column: 1 / -1; }
 }
-/* Login composition: integrated evolution channels, continuous real progress. */
+/* Progress is a background layer behind the centered login, never a content panel. */
 .access-screen {
-  position: relative; isolation: isolate; overflow: hidden; min-height: calc(100svh - 55px);
-  display: grid; grid-template-columns: minmax(0,1fr) minmax(340px,420px);
-  align-items: center; justify-items: stretch; gap: clamp(48px,7vw,112px);
-  max-width: 1180px; margin-inline: auto; padding: 48px 32px;
-  background: radial-gradient(ellipse at 20% 60%,rgba(57,255,20,.045),transparent 60%);
+  position: relative; isolation: isolate; overflow: hidden;
+  display: grid; grid-template-columns: minmax(0,1fr); place-items: center;
+  min-height: calc(100svh - 55px); max-width: none; margin: 0; padding: 40px 20px;
+  background: radial-gradient(ellipse at 50% 40%,rgba(57,255,20,.045),transparent 65%),#090b0a;
 }
-.access-screen::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background-image: linear-gradient(rgba(166,203,173,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(166,203,173,.025) 1px,transparent 1px);
-  background-size: 48px 48px; mask-image: radial-gradient(ellipse at 20% 65%,#000,transparent 72%);
+.access-screen::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 45%,transparent 15%,rgba(9,11,10,.24) 70%),linear-gradient(180deg,#090b0a,transparent 25%,transparent 85%,rgba(9,11,10,.4));
 }
-.access-card { position: relative; z-index: 1; width: 100%; padding: 36px 30px; background: #121a15; border-color: rgba(187,226,194,.15); box-shadow: 0 24px 64px rgba(0,0,0,.3); }
-.access-card::before { content: ""; position: absolute; top: -1px; left: 30px; right: 30px; height: 1px; background: linear-gradient(90deg,transparent,rgba(57,255,20,.65),transparent); }
+.access-card {
+  position: relative; z-index: 1; width: min(100%,420px); margin: 0;
+  padding: clamp(26px,5vw,40px); background: rgba(18,26,21,.97);
+  border-color: rgba(187,226,194,.18); box-shadow: 0 24px 72px rgba(0,0,0,.4);
+}
 .access-card h1 { text-shadow: none; }
 .access-card .access-description { color: #c2d0c6; line-height: 1.75; }
 .access-card .access-form input { background: #0b120e; border-color: rgba(184,211,191,.2); min-height: 48px; }
 .access-card button { min-height: 46px; }
 .login-progress {
-  display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 0 24px;
-  position: relative; align-self: center; min-width: 0;
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; user-select: none;
+  display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: clamp(12px,3vw,60px);
+  padding-inline: clamp(12px,5vw,100px); opacity: .55;
 }
-.login-progress-heading { grid-column: 1 / -1; margin-bottom: 34px; }
-.login-progress-eyebrow { display: flex; align-items: center; gap: 9px; color: #b8cbbb; font: 600 10px/1.5 "Segoe UI",sans-serif; letter-spacing: .16em; }
-.login-progress-eyebrow::before { content: ""; width: 6px; height: 6px; background: #39ff14; box-shadow: 0 0 12px rgba(57,255,20,.25); }
-.login-progress-heading h2 { margin: 20px 0 14px; color: #edf4ef; font: 600 clamp(34px,4vw,50px)/1.06 "Rick Display","Segoe UI",sans-serif; letter-spacing: -.02em; }
-.login-progress-heading h2 span { color: #c7ffb8; }
-.login-progress-heading p { color: #b7c7bc; font: 13px/1.75 "Segoe UI",sans-serif; max-width: 43ch; }
-.login-progress-column { --progress: 0%; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
-.login-progress-label { order: 1; display: flex; align-items: center; gap: 6px; margin-bottom: 16px; color: #d5e1d9; font: 600 10px/1.5 "Segoe UI",sans-serif; letter-spacing: .07em; }
-.login-progress-label::before { content: ""; width: 4px; height: 4px; flex-shrink: 0; background: var(--progress-color); }
+.login-progress-column { --progress: 0%; position: relative; min-width: 0; height: 100%; }
 .login-progress-track {
-  order: 2; position: relative; width: 100%; max-width: 58px; height: clamp(160px,29vh,280px);
-  overflow: hidden; background: linear-gradient(90deg,#19231c,#152019);
-  border: 0; border-radius: 8px;
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden;
+  border: 0; border-radius: 0; background: linear-gradient(180deg,transparent,rgba(180,210,187,.018));
 }
-.login-progress-track::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(to top,transparent 0,transparent calc(25% - 1px),rgba(212,237,218,.08) calc(25% - 1px),rgba(212,237,218,.08) 25%); pointer-events: none; }
-.login-progress-track::after { content: ""; position: absolute; inset: auto 0 0; height: 2px; background: color-mix(in srgb,var(--progress-color) 50%,#132018); }
 .login-progress-fill {
-  position: absolute; inset: auto 0 0; height: var(--progress); border-radius: 6px;
-  background: linear-gradient(0deg,color-mix(in srgb,var(--progress-color) 24%,#132018),color-mix(in srgb,var(--progress-color) 80%,#132018));
-  box-shadow: inset 0 1px color-mix(in srgb,var(--progress-color) 65%,white);
-  transition: height .65s cubic-bezier(.2,.7,.2,1);
+  position: absolute; inset: auto 0 0; height: var(--progress); border-radius: 0;
+  background: linear-gradient(180deg,color-mix(in srgb,var(--progress-color) 34%,transparent),color-mix(in srgb,var(--progress-color) 14%,transparent));
+  box-shadow: inset 0 1px color-mix(in srgb,var(--progress-color) 45%,transparent),0 -14px 64px color-mix(in srgb,var(--progress-color) 10%,transparent);
+  transition: height 1.1s cubic-bezier(.2,.7,.2,1);
 }
-.login-progress-value { order: 3; margin-top: 16px; color: #e8f0eb; font: 500 28px/1.2 "Segoe UI",sans-serif; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
-.login-progress-note { grid-column: 1 / -1; margin-top: 26px; padding-top: 16px; border-top: 1px solid rgba(194,219,201,.1); color: #b2c4b8; font: 11px/1.7 "Segoe UI",sans-serif; }
-@media (min-width: 721px) and (max-width: 1000px) {
-  .access-screen { gap: 36px; padding: 36px 16px; grid-template-columns: minmax(0,1fr) minmax(320px,380px); }
-  .login-progress { column-gap: 14px; }
-  .login-progress-label { font-size: 9px; letter-spacing: .025em; }
-  .login-progress-value { font-size: 25px; }
+.login-progress-value,.login-progress-label {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
 }
 @media (max-width: 720px) {
-  .access-screen { min-height: calc(100svh - 24px); grid-template-columns: minmax(0,1fr); padding: 18px 4px 28px; gap: 32px; max-width: 440px; }
-  .access-card { grid-row: 1; padding: 28px 22px; }
-  .login-progress { grid-row: 2; padding: 0 10px; column-gap: 20px; }
-  .login-progress-heading { margin-bottom: 24px; }
-  .login-progress-heading h2 { margin: 14px 0 0; font-size: 32px; }
-  .login-progress-heading h2 br { display: none; }
-  .login-progress-heading h2 span { display: block; }
-  .login-progress-heading p { display: none; }
-  .login-progress-eyebrow { font-size: 10px; }
-  .login-progress-track { height: 112px; max-width: 48px; }
-  .login-progress-label { font-size: 9px; letter-spacing: .025em; margin-bottom: 10px; }
-  .login-progress-value { font-size: 24px; margin-top: 12px; }
-  .login-progress-note { margin-top: 20px; }
+  .access-screen { min-height: calc(100svh - 24px); padding: 24px 4px; }
+  .access-card { padding: 28px 22px; }
+  .login-progress { gap: 10px; padding-inline: 0; opacity: .45; }
 }
 @media (prefers-reduced-motion: reduce) { .login-progress-fill { transition: none; } }
