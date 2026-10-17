@@ -4488,3 +4488,98 @@ footer { max-width: 1320px; color: #9db1a4; border-top-color: rgba(var(--accent-
   #module-home .welcome-panel > p:not(.system-message) { font-size: 13px; }
   #module-home .home-hero-grid { gap: 14px; margin-bottom: 18px; }
 }
+
+/* Visual refinement — 2026-10-17: dark neutral surfaces and restrained module accents. */
+body {
+  background: radial-gradient(ellipse at 75% 0%,rgba(var(--accent-rgb),.035),transparent 48%),#090b0a;
+}
+.grid-overlay { opacity: .35; }
+.orb { opacity: .045; animation: none; }
+.topbar { border-bottom-color: rgba(255,255,255,.09); padding-block: 18px 24px; }
+.topbar h1 { font-size: clamp(30px,3vw,40px); letter-spacing: .055em; text-shadow: none; }
+.topbar .subtitle { color: #9eaaa3; font-size: 10px; letter-spacing: .14em; }
+.topbar .system-status { background: #111713; border-color: rgba(255,255,255,.1); color: #c7d4cc; }
+.module-heading { border-bottom-color: rgba(255,255,255,.08); }
+.module-heading h2 { font-size: clamp(32px,3.5vw,44px); letter-spacing: .015em; }
+.module-heading::after { color: rgba(var(--accent-rgb),.065); }
+.module-heading p { color: #aebbb3; }
+.module-eyebrow { color: var(--neon-soft); letter-spacing: .15em; }
+.module-workspace :is(.card,.pc-build,.project-showcase,.body-evolution) {
+  background: linear-gradient(145deg,#171d19,#111613);
+  border-color: rgba(255,255,255,.105);
+  box-shadow: 0 8px 24px rgba(0,0,0,.15);
+}
+.module-workspace .card::before { background: linear-gradient(90deg,rgba(var(--accent-rgb),.5),transparent 68%); height: 1px; }
+.module-workspace .card:hover { border-color: rgba(var(--accent-rgb),.3); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+.module-workspace .card > h2 { font-size: 27px; border-bottom-color: rgba(255,255,255,.075); line-height: 1.3; }
+.module-workspace :is(.system-formatter-heading,.vault-heading,.pc-heading,.body-evolution-heading,.projects-heading,.home-panel-heading) {
+  border-bottom-color: rgba(255,255,255,.075);
+}
+.module-workspace :is(.study-topic-card,.mission-card,.project-card,.pc-part-card,.vault-record,.running-history-item) {
+  background: #111713; border-color: rgba(255,255,255,.09); box-shadow: none;
+}
+.module-workspace :is(.pc-stat,.fitness-stat,.running-stats > div,.system-overview-stats > div) {
+  background: #101612; border-color: rgba(255,255,255,.09); box-shadow: inset 0 2px rgba(var(--accent-rgb),.28);
+}
+.module-workspace :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),select,textarea) {
+  background: #0c110e; border-color: rgba(255,255,255,.15);
+}
+.module-workspace :is(input,textarea)::placeholder { color: #95a59a; }
+.module-workspace :is(.pc-stat > strong,.fitness-stat > strong,.running-stats dd,.focus-clock),
+.home-ring-value,.home-count-card p { font-variant-numeric: tabular-nums; }
+#module-home .welcome-panel {
+  padding: clamp(24px,3vw,40px); border-color: rgba(57,255,20,.24);
+  background: radial-gradient(ellipse at 100% 0%,rgba(57,255,20,.075),transparent 62%),#141c16;
+  box-shadow: inset 0 1px rgba(255,255,255,.03);
+}
+#module-home .welcome-panel > .panel-tag { background: transparent; color: #a9c6ae; border-color: rgba(57,255,20,.18); }
+#module-home #welcome-title { margin-top: 28px; color: #c7d6cb; }
+#module-home .welcome-statement { font-size: clamp(40px,4.2vw,56px); line-height: 1.06; }
+#module-home .welcome-statement span { color: #c7ffb8; }
+#module-home .welcome-panel > p:not(.system-message) { margin-top: 20px; color: #afc0b4; }
+#module-home #activate-button { box-shadow: none; min-height: 48px; padding-inline: 22px; }
+#module-home .home-overview .home-ring-card { background: #131b16; border-color: rgba(255,255,255,.1); box-shadow: none; }
+.home-progress-ring .home-ring-face { fill: #101612; }
+.home-progress-ring .home-ring-bezel { stroke: #1a241d; }
+.home-progress-ring .home-ring-track { stroke: #2a3b2f; }
+.home-overview .home-ring-card h3 { color: #cfddd3; }
+#module-home .home-count-card[data-home-module] {
+  background: #121915; border-color: rgba(255,255,255,.1);
+  border-left: 2px solid rgba(var(--panel-rgb),.6);
+}
+.home-shortcuts a { background: #131915; border-color: rgba(255,255,255,.1); border-bottom-color: color-mix(in srgb,var(--shortcut) 45%,transparent); }
+.home-shortcuts a:hover { background: color-mix(in srgb,var(--shortcut) 7%,#131915); }
+#module-home :is(.home-project-panel,.home-care-panel) { background: linear-gradient(145deg,#171d19,#111613); border-color: rgba(255,255,255,.105); }
+#module-home .home-board-item { background: #151c17; border-color: rgba(255,255,255,.1); border-left-color: rgb(var(--panel-rgb)); }
+.home-board-column { background: #0f1511; }
+.home-board-item { box-shadow: none; }
+.access-screen { background: radial-gradient(ellipse at 50% 35%,rgba(57,255,20,.055),transparent 60%),#090b0a; }
+.access-card {
+  width: min(100%,460px); padding: clamp(26px,5vw,44px); border-radius: 0;
+  background: linear-gradient(155deg,#19221b,#101612); border: 1px solid rgba(57,255,20,.23);
+  box-shadow: 0 28px 70px rgba(0,0,0,.35),inset 0 2px rgba(57,255,20,.45);
+}
+.access-card h1 { font-size: clamp(30px,7vw,42px); letter-spacing: .025em; text-shadow: none; }
+.access-card .access-kicker { color: #aac1af; font-size: 10px; letter-spacing: .14em; }
+.access-card .access-description { margin-block: 18px 26px; color: #b3c2b8; }
+.access-card .access-form input { border-radius: 0; min-height: 48px; background: #0b110d; border-color: rgba(255,255,255,.16); }
+.access-card :is(button,input):focus-visible { outline: 2px solid #39ff14; outline-offset: 3px; }
+.access-card button { border-radius: 0; min-height: 48px; }
+.access-card .access-divider { color: #92a397; }
+.access-session { background: #111713; border-color: rgba(255,255,255,.1); }
+@media (min-width: 721px) {
+  .module-navigation a[data-module][aria-current="page"] { box-shadow: inset 3px 0 var(--module-accent); }
+}
+@media (max-width: 720px) {
+  .topbar { padding: 10px 0 18px; margin-bottom: 22px; }
+  .topbar h1 { font-size: 30px; }
+  .module-heading h2 { font-size: clamp(26px,7vw,34px); overflow-wrap: anywhere; }
+  .module-heading { padding-right: 42px; }
+  .module-heading::after { font-size: 54px; }
+  .module-workspace .card > h2 { font-size: 25px; }
+  #module-home .welcome-panel { padding: 26px 20px; }
+  #module-home .welcome-statement { font-size: clamp(36px,10vw,48px); }
+  .module-workspace :is(input:not([type="checkbox"]):not([type="radio"]),select,textarea),
+  .access-card .access-form input { font-size: 16px; }
+  .access-card { padding: 28px 22px; }
+}
