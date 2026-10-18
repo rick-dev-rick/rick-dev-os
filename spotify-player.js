@@ -17,6 +17,14 @@
   const status = document.querySelector("#spotify-status");
   const trackTitle = document.querySelector("#spotify-track-title");
   const trackArtist = document.querySelector("#spotify-track-artist");
+  const coverImage = document.querySelector("#spotify-cover-image");
+  const artFallback = document.querySelector("#spotify-art-fallback");
+  const trackLink = document.querySelector("#spotify-track-link");
+  const timeline = document.querySelector("#spotify-timeline");
+  const elapsedLabel = document.querySelector("#spotify-time-elapsed");
+  const durationLabel = document.querySelector("#spotify-time-duration");
+  const progressTrack = document.querySelector("#spotify-progress-track");
+  const progressFill = document.querySelector("#spotify-progress-fill");
   const previousButton = document.querySelector("#spotify-previous");
   const playButton = document.querySelector("#spotify-play-toggle");
   const nextButton = document.querySelector("#spotify-next");
@@ -30,6 +38,8 @@
   let token = null;
   let playback = null;
   let refreshTimer = null;
+  let progressTimer = null;
+  let playbackObservedAt = 0;
 
   function readStoredToken() {
     try {
@@ -43,9 +53,67 @@
     status.textContent = message;
   }
 
+  function formatTime(milliseconds) {
+    const seconds = Math.floor(Math.max(0, milliseconds) / 1000);
+    return Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+  }
+
+  function httpsUrl(value) {
+    try { const url = new URL(value); return url.protocol === "https:" ? url.href : null; }
+    catch (_) { return null; }
+  }
+
+  function resetArtwork() {
+    coverImage.hidden = true;
+    coverImage.removeAttribute("src");
+    artFallback.hidden = false;
+  }
+
+  function updateArtwork(item) {
+    const images = item && (item.album && item.album.images || item.images);
+    const image = Array.isArray(images) && images.find(function (entry) { return entry && httpsUrl(entry.url); });
+    const source = image && httpsUrl(image.url);
+    if (source) {
+      if (coverImage.getAttribute("src") !== source) coverImage.setAttribute("src", source);
+      coverImage.hidden = false;
+      artFallback.hidden = true;
+    } else resetArtwork();
+    const url = item && item.external_urls && httpsUrl(item.external_urls.spotify);
+    trackLink.setAttribute("href", url || "https://open.spotify.com/");
+    trackLink.setAttribute("aria-label", item && item.name ? "Abrir " + item.name + " no Spotify" : "Abrir Spotify");
+  }
+
+  function renderTimeline() {
+    const item = playback && playback.item;
+    const duration = item && item.duration_ms;
+    const position = playback && playback.progress_ms;
+    const known = Number.isFinite(duration) && duration > 0 && Number.isFinite(position) && position >= 0;
+    timeline.hidden = !known;
+    if (!known) {
+      elapsedLabel.textContent = "0:00";
+      durationLabel.textContent = "0:00";
+      progressFill.style.width = "0%";
+      progressTrack.setAttribute("aria-valuenow", "0");
+      progressTrack.setAttribute("aria-valuetext", "Sem reprodução disponível");
+      return;
+    }
+    const elapsed = Math.min(duration, position + (playback.is_playing ? Math.max(0, Date.now() - playbackObservedAt) : 0));
+    const percent = elapsed / duration * 100;
+    elapsedLabel.textContent = formatTime(elapsed);
+    durationLabel.textContent = formatTime(duration);
+    progressFill.style.width = percent + "%";
+    progressTrack.setAttribute("aria-valuenow", String(Math.round(percent)));
+    progressTrack.setAttribute("aria-valuetext", formatTime(elapsed) + " de " + formatTime(duration));
+  }
+
+  coverImage.addEventListener("error", resetArtwork);
+
   function showTrack(state) {
     playback = state;
+    playbackObservedAt = Date.now();
     const item = state && state.item;
+    updateArtwork(item);
+    renderTimeline();
     if (!item) {
       trackTitle.textContent = "Nenhuma música ativa";
       trackArtist.textContent = "Abra o Spotify e comece a tocar";
@@ -295,6 +363,8 @@
     if (minimized) {
       window.clearInterval(refreshTimer);
       refreshTimer = null;
+      window.clearInterval(progressTimer);
+      progressTimer = null;
     } else {
       startPolling();
     }
@@ -343,6 +413,8 @@
     playback = null;
     window.clearInterval(refreshTimer);
     refreshTimer = null;
+    window.clearInterval(progressTimer);
+    progressTimer = null;
     showTrack(null);
     updateConnectState();
     writeStatus("Spotify desconectado deste navegador.");
@@ -350,9 +422,13 @@
 
   function startPolling() {
     window.clearInterval(refreshTimer);
-    if (appShell && !appShell.hidden && !panel.hidden && readStoredToken()) {
+    window.clearInterval(progressTimer);
+    refreshTimer = null;
+    progressTimer = null;
+    if (appShell && !appShell.hidden && !panel.hidden && !document.hidden && readStoredToken()) {
       refreshPlayback();
       refreshTimer = window.setInterval(refreshPlayback, 20000);
+      progressTimer = window.setInterval(renderTimeline, 1000);
     }
   }
 
@@ -360,10 +436,11 @@
     new MutationObserver(startPolling).observe(appShell, { attributes: true, attributeFilter: ["hidden"] });
   }
   document.addEventListener("visibilitychange", function () {
-    if (!document.hidden) refreshPlayback();
+    startPolling();
   });
 
   clientIdInput.value = clientId;
+  showTrack(null);
   settingsForm.hidden = Boolean(clientId);
   updateConnectState();
   if (!clientId) {

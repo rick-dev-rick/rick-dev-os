@@ -2620,8 +2620,8 @@ body.presentation-mode footer {
 
 .spotify-track-art {
   display: grid;
-  width: 40px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
   flex: 0 0 auto;
   place-items: center;
   border: 1px solid rgba(var(--accent-rgb), 0.2);
@@ -2629,7 +2629,17 @@ body.presentation-mode footer {
   background: linear-gradient(145deg, var(--surface), var(--bg));
   color: var(--neon);
   font-size: 21px;
+  position: relative;
+  text-decoration: none;
+  overflow: hidden;
 }
+
+.spotify-track-art img { display: block; width: 100%; height: 100%; object-fit: contain; background: #090b0a; }
+.spotify-track-art:focus-visible { outline: 2px solid var(--neon); outline-offset: 3px; }
+.spotify-timeline { margin: 14px 0 10px; }
+.spotify-progress-track { height: 4px; overflow: hidden; background: rgba(180,210,190,.16); border-radius: 0; }
+.spotify-progress-fill { display: block; width: 0; height: 100%; background: var(--neon); }
+.spotify-time-labels { display: flex; justify-content: space-between; gap: 12px; margin-top: 7px; color: #c4d3c9; font: 11px/1.5 "Segoe UI",sans-serif; font-variant-numeric: tabular-nums; }
 
 .spotify-track-copy {
   display: grid;
@@ -2646,19 +2656,19 @@ body.presentation-mode footer {
 
 .spotify-track-copy strong {
   color: var(--text);
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .spotify-track-copy span {
   color: var(--muted);
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .spotify-status {
   min-height: 14px;
   margin: 0 0 8px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.45;
 }
 
