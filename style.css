@@ -4799,3 +4799,30 @@ body:has(#app-shell:not([hidden])) {
   .style-list-heading label { width: 100%; }
   .finance-tabs button { flex: 1; }
 }
+
+/* Purchase status and shared RICK_FINANCE progress. */
+.finance-overall { padding: 20px 22px; margin: 0 0 22px; border: 1px solid #51472d; background: #13170f; }
+.finance-progress-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+.finance-progress-heading .card-tag { color: #d8bd74; }
+.finance-progress-heading p { margin: 8px 0 14px; color: #c6cbb8; font-size: 12px; line-height: 1.7; }
+.finance-progress-heading p strong { color: #f1e4b9; }
+#finance-percent { color: #f5d77f; font-size: 29px; }
+.finance-progress-track { height: 8px; overflow: hidden; background: #303424; border: 1px solid #4a4c32; }
+.finance-progress-track > span { display: block; height: 100%; width: 0; background: #eac760; transition: width .25s ease; }
+.style-summary { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 16px; }
+.style-summary strong { font-size: clamp(20px, 2.2vw, 28px); }
+.style-purchase-progress { margin-bottom: 24px; }
+#style-progress-label { display: block; margin-bottom: 9px; font-size: 12px; color: #d4d4bd; }
+.style-editor .style-purchased-field { display: flex; flex-direction: row; align-items: center; gap: 10px; min-height: 44px; }
+.style-editor .style-purchased-field input, .style-purchase-toggle input { width: 18px; min-height: 18px; height: 18px; margin: 0; padding: 0; accent-color: #eac760; cursor: pointer; flex: 0 0 auto; }
+.style-purchase-toggle { display: flex; align-items: center; gap: 10px; min-height: 44px; margin-bottom: 14px; font-size: 11px; font-weight: 700; color: #c7cfbc; cursor: pointer; }
+.style-purchase-toggle:has(input:disabled) { cursor: default; }
+.style-purchase-toggle input:disabled { cursor: default; }
+.style-product.is-purchased { border-color: #a48e43; background: #1e2517; }
+.style-product.is-purchased .style-purchase-toggle { color: #f3da8b; }
+@media (max-width: 1200px) {
+  .style-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .style-summary article:nth-child(3) { border-left: 0; }
+  .style-summary article:nth-child(n+3) { border-top: 1px solid #4a422d; }
+}
+@media (prefers-reduced-motion: reduce) { .finance-progress-track > span { transition: none; } }
