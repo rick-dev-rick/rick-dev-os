@@ -4851,3 +4851,7 @@ body:has(#app-shell:not([hidden])) {
 .soundcloud-add fieldset:disabled { opacity: .5; }
 .music-provider-tabs button:focus-visible, #music-panel-soundcloud :is(button,input,summary):focus-visible { outline: 2px solid #ffae7a; outline-offset: 3px; }
 .spotify-widget-panel { max-height: calc(100dvh - 140px); overflow-y: auto; }
+
+.soundcloud-shuffle { min-height: 42px; margin: 10px 0 12px; padding: 10px 12px; border: 1px solid #a36b44; border-radius: 0; background: #34271c; color: #ffccad; font: 700 10px "Segoe UI", sans-serif; cursor: pointer; }
+.soundcloud-shuffle[aria-pressed="true"] { background: #ff7849; border-color: #ff7849; color: #161009; }
+.soundcloud-shuffle:disabled { opacity: .5; cursor: not-allowed; }

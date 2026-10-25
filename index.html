@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261025-soundcloud" />
+    <link rel="stylesheet" href="style.css?v=20261025-soundcloud-shuffle" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -643,6 +643,7 @@
           <p class="soundcloud-help">Suas playlists salvas, prontas para ouvir por aqui. Use links públicos completos do SoundCloud.</p>
           <p id="soundcloud-status" class="spotify-status" role="status" aria-live="polite">Escolha uma playlist salva.</p>
           <strong id="soundcloud-current" class="soundcloud-current">Selecione uma música ou playlist salva</strong>
+          <button id="soundcloud-shuffle" class="soundcloud-shuffle" type="button" aria-pressed="false" disabled>ALEATÓRIO: DESLIGADO</button>
           <div id="soundcloud-player-host"><iframe id="soundcloud-frame" class="soundcloud-frame" title="Player oficial do SoundCloud" width="100%" height="300" allow="autoplay" hidden></iframe></div>
           <ul id="soundcloud-list" class="soundcloud-list"></ul>
           <details class="soundcloud-add"><summary>Salvar música ou playlist</summary>
@@ -3069,6 +3070,29 @@ const activateButton = document.querySelector("#activate-button");
   "use strict";
   const $ = id => document.getElementById(id), core = window.rickSoundCloudCore;
   let items = [], ready = false, selectedId = null, widget = null, generation = 0, readyTimer = null, apiLoading = null;
+  let shuffle = false, soundCount = 0, soundIndex = 0, shuffleBag = [], indexReady = false, indexRevision = 0;
+  const shuffleButton = $("soundcloud-shuffle");
+  function renderShuffle() {
+    shuffleButton.disabled = !widget || !indexReady || soundCount < 2;
+    shuffleButton.setAttribute("aria-pressed", String(shuffle));
+    shuffleButton.textContent = "ALEATÓRIO: " + (shuffle ? "LIGADO" : "DESLIGADO");
+  }
+  function randomNext() {
+    if (!shuffle || !widget || soundCount < 2 || window.rickMusicProvider !== "soundcloud") return;
+    shuffleBag = shuffleBag.filter(index => index !== soundIndex);
+    if (!shuffleBag.length) shuffleBag = Array.from({ length: soundCount }, (_, index) => index).filter(index => index !== soundIndex);
+    const pick = Math.floor(Math.random() * shuffleBag.length);
+    soundIndex = shuffleBag.splice(pick, 1)[0];
+    indexRevision++;
+    widget.skip(soundIndex);
+    widget.play();
+  }
+  shuffleButton.addEventListener("click", () => {
+    if (shuffleButton.disabled || window.rickMusicProvider !== "soundcloud") return;
+    shuffle = !shuffle; shuffleBag = []; renderShuffle();
+    if (shuffle) randomNext();
+    status(shuffle ? "Aleatório ligado: as próximas músicas serão sorteadas dentro desta playlist." : "Aleatório desligado: a playlist segue a ordem normal.");
+  });
   const admin = () => window.rickDevSystem?.role === "admin";
   const status = message => { $("soundcloud-status").textContent = message; };
   function pause() { if (widget) widget.pause(); }
@@ -3119,8 +3143,9 @@ const activateButton = document.querySelector("#activate-button");
   function unload() {
     generation++;
     window.clearTimeout(readyTimer);
-    if (widget) { widget.pause(); for (const name of ["READY", "PLAY", "PAUSE", "ERROR"]) widget.unbind(window.SC.Widget.Events[name]); }
+    if (widget) { widget.pause(); for (const name of ["READY", "PLAY", "PAUSE", "ERROR", "FINISH"]) widget.unbind(window.SC.Widget.Events[name]); }
     widget = null; selectedId = null;
+    shuffle = false; soundCount = 0; soundIndex = 0; shuffleBag = []; indexReady = false; indexRevision++; renderShuffle();
     $("soundcloud-frame").removeAttribute("src"); $("soundcloud-frame").hidden = true;
     $("soundcloud-current").textContent = "Selecione uma música ou playlist salva";
   }
@@ -3145,10 +3170,28 @@ const activateButton = document.querySelector("#activate-button");
       widget = window.SC.Widget(frame);
       const instance = widget, events = window.SC.Widget.Events;
       readyTimer = window.setTimeout(() => fail(current, "O SoundCloud demorou para responder. Tente abrir a playlist novamente."), 25000);
-      instance.bind(events.READY, () => { if (current !== generation) return; window.clearTimeout(readyTimer); status("Playlist carregada. Use o Play no player abaixo para ouvir."); });
+      instance.bind(events.READY, () => {
+        if (current !== generation) return;
+        window.clearTimeout(readyTimer); status("Playlist carregada. Use o Play no player abaixo para ouvir.");
+        instance.getSounds(sounds => {
+          if (current !== generation) return;
+          soundCount = Array.isArray(sounds) ? sounds.length : 0;
+          renderShuffle();
+        });
+        instance.getCurrentSoundIndex(index => {
+          if (current !== generation || !Number.isInteger(index)) return;
+          soundIndex = index; indexReady = true; renderShuffle();
+        });
+      });
+      instance.bind(events.FINISH, () => { if (current === generation) randomNext(); });
       instance.bind(events.PLAY, async () => {
         if (current !== generation) return;
         if (window.rickMusicProvider !== "soundcloud") { instance.pause(); return; }
+        const revision = indexRevision;
+        instance.getCurrentSoundIndex(index => {
+          if (current !== generation || revision !== indexRevision || !Number.isInteger(index)) return;
+          soundIndex = index; shuffleBag = shuffleBag.filter(saved => saved !== index);
+        });
         try {
           await window.rickSpotifyControl?.pause();
           if (current !== generation) return;
