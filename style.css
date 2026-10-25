@@ -4749,3 +4749,53 @@ body:has(#app-shell:not([hidden])) {
 .spotify-start-details summary:focus-visible,
 .spotify-start-form input:focus-visible,
 .spotify-start-form button:focus-visible { outline: 2px solid #39ff14; outline-offset: 3px; }
+
+/* RICK_STYLE: independent shopping list inside RICK_FINANCE. */
+.finance-tabs { margin-bottom: 22px; }
+.style-workspace { border: 1px solid #4c432d; background: #10130f; padding: clamp(18px, 3vw, 32px); }
+.style-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.style-heading h2 { margin: 10px 0; color: #f2e4bd; font-size: clamp(24px, 4vw, 34px); letter-spacing: -.04em; }
+.style-heading p { margin: 0; color: #c6c6b8; font-size: 14px; line-height: 1.7; }
+.style-heading .card-tag { color: #d8bd74; }
+.style-heading-mark { color: #eac760; font-size: 34px; line-height: 1; }
+.style-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid #4a422d; margin-bottom: 24px; }
+.style-summary article { padding: 20px; min-width: 0; }
+.style-summary article + article { border-left: 1px solid #4a422d; }
+.style-summary span { display: block; color: #c5c2af; font-size: 10px; letter-spacing: .1em; line-height: 1.6; }
+.style-summary strong { display: block; margin-top: 8px; color: #f5d77f; font-size: clamp(22px, 3vw, 30px); overflow-wrap: anywhere; }
+.style-layout { display: grid; grid-template-columns: minmax(240px, .8fr) minmax(0, 1.8fr); gap: 24px; align-items: start; }
+.style-editor.card { padding: 22px; background: #151912; border: 1px solid #44412d; min-width: 0; }
+.style-editor h3, .style-list-heading h3 { margin: 0 0 18px; color: #eeecde; font-size: 17px; }
+.style-editor fieldset { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 16px; }
+.style-editor label, .style-list-heading label { display: grid; gap: 7px; color: #d2d3c5; font-size: 12px; line-height: 1.5; }
+.style-editor input, .style-editor select, .style-list-heading select { box-sizing: border-box; width: 100%; min-width: 0; min-height: 44px; padding: 11px 12px; color: #f3f2e8; background: #0d110c; border: 1px solid #55513b; border-radius: 0; font: inherit; }
+.style-editor input::placeholder { color: #91978a; }
+.style-editor fieldset:disabled { opacity: .55; }
+.style-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.style-actions button, .style-store-link { box-sizing: border-box; min-height: 44px; padding: 10px 12px; border: 1px solid #676042; border-radius: 0; background: #242719; color: #f2df9e; font: 700 10px "Segoe UI", sans-serif; letter-spacing: .04em; line-height: 1.6; cursor: pointer; }
+.style-editor #style-save { flex: 1; background: #eac760; color: #171b12; border-color: #eac760; }
+.style-store-link { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; background: #172016; border-color: #626c45; }
+.style-products { min-width: 0; }
+.style-list-heading { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: end; margin-bottom: 16px; }
+.style-list-heading h3 { margin-bottom: 6px; }
+.style-list-heading p { margin: 0; color: #adb5a5; font-size: 12px; }
+.style-list-heading label { min-width: 145px; }
+.style-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 215px), 1fr)); gap: 14px; padding: 0; margin: 0; list-style: none; }
+.style-product { min-width: 0; display: flex; flex-direction: column; align-items: start; padding: 20px; border: 1px solid #454735; background: #171c14; }
+.style-category { display: inline-block; color: #d5bd79; background: #292b1d; padding: 4px 8px; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; }
+.style-product h3 { margin: 14px 0 8px; font-size: 16px; line-height: 1.5; color: #f1f1e5; overflow-wrap: anywhere; }
+.style-price { margin: 0 0 20px; color: #eac760; font-size: 23px; font-weight: 700; }
+.style-product .style-store-link { margin-top: auto; }
+.style-product .style-actions { margin-top: 14px; padding-top: 12px; width: 100%; border-top: 1px solid #343a29; }
+.style-product .style-actions button { background: transparent; color: #c7cfbc; border-color: #454e38; }
+.style-empty { grid-column: 1 / -1; border: 1px dashed #4e513b; color: #bdc5b2; padding: 32px 24px; font-size: 14px; line-height: 1.8; }
+.style-workspace :is(input, select, button, a):focus-visible { outline: 2px solid #eac760; outline-offset: 3px; }
+@media (max-width: 1000px) { .style-layout { grid-template-columns: 1fr; } }
+@media (max-width: 480px) {
+  .style-workspace { padding: 16px; }
+  .style-summary article { padding: 14px 10px; }
+  .style-summary strong { font-size: 21px; }
+  .style-editor.card { padding: 16px; }
+  .style-list-heading label { width: 100%; }
+  .finance-tabs button { flex: 1; }
+}

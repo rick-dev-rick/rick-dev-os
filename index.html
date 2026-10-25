@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261025-spotify-first-play" />
+    <link rel="stylesheet" href="style.css?v=20261025-rick-style" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -164,7 +164,7 @@
       <nav class="home-shortcuts" aria-label="Atalhos da central de comando">
         <a href="#module/study"><span aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false"><path d="M3 5c3-1 6-.5 9 1.5C15 4.5 18 4 21 5v15c-3-1-6-.5-9 1.5C9 19.5 6 19 3 20Z" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v14M6 8h3M6 11h3M6 14h3M15 8h3M15 11h3M15 14h3" stroke="currentColor" stroke-width="1.7"/></svg></span><strong>RICK_STUDY</strong><span>Estudos e missões</span></a>
         <a href="#module/fit" class="home-shortcut-fit"><span aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false"><path d="M2 8h4v8H2zm4-3h4v14H6zm8 0h4v14h-4zm4 3h4v8h-4zM10 10h4v4h-4z" fill="currentColor"/></svg></span><strong>RICK_FIT</strong><span>Treinos e corrida</span></a>
-        <a href="#module/finance" class="home-shortcut-finance"><span aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false"><rect x="2" y="5" width="20" height="14" rx="1" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M5 8h2M17 16h2M5 15v1h2M17 8h2v1" stroke="currentColor" stroke-width="1.7"/></svg></span><strong>RICK_FINANCE</strong><span>Planejamento do PC</span></a>
+        <a href="#module/finance" class="home-shortcut-finance"><span aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false"><rect x="2" y="5" width="20" height="14" rx="1" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M5 8h2M17 16h2M5 15v1h2M17 8h2v1" stroke="currentColor" stroke-width="1.7"/></svg></span><strong>RICK_FINANCE</strong><span>Setup e estilo</span></a>
         <a href="#module/lab"><span aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false"><path d="M8 3h8M10 3v7L4 19a1.3 1.3 0 0 0 1 2h14a1.3 1.3 0 0 0 1-2l-6-9V3" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m8 14-4 6h16l-4-6Z" fill="currentColor" fill-opacity=".7"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></span><strong>RICK_LAB</strong><span>Projetos e códigos</span></a>
         <a href="#module/system" class="home-shortcut-system"><span aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false"><path d="m10 2 4 0 .6 3 2 .9 2.7-1.1 2 3.4-2.1 2.1.2 2.3 2 2-2 3.5-2.9-1-1.9 1.1-.6 3H10l-.6-3-2-1-2.7 1-2-3.4 2.1-2.1-.2-2.3-2-2 2-3.5 2.9 1 1.9-1.1Z" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.7"/></svg></span><strong>RICK_SYSTEM</strong><span>Backups e ferramentas</span></a>
       </nav>
@@ -375,7 +375,12 @@
     </section>
 
     <section class="module-panel" id="module-finance" aria-labelledby="module-finance-title" hidden>
-      <div class="module-heading" data-section-number="04"><span class="module-eyebrow">PLANEJAR E CONQUISTAR</span><h2 id="module-finance-title" tabindex="-1">RICK_FINANCE</h2><p>Planejamento de compras e orçamento do seu RICK_PC.</p></div>
+      <div class="module-heading" data-section-number="04"><span class="module-eyebrow">PLANEJAR E CONQUISTAR</span><h2 id="module-finance-title" tabindex="-1">RICK_FINANCE</h2><p>Planejamento das suas conquistas: setup, roupas, tênis e acessórios.</p></div>
+      <div class="fit-tabs finance-tabs" role="tablist" aria-label="Áreas do RICK_FINANCE">
+        <button id="finance-tab-pc" role="tab" type="button" aria-selected="true" aria-controls="finance-panel-pc" tabindex="0">RICK_PC</button>
+        <button id="finance-tab-style" role="tab" type="button" aria-selected="false" aria-controls="finance-panel-style" tabindex="-1">RICK_STYLE</button>
+      </div>
+      <div id="finance-panel-pc" role="tabpanel" aria-labelledby="finance-tab-pc">
       <div class="module-grid">
     <section class="pc-build" aria-labelledby="pc-title">
       <div class="pc-heading">
@@ -422,6 +427,33 @@
         </form>
       </details>
     </section>
+      </div>
+      </div>
+      <div id="finance-panel-style" role="tabpanel" aria-labelledby="finance-tab-style" hidden>
+        <section class="style-workspace" aria-labelledby="style-title">
+          <div class="style-heading"><div><span class="card-tag">// SEU ESTILO, SEU PLANEJAMENTO</span><h2 id="style-title">RICK_STYLE</h2><p>Roupas, tênis e acessórios que fazem parte das suas conquistas.</p></div><span class="style-heading-mark" aria-hidden="true">↗</span></div>
+          <div class="style-summary">
+            <article><span>PRODUTOS NA LISTA</span><strong id="style-count">0</strong></article>
+            <article><span>VALOR TOTAL DA LISTA</span><strong id="style-total">R$ 0,00</strong></article>
+          </div>
+          <div class="style-layout">
+            <section class="card style-editor" aria-labelledby="style-editor-title">
+              <h3 id="style-editor-title">Adicionar produto</h3>
+              <form id="style-form"><fieldset id="style-fields" disabled>
+                <label for="style-name">Nome do produto<input id="style-name" name="name" type="text" maxlength="100" placeholder="Ex.: Camisa Cyclone Big Oversized" required></label>
+                <label for="style-category">Categoria<select id="style-category" name="category"><option value="camisa">Camisa</option><option value="calca">Calça</option><option value="bermuda">Bermuda</option><option value="acessorio">Acessório</option><option value="tenis">Tênis</option></select></label>
+                <label for="style-url">Link do produto<input id="style-url" name="url" type="url" maxlength="2048" placeholder="https://loja.com.br/produto" required></label>
+                <label for="style-price">Valor do produto (R$)<input id="style-price" name="price" type="text" inputmode="decimal" maxlength="20" placeholder="Ex.: 199,90" required></label>
+                <div class="style-actions"><button id="style-save" type="submit">ADICIONAR PRODUTO</button><button id="style-cancel" type="button" hidden>CANCELAR EDIÇÃO</button></div>
+              </fieldset></form>
+              <p id="style-message" class="system-feedback" role="status" aria-live="polite"></p>
+            </section>
+            <section class="style-products" aria-labelledby="style-products-title">
+              <div class="style-list-heading"><div><h3 id="style-products-title">Suas escolhas</h3><p id="style-list-count">0 produto(s) na lista</p></div><label for="style-filter">Filtrar categoria<select id="style-filter"><option value="all">Todas</option><option value="camisa">Camisas</option><option value="calca">Calças</option><option value="bermuda">Bermudas</option><option value="acessorio">Acessórios</option><option value="tenis">Tênis</option></select></label></div>
+              <ul id="style-list" class="style-list"></ul>
+            </section>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -1627,12 +1659,53 @@ const activateButton = document.querySelector("#activate-button");
 })();
 
     </script>
+    <script id="rick-style-core">
+(() => {
+  "use strict";
+  const key = "rick-dev-style";
+  const categories = Object.freeze({ camisa: "Camisa", calca: "Calça", bermuda: "Bermuda", acessorio: "Acessório", tenis: "Tênis" });
+  const object = value => value !== null && typeof value === "object" && !Array.isArray(value);
+  function safeUrl(value) {
+    if (typeof value !== "string" || value.length > 2048) throw new Error("Informe um link válido da loja.");
+    let url;
+    try { url = new URL(value.trim()); } catch (_) { throw new Error("Informe um link completo da loja, começando com https://."); }
+    if (!["https:", "http:"].includes(url.protocol) || url.username || url.password) throw new Error("Use um link de loja com http:// ou https://, sem credenciais.");
+    return url.href;
+  }
+  function parsePrice(raw) {
+    const value = String(raw).trim();
+    let normalized;
+    if (/^(?:\d+|\d{1,3}(?:\.\d{3})+)(?:,\d{1,2})?$/.test(value)) normalized = value.replace(/\./g, "").replace(",", ".");
+    else if (/^\d+\.\d{1,2}$/.test(value)) normalized = value;
+    else throw new Error("Informe um valor em reais, como 129,90.");
+    const [whole, fraction = ""] = normalized.split(".");
+    const cents = Number(whole) * 100 + Number(fraction.padEnd(2, "0"));
+    if (!Number.isSafeInteger(cents) || cents < 0 || cents > 999999999) throw new Error("O valor precisa estar entre R$ 0,00 e R$ 9.999.999,99.");
+    return cents;
+  }
+  function validate(items) {
+    if (!Array.isArray(items) || items.length > 500) throw new Error("A lista de estilo precisa conter até 500 produtos.");
+    const result = items.map(item => {
+      if (!object(item) || typeof item.id !== "string" || !item.id.trim() || item.id.length > 80
+        || typeof item.name !== "string" || !item.name.trim() || item.name.length > 100
+        || !Object.hasOwn(categories, item.category)
+        || !Number.isSafeInteger(item.priceCents) || item.priceCents < 0 || item.priceCents > 999999999) throw new Error("Existe um produto inválido na lista de estilo.");
+      return { id: item.id, name: item.name.trim(), category: item.category, url: safeUrl(item.url), priceCents: item.priceCents };
+    });
+    if (new Set(result.map(item => item.id)).size !== result.length) throw new Error("Existem produtos com identificadores repetidos.");
+    return result;
+  }
+  function isValid(value) { try { validate(value); return true; } catch (_) { return false; } }
+  const money = cents => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(cents / 100);
+  window.rickStyleCore = Object.freeze({ key, categories, safeUrl, parsePrice, validate, isValid, money });
+})();
+    </script>
     <script id="rick-system-core">
 (() => {
   "use strict";
   const keys = Object.freeze([
     "rick-dev-study-topics", "rick-dev-studies", "rick-dev-missions", "rick-dev-projects",
-    "rick-dev-pc-parts", "rick-dev-fitness-log", "rick-dev-study-resources",
+    "rick-dev-pc-parts", "rick-dev-style", "rick-dev-fitness-log", "rick-dev-study-resources",
     "rick-dev-focus-seconds", "rick-dev-focus-minutes", "rick-dev-focus-remaining", "rick-dev-running", "rick-dev-evolution", "rick-dev-system-progress"
   ]);
   const object = value => value !== null && typeof value === "object" && !Array.isArray(value);
@@ -1657,6 +1730,7 @@ const activateButton = document.querySelector("#activate-button");
       if (key === "rick-dev-study-resources") valid = object(value) && Object.values(value).every(items => Array.isArray(items) && items.every(item => object(item) && text(item.id) && text(item.title) && text(item.type) && safeLink(item.url)));
       if (key === "rick-dev-system-progress") valid = window.rickProgressCore.valid(value);
       if (key === "rick-dev-evolution") valid = window.rickEvolutionCore.isValid(value);
+      if (key === "rick-dev-style") valid = window.rickStyleCore.isValid(value);
       if (key === "rick-dev-running") valid = window.rickRunningCore.isValidJournal(value);
       if (key.startsWith("rick-dev-focus-")) valid = /^\d+$/.test(raw) && Number.isSafeInteger(value) && value >= 0 && value <= (key === "rick-dev-focus-minutes" ? 1440 : 86400);
       if (!valid) throw new Error("Estrutura inválida em " + key.replace("rick-dev-", "") + ". Nenhum dado foi alterado.");
@@ -1777,7 +1851,7 @@ const activateButton = document.querySelector("#activate-button");
           if (role === "admin" && Object.keys(sharedData).length === 0) {
             const legacyKeys = [
               "rick-dev-study-topics", "rick-dev-studies", "rick-dev-missions",
-              "rick-dev-projects", "rick-dev-pc-parts", "rick-dev-fitness-log",
+              "rick-dev-projects", "rick-dev-pc-parts", "rick-dev-style", "rick-dev-fitness-log",
               "rick-dev-study-resources", "rick-dev-focus-seconds",
               "rick-dev-focus-minutes", "rick-dev-focus-remaining", "rick-dev-running", "rick-dev-evolution"
             ];
@@ -2753,6 +2827,125 @@ const activateButton = document.querySelector("#activate-button");
   }
   window.addEventListener("rick-system-ready", sessionReady); window.addEventListener("rick-system-exported", summaries);
   window.addEventListener("rick-system-diagnostic", event => { const report = event.detail; const issues = report.checks.filter(check => !check.ok).length; $("home-diagnostic-status").textContent = new Date(report.createdAt).toLocaleTimeString("pt-BR") + " · " + (issues ? issues + " ponto(s) de atenção" : "Itens testados sem problemas"); });
+  sessionReady();
+})();
+    </script>
+    <script id="rick-style-tools">
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id), core = window.rickStyleCore;
+  let items = [], editingId = null, ready = false;
+  const admin = () => window.rickDevSystem?.role === "admin";
+  const tabs = [$("finance-tab-pc"), $("finance-tab-style")];
+  function selectTab(name, focus = false) {
+    if (!["pc", "style"].includes(name)) name = "pc";
+    tabs.forEach(tab => { const selected = tab.id === "finance-tab-" + name; tab.setAttribute("aria-selected", String(selected)); tab.tabIndex = selected ? 0 : -1; if (selected && focus) tab.focus(); });
+    $("finance-panel-pc").hidden = name !== "pc";
+    $("finance-panel-style").hidden = name !== "style";
+    try { localStorage.setItem("rick-dev-finance-tab", name); } catch (_) {}
+  }
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => selectTab(index === 0 ? "pc" : "style"));
+    tab.addEventListener("keydown", event => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      selectTab(event.key === "Home" ? "pc" : event.key === "End" ? "style" : index === 0 ? "style" : "pc", true);
+    });
+  });
+  let savedTab = "pc";
+  try { savedTab = localStorage.getItem("rick-dev-finance-tab") || savedTab; } catch (_) {}
+  selectTab(savedTab);
+  function controls() { $("style-fields").disabled = !admin() || !ready; }
+  function reset() {
+    editingId = null;
+    $("style-form").reset();
+    $("style-save").textContent = "ADICIONAR PRODUTO";
+    $("style-cancel").hidden = true;
+    $("style-editor-title").textContent = "Adicionar produto";
+  }
+  function save(next) {
+    if (!admin() || !ready) throw new Error("Entre como ADM e aguarde o carregamento dos produtos para editar.");
+    next = core.validate(next);
+    window.rickDevStorage.setItem(core.key, JSON.stringify(next));
+    items = next;
+    render();
+  }
+  function edit(item) {
+    if (!admin() || !ready) return;
+    if (($("style-name").value || $("style-url").value || $("style-price").value) && !window.confirm("Carregar este produto e descartar as alterações ainda não salvas no formulário?")) return;
+    editingId = item.id;
+    $("style-name").value = item.name;
+    $("style-url").value = item.url;
+    $("style-category").value = item.category;
+    $("style-price").value = (item.priceCents / 100).toFixed(2).replace(".", ",");
+    $("style-save").textContent = "SALVAR ALTERAÇÕES";
+    $("style-cancel").hidden = false;
+    $("style-editor-title").textContent = "Editar produto";
+    $("style-name").focus();
+  }
+  function action(label, callback) {
+    const button = document.createElement("button");
+    button.type = "button"; button.textContent = label; button.addEventListener("click", callback);
+    return button;
+  }
+  function render() {
+    $("style-count").textContent = String(items.length);
+    $("style-total").textContent = core.money(items.reduce((total, item) => total + item.priceCents, 0));
+    const filter = $("style-filter").value, visible = items.filter(item => filter === "all" || item.category === filter);
+    const list = $("style-list"); list.replaceChildren();
+    $("style-list-count").textContent = visible.length + " produto(s) na lista";
+    if (!visible.length) {
+      const empty = document.createElement("li"); empty.className = "style-empty";
+      empty.textContent = items.length ? "Nenhum produto nesta categoria." : "Sua próxima conquista começa aqui. Adicione o primeiro produto.";
+      list.append(empty);
+    }
+    visible.forEach(item => {
+      const card = document.createElement("li"); card.className = "style-product";
+      const category = document.createElement("span"); category.className = "style-category"; category.textContent = core.categories[item.category];
+      const title = document.createElement("h3"); title.textContent = item.name;
+      const price = document.createElement("p"); price.className = "style-price"; price.textContent = core.money(item.priceCents);
+      const link = document.createElement("a"); link.href = item.url; link.target = "_blank"; link.rel = "noopener noreferrer"; link.textContent = "VER NA LOJA ↗"; link.className = "style-store-link"; link.setAttribute("aria-label", "Abrir " + item.name + " na loja");
+      card.append(category, title, price, link);
+      if (admin() && ready) {
+        const actions = document.createElement("div"); actions.className = "style-actions";
+        actions.append(action("EDITAR", () => edit(item)), action("EXCLUIR", () => {
+          if (!admin() || !ready || !window.confirm('Excluir "' + item.name + '" da lista?')) return;
+          try { save(items.filter(saved => saved.id !== item.id)); if (editingId === item.id) reset(); $("style-message").textContent = "Produto excluído. Aguarde a confirmação SALVO NA NUVEM."; }
+          catch (error) { $("style-message").textContent = error.message; }
+        }));
+        card.append(actions);
+      }
+      list.append(card);
+    });
+    controls();
+  }
+  $("style-form").addEventListener("submit", event => {
+    event.preventDefault();
+    if (!ready) return;
+    try {
+      if (!admin()) throw new Error("Entre como ADM para adicionar ou editar produtos.");
+      const item = { id: editingId || crypto.randomUUID(), name: $("style-name").value.trim(), category: $("style-category").value, url: $("style-url").value.trim(), priceCents: core.parsePrice($("style-price").value) };
+      const wasEditing = Boolean(editingId);
+      save(editingId ? items.map(saved => saved.id === editingId ? item : saved) : [...items, item]);
+      reset(); $("style-message").textContent = (wasEditing ? "Produto atualizado." : "Produto adicionado.") + " Aguarde a confirmação SALVO NA NUVEM.";
+    } catch (error) { $("style-message").textContent = error.message; }
+  });
+  $("style-cancel").addEventListener("click", () => { if (window.confirm("Cancelar a edição sem salvar as alterações?")) { reset(); $("style-message").textContent = "Edição cancelada."; } });
+  $("style-filter").addEventListener("change", render);
+  function sessionReady() {
+    ready = false; items = []; controls(); reset();
+    if (!window.rickDevStorage) return;
+    try {
+      const raw = window.rickDevStorage.getItem(core.key);
+      items = core.validate(raw === null ? [] : JSON.parse(raw)); ready = true; render();
+      $("style-message").textContent = admin() ? "" : "Modo convidado: você pode consultar os produtos e abrir os links das lojas.";
+    } catch (_) {
+      $("style-list").replaceChildren();
+      $("style-message").textContent = "Não consegui validar os produtos salvos. Nenhum dado foi substituído. Confira o diagnóstico e seus backups no RICK_SYSTEM.";
+    }
+    controls();
+  }
+  window.addEventListener("rick-system-ready", sessionReady);
   sessionReady();
 })();
     </script>
