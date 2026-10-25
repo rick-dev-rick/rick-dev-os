@@ -6,7 +6,9 @@
   const tokenKey = "rick-dev-spotify-token";
   const verifierKey = "rick-dev-spotify-code-verifier";
   const stateKey = "rick-dev-spotify-oauth-state";
-  const scopes = "user-read-playback-state user-modify-playback-state";
+  const browserScopes = ["streaming", "user-read-email", "user-read-private", "user-read-recently-played"];
+  const scopes = "user-read-playback-state user-modify-playback-state " + browserScopes.join(" ");
+  const lastSourceKey = "rick-dev-spotify-last-source";
 
   const widget = document.querySelector("#spotify-widget");
   if (!widget) return;
@@ -33,6 +35,9 @@
   const settingsToggle = document.querySelector("#spotify-settings-toggle");
   const settingsForm = document.querySelector("#spotify-settings");
   const clientIdInput = document.querySelector("#spotify-client-id");
+  const startForm = document.querySelector("#spotify-start-form");
+  const sourceInput = document.querySelector("#spotify-start-source");
+  const startButton = document.querySelector("#spotify-start-button");
 
   let clientId = localStorage.getItem(clientIdKey) || "";
   let token = null;
@@ -40,6 +45,135 @@
   let refreshTimer = null;
   let progressTimer = null;
   let playbackObservedAt = 0;
+  let browserPlayer = null;
+  let browserDeviceId = null;
+  let browserReady = null;
+  let cancelBrowserReady = null;
+  let sdkLoading = null;
+  let browserFailed = false;
+  let usingBrowser = false;
+  let commandBusy = false;
+  let sessionGeneration = 0;
+  let refreshTokenPromise = null;
+
+  function hasBrowserPermission() {
+    const granted = (readStoredToken()?.scope || "").split(" ");
+    return browserScopes.every(function (scope) { return granted.includes(scope); });
+  }
+
+  function spotifySource(value) {
+    let uri = String(value || "").trim();
+    if (uri.startsWith("https://")) {
+      try {
+        const url = new URL(uri);
+        if (url.hostname !== "open.spotify.com") return null;
+        const match = url.pathname.match(/^\/(?:intl-[a-z-]+\/)?(track|playlist|album)\/([A-Za-z0-9]{22})\/?$/);
+        uri = match ? "spotify:" + match[1] + ":" + match[2] : "";
+      } catch (_) { return null; }
+    }
+    if (!/^spotify:(track|playlist|album):[A-Za-z0-9]{22}$/.test(uri)) return null;
+    return uri.startsWith("spotify:track:") ? { uris: [uri] } : { context_uri: uri };
+  }
+
+  function loadPlaybackSdk() {
+    if (window.Spotify?.Player) return Promise.resolve();
+    if (sdkLoading) return sdkLoading;
+    sdkLoading = new Promise(function (resolve, reject) {
+      const script = document.createElement("script");
+      const timer = window.setTimeout(failed, 15000);
+      function failed() {
+        window.clearTimeout(timer);
+        script.remove();
+        sdkLoading = null;
+        reject(new Error("Não consegui carregar o player. Confira a conexão e os bloqueadores do navegador e tente Play novamente."));
+      }
+      window.onSpotifyWebPlaybackSDKReady = function () { window.clearTimeout(timer); resolve(); };
+      script.src = "https://sdk.scdn.co/spotify-player.js";
+      script.onerror = failed;
+      document.head.appendChild(script);
+    });
+    return sdkLoading;
+  }
+
+  function stopBrowserPlayer() {
+    sessionGeneration++;
+    if (cancelBrowserReady) cancelBrowserReady(new Error("Conexão do player encerrada."));
+    if (browserPlayer) browserPlayer.disconnect();
+    browserPlayer = null;
+    browserDeviceId = null;
+    browserReady = null;
+    browserFailed = false;
+    usingBrowser = false;
+    commandBusy = false;
+  }
+
+  function ensureBrowserPlayer() {
+    if (browserReady) return browserReady;
+    const generation = sessionGeneration;
+    browserReady = loadPlaybackSdk().then(function () {
+      if (generation !== sessionGeneration || !hasBrowserPermission()) throw new Error("Reconecte o Spotify para liberar a reprodução no site.");
+      return new Promise(function (resolve, reject) {
+        const instance = new window.Spotify.Player({
+          name: "RICK_DEV OS", volume: 0.5,
+          getOAuthToken: function (callback) { getAccessToken().then(function (value) { if (generation === sessionGeneration) callback(value); }).catch(function (error) { fail(error); }); }
+        });
+        browserPlayer = instance;
+        let failed = false;
+        const timer = window.setTimeout(function () { fail(new Error("O player demorou para conectar. Tente Play novamente.")); }, 20000);
+        function fail(error) {
+          if (failed || generation !== sessionGeneration || browserPlayer !== instance) return;
+          failed = true;
+          window.clearTimeout(timer);
+          instance.disconnect();
+          browserDeviceId = null;
+          browserPlayer = null;
+          browserReady = null;
+          browserFailed = true;
+          cancelBrowserReady = null;
+          writeStatus(error.message);
+          showTrack(playback);
+          updateConnectState();
+          reject(error);
+        }
+        cancelBrowserReady = function (error) { window.clearTimeout(timer); cancelBrowserReady = null; reject(error); };
+        instance.addListener("ready", function (event) {
+          if (generation !== sessionGeneration || browserPlayer !== instance) return;
+          window.clearTimeout(timer);
+          cancelBrowserReady = null;
+          browserDeviceId = event.device_id;
+          browserFailed = false;
+          showTrack(playback);
+          updateConnectState();
+          if (!playback?.item && !commandBusy) writeStatus("Player pronto. Dê Play para tocar neste navegador.");
+          resolve(event.device_id);
+        });
+        instance.addListener("not_ready", function () {
+          if (generation !== sessionGeneration || browserPlayer !== instance) return;
+          fail(new Error("O player ficou offline. Tente Play novamente."));
+        });
+        instance.addListener("player_state_changed", function (state) {
+          if (!state || !usingBrowser || generation !== sessionGeneration || browserPlayer !== instance) return;
+          const item = state.track_window?.current_track;
+          showTrack({ item: item, progress_ms: state.position, is_playing: !state.paused, device: { id: browserDeviceId } });
+          writeStatus(state.paused ? "PAUSADO" : "TOCANDO NESTE NAVEGADOR");
+        });
+        instance.addListener("autoplay_failed", function () {
+          if (generation === sessionGeneration) writeStatus("O navegador bloqueou o áudio. Clique em Play novamente para liberar.");
+        });
+        instance.addListener("initialization_error", function () { fail(new Error("Este navegador não liberou o áudio protegido (DRM). Confira as permissões ou use Chrome/Edge atualizado.")); });
+        instance.addListener("authentication_error", function () { fail(new Error("Reconecte o Spotify para renovar a permissão de reprodução.")); });
+        instance.addListener("account_error", function () { fail(new Error("A reprodução no navegador exige uma conta Spotify Premium.")); });
+        instance.addListener("playback_error", function () {
+          if (generation === sessionGeneration) writeStatus("Não consegui tocar essa música. Tente outro link de música ou playlist.");
+        });
+        Promise.resolve(instance.connect()).then(function (connected) { if (!connected) fail(new Error("Não consegui conectar o player. Tente Play novamente.")); }).catch(fail);
+      });
+    }).catch(function (error) {
+      if (generation === sessionGeneration) { browserReady = null; browserFailed = true; }
+      throw error;
+    });
+    return browserReady;
+  }
 
   function readStoredToken() {
     try {
@@ -115,12 +249,12 @@
     updateArtwork(item);
     renderTimeline();
     if (!item) {
-      trackTitle.textContent = "Nenhuma música ativa";
-      trackArtist.textContent = "Abra o Spotify e comece a tocar";
+      trackTitle.textContent = "Seu Spotify está pronto";
+      trackArtist.textContent = "Dê o primeiro Play por aqui";
       playButton.textContent = "▶";
       playButton.setAttribute("aria-label", "Reproduzir");
       previousButton.disabled = true;
-      playButton.disabled = true;
+      playButton.disabled = commandBusy || !readStoredToken() || (hasBrowserPermission() && !browserDeviceId && !browserFailed);
       nextButton.disabled = true;
       return;
     }
@@ -130,16 +264,20 @@
     const isPlaying = Boolean(state.is_playing);
     playButton.textContent = isPlaying ? "Ⅱ" : "▶";
     playButton.setAttribute("aria-label", isPlaying ? "Pausar" : "Retomar reprodução");
-    previousButton.disabled = false;
-    playButton.disabled = false;
-    nextButton.disabled = false;
+    previousButton.disabled = commandBusy;
+    playButton.disabled = commandBusy;
+    nextButton.disabled = commandBusy;
+    const source = spotifySource(state.context?.uri) || spotifySource(item.uri);
+    if (source) localStorage.setItem(lastSourceKey, source.context_uri || source.uris[0]);
   }
 
   function updateConnectState() {
     const saved = readStoredToken();
     const connected = Boolean(saved && saved.refreshToken);
-    connectButton.hidden = connected;
+    connectButton.hidden = connected && hasBrowserPermission();
+    connectButton.textContent = connected ? "RECONECTAR SPOTIFY" : "CONECTAR SPOTIFY";
     disconnectButton.hidden = !connected;
+    if (startButton) startButton.disabled = !connected || commandBusy || (hasBrowserPermission() && !browserDeviceId && !browserFailed);
   }
 
   function encodeBase64Url(bytes) {
@@ -183,7 +321,8 @@
     const saved = {
       accessToken: data.access_token,
       refreshToken: data.refresh_token || existingRefreshToken,
-      expiresAt: Date.now() + (Number(data.expires_in) || 3600) * 1000
+      expiresAt: Date.now() + (Number(data.expires_in) || 3600) * 1000,
+      scope: data.scope || readStoredToken()?.scope || ""
     };
     localStorage.setItem(tokenKey, JSON.stringify(saved));
     updateConnectState();
@@ -223,14 +362,23 @@
         code_verifier: verifier
       });
       saveTokens(data, null);
+      localStorage.removeItem(lastSourceKey);
       writeStatus("Spotify conectado. Carregando sua reprodução…");
-      await refreshPlayback();
+      startPolling();
     } catch (error) {
       writeStatus(error.message || "Não consegui conectar ao Spotify.");
     }
   }
 
   async function getAccessToken() {
+    if (refreshTokenPromise) return refreshTokenPromise;
+    refreshTokenPromise = resolveAccessToken();
+    try { return await refreshTokenPromise; }
+    finally { refreshTokenPromise = null; }
+  }
+
+  async function resolveAccessToken() {
+    const generation = sessionGeneration;
     if (!clientId) throw new Error("Abra CONFIGURAR e informe o Client ID do Spotify.");
     const saved = readStoredToken();
     if (!saved || !saved.refreshToken) throw new Error("Conecte sua conta do Spotify.");
@@ -247,19 +395,24 @@
         refresh_token: saved.refreshToken
       });
     } catch (_) {
+      if (generation !== sessionGeneration) throw new Error("Conexão encerrada.");
       localStorage.removeItem(tokenKey);
       updateConnectState();
       throw new Error("Sua autorização venceu. Conecte o Spotify novamente.");
     }
+    if (generation !== sessionGeneration) throw new Error("Conexão encerrada.");
     saveTokens(data, saved.refreshToken);
     return token;
   }
 
-  async function apiRequest(path, method) {
+  async function apiRequest(path, method, payload) {
+    const generation = sessionGeneration;
     const accessToken = await getAccessToken();
+    if (generation !== sessionGeneration) throw new Error("Conexão encerrada.");
     const response = await fetch("https://api.spotify.com/v1" + path, {
       method: method || "GET",
-      headers: { Authorization: "Bearer " + accessToken }
+      headers: { Authorization: "Bearer " + accessToken, ...(payload ? { "Content-Type": "application/json" } : {}) },
+      ...(payload ? { body: JSON.stringify(payload) } : {})
     });
     if (response.status === 204) return null;
     const raw = await response.text();
@@ -276,45 +429,104 @@
   function explainApiError(error) {
     if (error.status === 401) return "A conexão expirou. Desconecte e conecte o Spotify novamente.";
     if (error.status === 403) return "O Spotify não autorizou o comando. Confira se sua conta tem Premium.";
-    if (error.status === 404) return "Nenhum dispositivo ativo. Abra o Spotify e inicie uma música.";
+    if (error.status === 404) return "O dispositivo ficou indisponível. Dê Play novamente para tocar neste navegador.";
     if (error.status === 429) return "O Spotify pediu para aguardar antes de tentar de novo.";
     return error.message || "Não consegui falar com o Spotify.";
   }
 
   async function refreshPlayback() {
     if (!appShell || appShell.hidden || panel.hidden || !readStoredToken()) return;
+    const generation = sessionGeneration;
     try {
       const state = await apiRequest("/me/player");
+      if (generation !== sessionGeneration || commandBusy) return;
+      usingBrowser = Boolean(browserDeviceId && state?.device?.id === browserDeviceId);
       showTrack(state);
       if (state && state.item) {
         writeStatus(state.is_playing ? "TOCANDO AGORA" : "PAUSADO");
       } else {
-        writeStatus("Conectado. Abra o Spotify e comece a tocar.");
+        if (!browserFailed) writeStatus(hasBrowserPermission() ? (browserDeviceId ? "Conectado. Clique em Play para tocar aqui." : "Preparando o player neste navegador…") : "Reconecte o Spotify uma vez para liberar o primeiro Play no site.");
       }
     } catch (error) {
-      writeStatus(explainApiError(error));
+      if (generation === sessionGeneration && !commandBusy) writeStatus(explainApiError(error));
     }
   }
 
-  async function sendPlaybackCommand(command) {
+  async function firstPlay(explicitSource, generation) {
+    if (!hasBrowserPermission()) throw new Error("Reconecte o Spotify uma vez para liberar a reprodução no site.");
+    browserFailed = false;
+    const deviceId = await ensureBrowserPlayer();
+    if (generation !== sessionGeneration) return;
+    let source = explicitSource || spotifySource(localStorage.getItem(lastSourceKey));
+    if (!source) {
+      try {
+        const recent = await apiRequest("/me/player/recently-played?limit=1");
+        source = spotifySource(recent?.items?.[0]?.track?.uri);
+      } catch (error) {
+        if (error.status !== 403 && error.status !== 404) throw error;
+      }
+    }
+    if (!source) throw new Error("Cole abaixo um link de música ou playlist do Spotify para começar.");
+    if (generation !== sessionGeneration) return;
+    await apiRequest("/me/player", "PUT", { device_ids: [deviceId], play: false });
+    if (generation !== sessionGeneration) return;
+    usingBrowser = true;
+    await apiRequest("/me/player/play?device_id=" + encodeURIComponent(deviceId), "PUT", source);
+  }
+
+  async function sendPlaybackCommand(command, explicitSource) {
+    if (commandBusy) return;
     if (!readStoredToken()) {
       writeStatus("Conecte sua conta do Spotify primeiro.");
       return;
     }
+    const generation = sessionGeneration;
+    if (command === "toggle" && (explicitSource || !playback?.item) && hasBrowserPermission() && !browserPlayer) {
+      browserFailed = false;
+      showTrack(playback);
+      updateConnectState();
+      writeStatus("Preparando o player neste navegador…");
+      try {
+        await ensureBrowserPlayer();
+        if (generation === sessionGeneration) writeStatus("Player pronto. Clique em Play ou TOCAR AQUI para começar.");
+      } catch (error) {
+        if (generation === sessionGeneration) { writeStatus(error.message); showTrack(playback); updateConnectState(); }
+      }
+      return;
+    }
+    // Must run in the click/submit gesture, before token or network awaits (iOS).
+    const activation = browserPlayer && command === "toggle" && (explicitSource || !playback?.is_playing) ? browserPlayer.activateElement() : Promise.resolve();
+    commandBusy = true;
+    if (startButton) startButton.disabled = true;
     [previousButton, playButton, nextButton].forEach(function (button) { button.disabled = true; });
     try {
+      await activation;
       if (command === "toggle") {
-        await apiRequest(playback && playback.is_playing ? "/me/player/pause" : "/me/player/play", "PUT");
+        if (explicitSource || !playback?.item) {
+          writeStatus("Preparando a reprodução neste navegador…");
+          await firstPlay(explicitSource, generation);
+        } else {
+          const target = usingBrowser && browserDeviceId ? "?device_id=" + encodeURIComponent(browserDeviceId) : "";
+          try {
+            await apiRequest((playback.is_playing ? "/me/player/pause" : "/me/player/play") + target, "PUT");
+          } catch (error) {
+            if (error.status !== 404 || playback.is_playing) throw error;
+            await firstPlay(null, generation);
+          }
+        }
       } else if (command === "previous") {
         await apiRequest("/me/player/previous", "POST");
       } else {
         await apiRequest("/me/player/next", "POST");
       }
-      writeStatus("Comando enviado ao Spotify…");
-      window.setTimeout(refreshPlayback, 900);
+      if (generation === sessionGeneration) {
+        writeStatus("Comando enviado ao Spotify…");
+        window.setTimeout(refreshPlayback, 900);
+      }
     } catch (error) {
-      writeStatus(explainApiError(error));
-      showTrack(playback);
+      if (generation === sessionGeneration) writeStatus(explainApiError(error));
+    } finally {
+      if (generation === sessionGeneration) { commandBusy = false; showTrack(playback); updateConnectState(); }
     }
   }
 
@@ -378,8 +590,14 @@
 
   connectButton.addEventListener("click", beginAuthorization);
   previousButton.addEventListener("click", function () { sendPlaybackCommand("previous"); });
-  playButton.addEventListener("click", function () { sendPlaybackCommand("toggle"); });
+  playButton.addEventListener("click", function () { return sendPlaybackCommand("toggle"); });
   nextButton.addEventListener("click", function () { sendPlaybackCommand("next"); });
+  if (startForm) startForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const source = spotifySource(sourceInput.value);
+    if (!source) { writeStatus("Cole um link completo de música, álbum ou playlist do Spotify."); return; }
+    return sendPlaybackCommand("toggle", source);
+  });
 
   settingsToggle.addEventListener("click", function () {
     settingsForm.hidden = !settingsForm.hidden;
@@ -394,6 +612,8 @@
     const nextClientId = clientIdInput.value.trim();
     if (!nextClientId) return;
     if (nextClientId !== clientId) {
+      stopBrowserPlayer();
+      localStorage.removeItem(lastSourceKey);
       localStorage.removeItem(tokenKey);
       token = null;
       playback = null;
@@ -408,6 +628,8 @@
   });
 
   disconnectButton.addEventListener("click", function () {
+    stopBrowserPlayer();
+    localStorage.removeItem(lastSourceKey);
     localStorage.removeItem(tokenKey);
     token = null;
     playback = null;
@@ -426,6 +648,12 @@
     refreshTimer = null;
     progressTimer = null;
     if (appShell && !appShell.hidden && !panel.hidden && !document.hidden && readStoredToken()) {
+      if (hasBrowserPermission() && !browserFailed) {
+        const generation = sessionGeneration;
+        ensureBrowserPlayer().catch(function (error) {
+          if (generation === sessionGeneration) { writeStatus(error.message); showTrack(playback); updateConnectState(); }
+        });
+      }
       refreshPlayback();
       refreshTimer = window.setInterval(refreshPlayback, 20000);
       progressTimer = window.setInterval(renderTimeline, 1000);

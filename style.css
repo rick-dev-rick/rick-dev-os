@@ -4700,3 +4700,52 @@ body:has(#app-shell:not([hidden])) {
   #module-home .home-overview .home-ring-card h3 { font-size: 18px; }
   #module-home .home-overview .home-ring-caption { font-size: 13px; }
 }
+
+/* Spotify: start playback without opening another app. */
+.spotify-start-details {
+  margin: 12px 0;
+  border-top: 1px solid var(--border, #26332a);
+  padding-top: 10px;
+}
+.spotify-start-details summary {
+  color: #c7d8cc;
+  cursor: pointer;
+  font-size: .75rem;
+  line-height: 1.5;
+}
+.spotify-start-form {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+.spotify-start-form label {
+  color: #d7e8da;
+  font-size: .75rem;
+}
+.spotify-start-form input {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #374b3c;
+  border-radius: 0;
+  background: #090f0b;
+  padding: 10px;
+  color: #f0fff2;
+  font: inherit;
+  font-size: .75rem;
+}
+.spotify-start-form button {
+  padding: 10px;
+  border: 1px solid #64b878;
+  border-radius: 0;
+  background: #152e1b;
+  color: #d7ffdf;
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.spotify-start-form button:disabled { opacity: .45; cursor: default; }
+.spotify-start-details summary:focus-visible,
+.spotify-start-form input:focus-visible,
+.spotify-start-form button:focus-visible { outline: 2px solid #39ff14; outline-offset: 3px; }

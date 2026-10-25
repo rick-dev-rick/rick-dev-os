@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261018-product-design-polish" />
+    <link rel="stylesheet" href="style.css?v=20261025-spotify-first-play" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -571,6 +571,14 @@
           <button class="spotify-play-toggle" id="spotify-play-toggle" type="button" aria-label="Reproduzir ou pausar" title="Reproduzir ou pausar" disabled>▶</button>
           <button id="spotify-next" type="button" aria-label="Próxima música" title="Próxima música" disabled>⏭</button>
         </div>
+        <details class="spotify-start-details">
+          <summary>Iniciar música ou playlist por link</summary>
+          <form class="spotify-start-form" id="spotify-start-form">
+            <label for="spotify-start-source">Link do Spotify</label>
+            <input id="spotify-start-source" name="source" type="text" autocomplete="off" spellcheck="false" placeholder="https://open.spotify.com/playlist/..." maxlength="500" required>
+            <button id="spotify-start-button" type="submit" disabled>TOCAR AQUI</button>
+          </form>
+        </details>
         <div class="spotify-widget-actions">
           <button class="spotify-connect-button" id="spotify-connect" type="button">CONECTAR SPOTIFY</button>
           <button class="spotify-small-button" id="spotify-settings-toggle" type="button">CONFIGURAR</button>
@@ -2748,7 +2756,7 @@ const activateButton = document.querySelector("#activate-button");
   sessionReady();
 })();
     </script>
-    <script src="spotify-player.js?v=20261017-artwork-progress" defer></script>
+    <script src="spotify-player.js?v=20261025-first-play" defer></script>
       <script id="rick-progress-ui">
 (() => {
   "use strict";
