@@ -3071,6 +3071,29 @@ const activateButton = document.querySelector("#activate-button");
   const $ = id => document.getElementById(id), core = window.rickSoundCloudCore;
   let items = [], ready = false, selectedId = null, widget = null, generation = 0, readyTimer = null, apiLoading = null;
   let shuffle = false, soundCount = 0, soundIndex = 0, shuffleBag = [], indexReady = false, indexRevision = 0;
+  let pendingResume = null, resumeTimer = null;
+  function cancelResume() {
+    window.clearTimeout(resumeTimer); pendingResume = null;
+  }
+  function resumeSelectedTrack(pending) {
+    const valid = () => pendingResume === pending && pending.generation === generation && pending.revision === indexRevision && window.rickMusicProvider === "soundcloud" && shuffle && widget;
+    if (!valid()) return;
+    if (pending.checks++ >= 12) {
+      cancelResume();
+      status("O SoundCloud não iniciou a próxima faixa. Use Play no player para liberar o áudio.");
+      return;
+    }
+    const request = ++pending.request, instance = widget;
+    resumeTimer = window.setTimeout(() => resumeSelectedTrack(pending), 500);
+    instance.getCurrentSoundIndex(index => {
+      if (!valid() || request !== pending.request || index !== pending.index) return;
+      instance.isPaused(paused => {
+        if (!valid() || request !== pending.request) return;
+        if (paused) instance.play();
+        else cancelResume();
+      });
+    });
+  }
   const shuffleButton = $("soundcloud-shuffle");
   function renderShuffle() {
     shuffleButton.disabled = !widget || !indexReady || soundCount < 2;
@@ -3084,18 +3107,22 @@ const activateButton = document.querySelector("#activate-button");
     const pick = Math.floor(Math.random() * shuffleBag.length);
     soundIndex = shuffleBag.splice(pick, 1)[0];
     indexRevision++;
+    cancelResume();
+    const pending = pendingResume = { generation, revision: indexRevision, index: soundIndex, checks: 0, request: 0 };
     widget.skip(soundIndex);
-    widget.play();
+    // skip() changes the SoundCloud audio asynchronously. Wait for the selected
+    // index before playing, and retry only this transition while it is paused.
+    resumeTimer = window.setTimeout(() => resumeSelectedTrack(pending), 250);
   }
   shuffleButton.addEventListener("click", () => {
     if (shuffleButton.disabled || window.rickMusicProvider !== "soundcloud") return;
-    shuffle = !shuffle; shuffleBag = []; renderShuffle();
+    cancelResume(); shuffle = !shuffle; shuffleBag = []; renderShuffle();
     if (shuffle) randomNext();
     status(shuffle ? "Aleatório ligado: as próximas músicas serão sorteadas dentro desta playlist." : "Aleatório desligado: a playlist segue a ordem normal.");
   });
   const admin = () => window.rickDevSystem?.role === "admin";
   const status = message => { $("soundcloud-status").textContent = message; };
-  function pause() { if (widget) widget.pause(); }
+  function pause() { cancelResume(); if (widget) widget.pause(); }
   window.rickSoundCloudControl = Object.freeze({ pause });
   async function selectProvider(provider, userAction = true) {
     provider = provider === "soundcloud" ? "soundcloud" : "spotify";
@@ -3141,7 +3168,7 @@ const activateButton = document.querySelector("#activate-button");
     return apiLoading;
   }
   function unload() {
-    generation++;
+    cancelResume(); generation++;
     window.clearTimeout(readyTimer);
     if (widget) { widget.pause(); for (const name of ["READY", "PLAY", "PAUSE", "ERROR", "FINISH"]) widget.unbind(window.SC.Widget.Events[name]); }
     widget = null; selectedId = null;
@@ -3187,19 +3214,25 @@ const activateButton = document.querySelector("#activate-button");
       instance.bind(events.PLAY, async () => {
         if (current !== generation) return;
         if (window.rickMusicProvider !== "soundcloud") { instance.pause(); return; }
+        if (pendingResume) pendingResume.sawPlay = true;
         const revision = indexRevision;
         instance.getCurrentSoundIndex(index => {
           if (current !== generation || revision !== indexRevision || !Number.isInteger(index)) return;
           soundIndex = index; shuffleBag = shuffleBag.filter(saved => saved !== index);
+          if (pendingResume && index === pendingResume.index) cancelResume();
         });
         try {
           await window.rickSpotifyControl?.pause();
           if (current !== generation) return;
           if (window.rickMusicProvider === "soundcloud") status("TOCANDO NO SOUNDCLOUD");
           else instance.pause();
-        } catch (_) { if (current !== generation) return; instance.pause(); status("Não consegui pausar o Spotify. Pause nele antes de tocar no SoundCloud."); }
+        } catch (_) { if (current !== generation) return; cancelResume(); instance.pause(); status("Não consegui pausar o Spotify. Pause nele antes de tocar no SoundCloud."); }
       });
-      instance.bind(events.PAUSE, () => { if (current === generation) status("SoundCloud pausado. Use Play para continuar."); });
+      instance.bind(events.PAUSE, () => {
+        if (current !== generation) return;
+        if (pendingResume?.sawPlay) cancelResume();
+        if (!pendingResume) status("SoundCloud pausado. Use Play para continuar.");
+      });
       instance.bind(events.ERROR, () => fail(current, "Essa música ou playlist não está disponível no player. Confira se ela é pública e permite reprodução fora do SoundCloud."));
       render();
     } catch (error) { fail(current, error.message); }
