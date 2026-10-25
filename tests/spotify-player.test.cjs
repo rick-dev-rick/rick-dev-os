@@ -18,7 +18,7 @@ async function player(state) {
   const doc={hidden:false,title:'Test',querySelector:s=>element(s.slice(1)),addEventListener(){}};
   const localStorage={getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)};
   const context={document:doc,localStorage,sessionStorage:{removeItem(){},getItem(){return null;}},URL,URLSearchParams,TextEncoder,Date:class extends Date{static now(){return now;}},fetch:async()=>{requests++;return {status:200,ok:true,text:async()=>JSON.stringify(state)};}};
-  context.window={location:{search:'',href:'https://example.test/'},setInterval:(fn,ms)=>{const id=nextTimer++;intervals.set(id,{fn,ms});return id;},clearInterval:id=>intervals.delete(id),setTimeout:()=>0,crypto:{}};
+  context.window={addEventListener(){},location:{search:'',href:'https://example.test/'},setInterval:(fn,ms)=>{const id=nextTimer++;intervals.set(id,{fn,ms});return id;},clearInterval:id=>intervals.delete(id),setTimeout:()=>0,crypto:{}};
   context.MutationObserver=class{observe(){}};
   vm.runInNewContext(source,context);
   for(let i=0;i<12;i++)await Promise.resolve();

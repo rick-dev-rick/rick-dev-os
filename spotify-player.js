@@ -435,7 +435,7 @@
   }
 
   async function refreshPlayback() {
-    if (!appShell || appShell.hidden || panel.hidden || !readStoredToken()) return;
+    if (!appShell || appShell.hidden || panel.hidden || window.rickMusicProvider === "soundcloud" || !readStoredToken()) return;
     const generation = sessionGeneration;
     try {
       const state = await apiRequest("/me/player");
@@ -501,6 +501,7 @@
     [previousButton, playButton, nextButton].forEach(function (button) { button.disabled = true; });
     try {
       await activation;
+      if (command === "toggle" && (explicitSource || !playback?.is_playing) && (playback?.item || hasBrowserPermission())) window.rickSoundCloudControl?.pause();
       if (command === "toggle") {
         if (explicitSource || !playback?.item) {
           writeStatus("Preparando a reprodução neste navegador…");
@@ -569,8 +570,8 @@
     widget.classList.toggle("is-minimized", minimized);
     panel.hidden = minimized;
     panelToggle.setAttribute("aria-expanded", String(!minimized));
-    panelToggle.setAttribute("aria-label", minimized ? "Abrir controles do Spotify" : "Minimizar controles do Spotify");
-    panelToggle.title = minimized ? "Abrir controles do Spotify" : "Minimizar controles do Spotify";
+    panelToggle.setAttribute("aria-label", minimized ? "Abrir player de músicas" : "Minimizar player de músicas");
+    panelToggle.title = minimized ? "Abrir player de músicas" : "Minimizar player de músicas";
     localStorage.setItem("rick-dev-spotify-widget-minimized", String(minimized));
     if (minimized) {
       window.clearInterval(refreshTimer);
@@ -647,7 +648,7 @@
     window.clearInterval(progressTimer);
     refreshTimer = null;
     progressTimer = null;
-    if (appShell && !appShell.hidden && !panel.hidden && !document.hidden && readStoredToken()) {
+    if (appShell && !appShell.hidden && !panel.hidden && !document.hidden && window.rickMusicProvider !== "soundcloud" && readStoredToken()) {
       if (hasBrowserPermission() && !browserFailed) {
         const generation = sessionGeneration;
         ensureBrowserPlayer().catch(function (error) {
@@ -659,6 +660,17 @@
       progressTimer = window.setInterval(renderTimeline, 1000);
     }
   }
+
+  async function pauseForOtherProvider() {
+    if (!readStoredToken() || window.rickMusicProvider === "spotify") return;
+    const generation = sessionGeneration;
+    const current = await apiRequest("/me/player");
+    if (generation !== sessionGeneration || window.rickMusicProvider === "spotify" || !current?.is_playing) return;
+    await apiRequest("/me/player/pause", "PUT");
+    if (generation === sessionGeneration) { showTrack({ ...current, is_playing: false }); writeStatus("PAUSADO"); }
+  }
+  window.rickSpotifyControl = Object.freeze({ pause: pauseForOtherProvider });
+  window.addEventListener("rick-music-provider-change", startPolling);
 
   if (appShell) {
     new MutationObserver(startPolling).observe(appShell, { attributes: true, attributeFilter: ["hidden"] });

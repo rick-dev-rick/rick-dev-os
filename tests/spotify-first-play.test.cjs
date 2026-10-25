@@ -7,7 +7,7 @@ const fullScope='user-read-playback-state user-modify-playback-state streaming u
 const uri='spotify:track:1234567890123456789012';
 const flush=async()=>{for(let i=0;i<60;i++)await Promise.resolve();};
 async function setup(options={}) {
-  const nodes=new Map(),storage=new Map(),requests=[],events={},sdkCalls=[],timers=new Map();let nextTimer=0;
+  const nodes=new Map(),storage=new Map(),requests=[],events={},sdkCalls=[],timers=new Map(),windowEvents={};let nextTimer=0;
   const el=id=>{if(!nodes.has(id))nodes.set(id,{textContent:'',hidden:false,disabled:false,value:'',style:{},attrs:{},listeners:{},classList:{toggle(){},contains(){return false;}},setAttribute(k,v){this.attrs[k]=String(v);},getAttribute(k){return this.attrs[k]??null;},removeAttribute(k){delete this.attrs[k];},addEventListener(k,v){this.listeners[k]=v;},focus(){},remove(){}});return nodes.get(id);};
   storage.set('rick-dev-spotify-client-id','client');storage.set('rick-dev-spotify-widget-minimized','false');
   storage.set('rick-dev-spotify-token',JSON.stringify({accessToken:'test-token',refreshToken:'test-refresh',expiresAt:Date.now()+3600000,scope:options.legacy?'':fullScope}));
@@ -15,6 +15,7 @@ async function setup(options={}) {
   const session=new Map([['rick-dev-spotify-oauth-state','valid-state'],['rick-dev-spotify-code-verifier','valid-verifier']]);
   if(options.authorize)storage.delete('rick-dev-spotify-token');
   const context={URL,URLSearchParams,TextEncoder,Date,console,localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)},sessionStorage:{getItem:k=>session.get(k)??null,setItem:(k,v)=>session.set(k,v),removeItem:k=>session.delete(k)},MutationObserver:class{observe(){}},document:{hidden:false,title:'Test',querySelector:s=>el(s.slice(1)),createElement:()=>el('sdk-script'),head:{appendChild(script){sdkCalls.push('script');}},addEventListener(){}},fetch:async(url,init={})=>{
+    if(options.beforeFetch)await options.beforeFetch(url,init);
     if(url.includes('/api/token')){requests.push({url,method:init.method,body:String(init.body)});return {ok:true,json:async()=>({access_token:'new-token',refresh_token:'new-refresh',expires_in:3600,scope:fullScope})};}
     requests.push({url,method:init.method||'GET',body:init.body&&JSON.parse(init.body)});
     let body=null,status=204;
@@ -23,9 +24,9 @@ async function setup(options={}) {
     if(options.failPlay&&url.includes('/me/player/play')){body={error:{message:'Premium required'}};status=403;}
     return {ok:status<400,status,text:async()=>JSON.stringify(body)};
   }};
-  context.window={Spotify:options.noSdk?undefined:{Player:function(){return sdk;}},location:{search:options.authorize?'?code=test-code&state=valid-state':'',href:'https://example.test/'},history:{replaceState(){}},crypto:{},setInterval:()=>0,clearInterval(){},setTimeout:(fn,ms)=>{const id=++nextTimer;timers.set(id,{fn,ms});return id;},clearTimeout:id=>timers.delete(id)};
+  context.window={rickMusicProvider:options.provider,addEventListener:(name,fn)=>windowEvents[name]=fn,rickSoundCloudControl:{pause:()=>sdkCalls.push('soundcloud-pause')},Spotify:options.noSdk?undefined:{Player:function(){return sdk;}},location:{search:options.authorize?'?code=test-code&state=valid-state':'',href:'https://example.test/'},history:{replaceState(){}},crypto:{},setInterval:()=>0,clearInterval(){},setTimeout:(fn,ms)=>{const id=++nextTimer;timers.set(id,{fn,ms});return id;},clearTimeout:id=>timers.delete(id)};
   vm.runInNewContext(source,context);await flush();
-  return {el,requests,events,sdkCalls,sdk,context,storage,flush,timers,click:async id=>{const result=el(id).listeners.click();await result;await flush();},submit:async()=>{const result=el('spotify-start-form').listeners.submit({preventDefault(){}});await result;await flush();}};
+  return {el,requests,events,sdkCalls,sdk,context,storage,flush,timers,windowEvents,click:async id=>{const result=el(id).listeners.click();await result;await flush();},submit:async()=>{const result=el('spotify-start-form').listeners.submit({preventDefault(){}});await result;await flush();}};
 }
 test('connected empty player allows first play and starts recent track on browser device',async()=>{
   const p=await setup();assert.equal(p.el('spotify-play-toggle').disabled,false);
@@ -100,4 +101,25 @@ test('late error from discarded SDK instance cannot invalidate replacement',asyn
   p.context.window.Spotify.Player=function(){return {...p.sdk};};
   const retry=p.click('spotify-play-toggle');await p.flush();oldError({message:'stale error'});p.events.ready({device_id:'browser-device'});await retry;
   await p.click('spotify-play-toggle');assert.ok(p.requests.find(r=>r.url.includes('/me/player/play?device_id=browser-device')));
+});
+
+test('SoundCloud tab defers Spotify polling and SDK initialization',async()=>{
+ const p=await setup({provider:'soundcloud'});assert.equal(p.requests.length,0);assert.equal(p.sdkCalls.includes('connect'),false);
+});
+test('music panel can pause Spotify before SoundCloud plays',async()=>{
+ const p=await setup({state:{is_playing:true,device:{id:'phone'},item:{name:'Track',artists:[],duration_ms:1000},progress_ms:0}});
+ assert.ok(p.context.window.rickSpotifyControl);await p.context.window.rickSpotifyControl.pause();assert.ok(p.requests.some(r=>r.url.endsWith('/me/player/pause')&&r.method==='PUT'));
+});
+test('starting Spotify pauses SoundCloud before the play command',async()=>{
+ const p=await setup();await p.click('spotify-play-toggle');assert.ok(p.sdkCalls.includes('soundcloud-pause'));
+});
+
+test('SoundCloud can pause existing Spotify playback even when its tab has not polled',async()=>{
+ const p=await setup({provider:'soundcloud',state:{is_playing:true,device:{id:'phone'},item:{name:'Track',artists:[],duration_ms:1000},progress_ms:0}});
+ assert.equal(p.requests.length,0);await p.context.window.rickSpotifyControl.pause();assert.ok(p.requests.some(r=>r.url.endsWith('/me/player/pause')));
+});
+
+test('switching back to Spotify during the SoundCloud pause check does not issue a late pause',async()=>{
+ let release;const gate=new Promise(r=>release=r);const options={provider:'soundcloud',state:{is_playing:true,item:{name:'Track',artists:[],duration_ms:1000},progress_ms:0},beforeFetch:()=>gate};
+ const p=await setup(options);const pending=p.context.window.rickSpotifyControl.pause();await p.flush();p.context.window.rickMusicProvider='spotify';release();await pending;assert.equal(p.requests.some(r=>r.url.endsWith('/me/player/pause')),false);
 });
