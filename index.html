@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#050805" />
     <title>RICK_DEV OS | Meu Laboratório</title>
-    <link rel="stylesheet" href="style.css?v=20261025-style-purchases" />
+    <link rel="stylesheet" href="style.css?v=20261025-soundcloud" />
   </head>
   <body>
     <section class="access-screen" id="access-screen" aria-labelledby="access-title">
@@ -587,13 +587,18 @@
     </footer>
     </div>
 
-    <aside class="spotify-widget is-minimized" hidden id="spotify-widget" aria-label="Controles do Spotify">
-      <button class="spotify-widget-toggle" id="spotify-widget-toggle" type="button" aria-expanded="false" aria-label="Abrir controles do Spotify" title="Abrir controles do Spotify" aria-controls="spotify-widget-panel">
+    <aside class="spotify-widget is-minimized" hidden id="spotify-widget" aria-label="Player de músicas">
+      <button class="spotify-widget-toggle" id="spotify-widget-toggle" type="button" aria-expanded="false" aria-label="Abrir player de músicas" title="Abrir player de músicas" aria-controls="spotify-widget-panel">
         <span class="spotify-widget-mark" aria-hidden="true"><svg class="player-launch-icon" width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false"><path d="M6 19v-5a10 10 0 0 1 20 0v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M5 15h3v10H6a3 3 0 0 1-3-3v-4a3 3 0 0 1 2-3Zm22 0h-3v10h2a3 3 0 0 0 3-3v-4a3 3 0 0 0-2-3Z" fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m13 13 8 5-8 5Z" fill="currentColor"/><path d="M24 26c-1.4 2-3.4 3-6 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="29" r="1.6" fill="currentColor"/></svg></span>
-        <span>SPOTIFY</span>
+        <span>MÚSICAS</span>
         <span class="spotify-widget-chevron" aria-hidden="true">⌄</span>
       </button>
       <div class="spotify-widget-panel" id="spotify-widget-panel" hidden>
+        <div class="music-provider-tabs" role="tablist" aria-label="Serviço de música">
+          <button id="music-tab-spotify" type="button" role="tab" aria-selected="true" aria-controls="music-panel-spotify" tabindex="0">SPOTIFY</button>
+          <button id="music-tab-soundcloud" type="button" role="tab" aria-selected="false" aria-controls="music-panel-soundcloud" tabindex="-1">SOUNDCLOUD</button>
+        </div>
+        <div id="music-panel-spotify" role="tabpanel" aria-labelledby="music-tab-spotify">
         <div class="spotify-track" id="spotify-track" aria-live="polite">
           <a class="spotify-track-art" id="spotify-track-link" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Spotify"><span id="spotify-art-fallback" aria-hidden="true">♫</span><img id="spotify-cover-image" alt="" decoding="async" referrerpolicy="no-referrer" hidden></a>
           <span class="spotify-track-copy">
@@ -632,6 +637,22 @@
           <button type="submit">SALVAR CONFIGURAÇÃO</button>
           <p class="spotify-settings-note">Use apenas o Client ID. Nunca coloque aqui sua senha ou Client Secret.</p>
         </form>
+        </div>
+        <div id="music-panel-soundcloud" role="tabpanel" aria-labelledby="music-tab-soundcloud" hidden>
+          <h2 class="soundcloud-heading">Seu SoundCloud</h2>
+          <p class="soundcloud-help">Suas playlists salvas, prontas para ouvir por aqui. Use links públicos completos do SoundCloud.</p>
+          <p id="soundcloud-status" class="spotify-status" role="status" aria-live="polite">Escolha uma playlist salva.</p>
+          <strong id="soundcloud-current" class="soundcloud-current">Selecione uma música ou playlist salva</strong>
+          <div id="soundcloud-player-host"><iframe id="soundcloud-frame" class="soundcloud-frame" title="Player oficial do SoundCloud" width="100%" height="300" allow="autoplay" hidden></iframe></div>
+          <ul id="soundcloud-list" class="soundcloud-list"></ul>
+          <details class="soundcloud-add"><summary>Salvar música ou playlist</summary>
+            <form id="soundcloud-form"><fieldset id="soundcloud-fields" disabled>
+              <label for="soundcloud-name">Nome<input id="soundcloud-name" type="text" maxlength="80" placeholder="Ex.: Funk 2017–2019" required></label>
+              <label for="soundcloud-url">Link público do SoundCloud<input id="soundcloud-url" type="url" maxlength="2048" placeholder="https://soundcloud.com/perfil/sets/playlist" required></label>
+              <button type="submit">SALVAR NA MINHA LISTA</button>
+            </fieldset></form>
+          </details>
+        </div>
       </div>
     </aside>
 
@@ -1713,12 +1734,39 @@ const activateButton = document.querySelector("#activate-button");
   window.rickStyleCore = Object.freeze({ key, categories, safeUrl, parsePrice, validate, summarize, isValid, money });
 })();
     </script>
+    <script id="rick-soundcloud-core">
+(() => {
+  "use strict";
+  const key = "rick-dev-soundcloud";
+  function safeUrl(value) {
+    let url;
+    try { if (typeof value !== "string" || value.length > 2048) throw new Error(); url = new URL(value.trim()); }
+    catch (_) { throw new Error("Cole o link completo de uma música ou playlist pública do SoundCloud."); }
+    const host = url.hostname.replace(/^(www\.|m\.)/, ""), parts = url.pathname.split("/").filter(Boolean);
+    const privateLink = [...url.searchParams.keys()].some(key => key.toLowerCase() === "secret_token");
+    if (url.protocol !== "https:" || host !== "soundcloud.com" || url.port || url.username || url.password || privateLink
+      || !(parts.length === 2 && parts[1] !== "sets" || parts.length === 3 && parts[1] === "sets")) throw new Error("Use um link público completo de soundcloud.com/artista/música ou soundcloud.com/artista/sets/playlist, sem senha ou token privado.");
+    return "https://soundcloud.com/" + parts.join("/");
+  }
+  function validate(items) {
+    if (!Array.isArray(items) || items.length > 100) throw new Error("Salve até 100 músicas ou playlists do SoundCloud.");
+    const result = items.map(item => {
+      if (!item || typeof item !== "object" || typeof item.id !== "string" || !item.id.trim() || item.id.length > 80 || typeof item.name !== "string" || !item.name.trim() || item.name.length > 80) throw new Error("Existe uma playlist inválida na lista do SoundCloud.");
+      return { id: item.id, name: item.name.trim(), url: safeUrl(item.url) };
+    });
+    if (new Set(result.map(item => item.id)).size !== result.length || new Set(result.map(item => item.url)).size !== result.length) throw new Error("Essa música ou playlist já está salva.");
+    return result;
+  }
+  function isValid(value) { try { validate(value); return true; } catch (_) { return false; } }
+  window.rickSoundCloudCore = Object.freeze({ key, safeUrl, validate, isValid });
+})();
+    </script>
     <script id="rick-system-core">
 (() => {
   "use strict";
   const keys = Object.freeze([
     "rick-dev-study-topics", "rick-dev-studies", "rick-dev-missions", "rick-dev-projects",
-    "rick-dev-pc-parts", "rick-dev-style", "rick-dev-fitness-log", "rick-dev-study-resources",
+    "rick-dev-pc-parts", "rick-dev-style", "rick-dev-soundcloud", "rick-dev-fitness-log", "rick-dev-study-resources",
     "rick-dev-focus-seconds", "rick-dev-focus-minutes", "rick-dev-focus-remaining", "rick-dev-running", "rick-dev-evolution", "rick-dev-system-progress"
   ]);
   const object = value => value !== null && typeof value === "object" && !Array.isArray(value);
@@ -1743,6 +1791,7 @@ const activateButton = document.querySelector("#activate-button");
       if (key === "rick-dev-study-resources") valid = object(value) && Object.values(value).every(items => Array.isArray(items) && items.every(item => object(item) && text(item.id) && text(item.title) && text(item.type) && safeLink(item.url)));
       if (key === "rick-dev-system-progress") valid = window.rickProgressCore.valid(value);
       if (key === "rick-dev-evolution") valid = window.rickEvolutionCore.isValid(value);
+      if (key === "rick-dev-soundcloud") valid = window.rickSoundCloudCore.isValid(value);
       if (key === "rick-dev-style") valid = window.rickStyleCore.isValid(value);
       if (key === "rick-dev-running") valid = window.rickRunningCore.isValidJournal(value);
       if (key.startsWith("rick-dev-focus-")) valid = /^\d+$/.test(raw) && Number.isSafeInteger(value) && value >= 0 && value <= (key === "rick-dev-focus-minutes" ? 1440 : 86400);
@@ -1864,7 +1913,7 @@ const activateButton = document.querySelector("#activate-button");
           if (role === "admin" && Object.keys(sharedData).length === 0) {
             const legacyKeys = [
               "rick-dev-study-topics", "rick-dev-studies", "rick-dev-missions",
-              "rick-dev-projects", "rick-dev-pc-parts", "rick-dev-style", "rick-dev-fitness-log",
+              "rick-dev-projects", "rick-dev-pc-parts", "rick-dev-style", "rick-dev-soundcloud", "rick-dev-fitness-log",
               "rick-dev-study-resources", "rick-dev-focus-seconds",
               "rick-dev-focus-minutes", "rick-dev-focus-remaining", "rick-dev-running", "rick-dev-evolution"
             ];
@@ -3015,7 +3064,146 @@ const activateButton = document.querySelector("#activate-button");
   render();
 })();
     </script>
-    <script src="spotify-player.js?v=20261025-first-play" defer></script>
+    <script id="rick-music-tools">
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id), core = window.rickSoundCloudCore;
+  let items = [], ready = false, selectedId = null, widget = null, generation = 0, readyTimer = null, apiLoading = null;
+  const admin = () => window.rickDevSystem?.role === "admin";
+  const status = message => { $("soundcloud-status").textContent = message; };
+  function pause() { if (widget) widget.pause(); }
+  window.rickSoundCloudControl = Object.freeze({ pause });
+  async function selectProvider(provider, userAction = true) {
+    provider = provider === "soundcloud" ? "soundcloud" : "spotify";
+    window.rickMusicProvider = provider;
+    for (const name of ["spotify", "soundcloud"]) {
+      const selected = name === provider, tab = $("music-tab-" + name);
+      tab.setAttribute("aria-selected", String(selected)); tab.tabIndex = selected ? 0 : -1;
+      $("music-panel-" + name).hidden = !selected;
+    }
+    try { localStorage.setItem("rick-dev-music-provider", provider); } catch (_) {}
+    if (userAction) {
+      window.dispatchEvent(new CustomEvent("rick-music-provider-change", { detail: { provider } }));
+      if (provider === "spotify") pause();
+      else {
+        try { await window.rickSpotifyControl?.pause(); }
+        catch (_) { status("Não consegui pausar o Spotify. Pause a música nele antes de tocar no SoundCloud."); }
+      }
+    }
+  }
+  for (const [index, name] of ["spotify", "soundcloud"].entries()) {
+    $("music-tab-" + name).addEventListener("click", () => selectProvider(name));
+    $("music-tab-" + name).addEventListener("keydown", event => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const next = event.key === "Home" ? "spotify" : event.key === "End" ? "soundcloud" : index === 0 ? "soundcloud" : "spotify";
+      selectProvider(next); $("music-tab-" + next).focus();
+    });
+  }
+  let savedProvider = "spotify"; try { savedProvider = localStorage.getItem("rick-dev-music-provider") || savedProvider; } catch (_) {}
+  selectProvider(savedProvider, false);
+  function loadApi() {
+    if (window.SC?.Widget) return Promise.resolve();
+    if (apiLoading) return apiLoading;
+    apiLoading = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      const timer = window.setTimeout(failed, 15000);
+      function failed() { window.clearTimeout(timer); script.remove(); apiLoading = null; reject(new Error("Não consegui carregar o SoundCloud. Confira sua conexão ou bloqueador de conteúdo e tente abrir a playlist novamente.")); }
+      script.src = "https://w.soundcloud.com/player/api.js";
+      script.onload = () => { if (!window.SC?.Widget) { failed(); return; } window.clearTimeout(timer); resolve(); };
+      script.onerror = failed;
+      document.head.appendChild(script);
+    });
+    return apiLoading;
+  }
+  function unload() {
+    generation++;
+    window.clearTimeout(readyTimer);
+    if (widget) { widget.pause(); for (const name of ["READY", "PLAY", "PAUSE", "ERROR"]) widget.unbind(window.SC.Widget.Events[name]); }
+    widget = null; selectedId = null;
+    $("soundcloud-frame").removeAttribute("src"); $("soundcloud-frame").hidden = true;
+    $("soundcloud-current").textContent = "Selecione uma música ou playlist salva";
+  }
+  function fail(current, message) { if (current !== generation) return; unload(); render(); status(message); }
+  async function open(item) {
+    unload();
+    const current = generation;
+    status("Carregando o player do SoundCloud…");
+    try {
+      await loadApi();
+      if (current !== generation || window.rickMusicProvider !== "soundcloud") return;
+      const url = new URL("https://w.soundcloud.com/player/");
+      url.search = new URLSearchParams({ url: item.url, auto_play: "false", color: "#ff7849", show_artwork: "true", show_user: "true", show_comments: "false", visual: "false", single_active: "true" }).toString();
+      // SC.Widget caches by contentWindow; a new iframe isolates readiness/listeners.
+      const frame = document.createElement("iframe");
+      frame.id = "soundcloud-frame"; frame.className = "soundcloud-frame";
+      frame.title = "Player oficial do SoundCloud";
+      frame.setAttribute("width", "100%"); frame.setAttribute("height", "300"); frame.setAttribute("allow", "autoplay");
+      $("soundcloud-player-host").replaceChildren(frame);
+      frame.setAttribute("src", url.href); frame.hidden = false; selectedId = item.id;
+      $("soundcloud-current").textContent = item.name;
+      widget = window.SC.Widget(frame);
+      const instance = widget, events = window.SC.Widget.Events;
+      readyTimer = window.setTimeout(() => fail(current, "O SoundCloud demorou para responder. Tente abrir a playlist novamente."), 25000);
+      instance.bind(events.READY, () => { if (current !== generation) return; window.clearTimeout(readyTimer); status("Playlist carregada. Use o Play no player abaixo para ouvir."); });
+      instance.bind(events.PLAY, async () => {
+        if (current !== generation) return;
+        if (window.rickMusicProvider !== "soundcloud") { instance.pause(); return; }
+        try {
+          await window.rickSpotifyControl?.pause();
+          if (current !== generation) return;
+          if (window.rickMusicProvider === "soundcloud") status("TOCANDO NO SOUNDCLOUD");
+          else instance.pause();
+        } catch (_) { if (current !== generation) return; instance.pause(); status("Não consegui pausar o Spotify. Pause nele antes de tocar no SoundCloud."); }
+      });
+      instance.bind(events.PAUSE, () => { if (current === generation) status("SoundCloud pausado. Use Play para continuar."); });
+      instance.bind(events.ERROR, () => fail(current, "Essa música ou playlist não está disponível no player. Confira se ela é pública e permite reprodução fora do SoundCloud."));
+      render();
+    } catch (error) { fail(current, error.message); }
+  }
+  function button(label, callback) { const node = document.createElement("button"); node.type = "button"; node.textContent = label; node.addEventListener("click", callback); return node; }
+  function render() {
+    $("soundcloud-fields").disabled = !admin() || !ready;
+    const list = $("soundcloud-list"); list.replaceChildren();
+    if (!items.length) { const empty = document.createElement("li"); empty.className = "soundcloud-empty"; empty.textContent = "Salve o link de uma playlist uma vez e escolha quando quiser ouvir."; list.append(empty); }
+    items.forEach(item => {
+      const row = document.createElement("li"); row.className = "soundcloud-item";
+      const title = document.createElement("strong"); title.textContent = item.name;
+      const actions = document.createElement("div"); actions.className = "soundcloud-actions";
+      actions.append(button("ABRIR NO PLAYER", () => open(item)));
+      if (item.id === selectedId) { const label = document.createElement("span"); label.textContent = "CARREGADA"; label.className = "soundcloud-loaded"; actions.append(label); }
+      if (admin() && ready) actions.append(button("REMOVER", () => {
+        if (!admin() || !ready || !window.confirm('Remover "' + item.name + '" da sua lista salva?')) return;
+        try {
+          const next = core.validate(items.filter(saved => saved.id !== item.id));
+          window.rickDevStorage.setItem(core.key, JSON.stringify(next)); items = next;
+          if (item.id === selectedId) unload();
+          render(); status("Link removido da lista. Aguarde SALVO NA NUVEM.");
+        } catch (error) { status(error.message); }
+      }));
+      row.append(title, actions); list.append(row);
+    });
+  }
+  $("soundcloud-form").addEventListener("submit", event => {
+    event.preventDefault();
+    if (!ready || !admin()) return;
+    try {
+      const next = core.validate([...items, { id: crypto.randomUUID(), name: $("soundcloud-name").value.trim(), url: $("soundcloud-url").value.trim() }]);
+      window.rickDevStorage.setItem(core.key, JSON.stringify(next)); items = next;
+      $("soundcloud-form").reset(); render(); status("Link salvo. Aguarde SALVO NA NUVEM e escolha ABRIR NO PLAYER para ouvir.");
+    } catch (error) { status(error.message); }
+  });
+  function sessionReady() {
+    ready = false; items = []; unload(); render();
+    if (!window.rickDevStorage) return;
+    try { const raw = window.rickDevStorage.getItem(core.key); items = core.validate(raw === null ? [] : JSON.parse(raw)); ready = true; render(); status(admin() ? "Escolha uma playlist salva ou adicione um link público." : "Modo convidado: escolha uma playlist salva para ouvir."); }
+    catch (_) { status("Não consegui validar os links salvos. Nenhum dado foi substituído. Confira seus backups no RICK_SYSTEM."); }
+  }
+  window.addEventListener("rick-system-ready", sessionReady);
+  sessionReady();
+})();
+    </script>
+    <script src="spotify-player.js?v=20261025-music-tabs" defer></script>
       <script id="rick-progress-ui">
 (() => {
   "use strict";
